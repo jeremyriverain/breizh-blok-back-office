@@ -1,0 +1,56 @@
+security:
+  # https://symfony.com/doc/current/security/experimental_authenticators.html
+  enable_authenticator_manager: true
+  password_hashers:
+    App\Entity\User:
+      algorithm: auto
+
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      pattern: ^/admin
+      lazy: true
+      provider: app_user_provider
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
+      form_login:
+        # form_login is not used. This is used only to redirect not authenticated user to login link page
+        enable_csrf: true
+        login_path: login
+        check_path: not_existing_route
+        default_target_path: admin
+        always_use_default_target_path: true
+      login_link:
+        check_route: login_check
+        signature_properties: ['id']
+
+      logout:
+        path: app_logout
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+    api:
+      pattern: ^/
+      stateless: true
+      provider: app_user_provider
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+    - { path: ^/admin, roles: ROLE_USER }
+
+  access_decision_manager:
+    strategy: unanimous
+
+  role_hierarchy:
+    ROLE_ADMIN: ROLE_USER
+    ROLE_SUPER_ADMIN: ROLE_ADMIN

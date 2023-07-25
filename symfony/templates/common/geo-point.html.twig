@@ -1,0 +1,37 @@
+{% if ea.getCrud().getCurrentPage() == 'detail' %}
+
+	{% if field.value is null %}
+	{% include "@EasyAdmin/label/null.html.twig" %}
+	{% else %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Latitude</th>
+				<th scope="col">Longitude</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td data-cy="latitude">{{field.value.latitude}}</td>
+				<td data-cy="longitude">{{field.value.longitude}}</td>
+			</tr>
+		</tbody>
+	</table>
+	{% set latLng = '[' ~ field.value.latitude ~ ', ' ~ field.value.longitude ~ ']' %}
+
+	<div id="vue-mapbox">
+		<map-box :center="{{latLng}}">
+			<map-box-marker :lat-lng="{{latLng}}"/>
+		</map-box>
+	</div>
+
+
+	{% endif %}
+	
+{% else %}
+	{% if field.value is null %}
+		{% include "@EasyAdmin/label/null.html.twig" %}
+	{% else %}
+		{% include "@EasyAdmin/crud/field/text.html.twig" with { field: field } %}
+	{% endif %}
+{% endif %}

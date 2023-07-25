@@ -1,0 +1,18 @@
+{
+  "name": "cypress",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/jeremyriverain/breizh-blok-back-office.git",
+  "author": "Jérémy Riverain <jeremy@geekco.fr>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "cypress": "^12.8.1",
+    "cypress-real-events": "^1.7.6",
+    "ohmyfetch": "^0.4.21"
+  },
+  "scripts": {
+    "cy:open": "CYPRESS_baseUrl=http://localhost:3333 cypress open --e2e",
+    "cy:run": "cypress run --browser chrome --spec \"cypress/integration/admin/*,cypress/integration/api/*\""
+  }
+}

@@ -1,0 +1,62 @@
+name: main
+
+on: [push, workflow_dispatch]
+
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+      - name: prepare
+        id: prepare
+        run: |
+          echo $GITHUB_REF_NAME
+          echo "branch=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
+      - name: build
+        run: |
+          echo "${{ steps.prepare.outputs.branch }}"
+          docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
+          docker compose up -d
+          docker compose exec -T db bash -c "npm run start"
+          docker compose exec -T php sh -c "./init.sh"
+      - name: lint
+        run: |
+          echo "lint with phpstan"
+          docker compose exec -T php sh -c "composer run phpstan"
+          echo "lint with eslint"
+          docker compose exec -T php sh -c "./node_modules/.bin/eslint assets/"
+      - name: unit
+        run: |
+          docker compose exec -T php sh -c "symfony php ./vendor/bin/phpunit"
+      - name: e2e
+        run: |
+          docker compose up -d
+          docker compose exec -T cypress bash -c "npm run cy:run"
+
+      - name: prepare deploy
+        if: steps.prepare.outputs.branch == 'main'
+        run: echo $HOSTS | base64 -d > deploy_hosts.php
+        env:
+          HOSTS : ${{secrets.HOSTS}}
+      - name: deploy
+        env:
+          HOSTS : ${{secrets.HOSTS}}
+        if: steps.prepare.outputs.branch == 'main'
+        uses: deployphp/action@v1
+        with:
+          dep: deploy
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          verbosity: -vvv
+      - name: artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: artifacts
+          path: |
+            e2e/cypress/videos
+            e2e/cypress/screenshots

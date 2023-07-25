@@ -1,0 +1,37 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+  # valid drivers options include "gd" or "gmagick" or "imagick"
+  driver: "gd"
+  twig:
+    mode: lazy
+  filter_sets:
+    # use the default cache configuration
+    cache: ~
+    scale_xxs:
+      filters:
+        downscale:
+          max: [100, 150]
+    scale_xs:
+      filters:
+        downscale:
+          max: [200, 300]
+    scale_sm:
+      filters:
+        downscale:
+          max: [450, 600]
+    scale_md:
+      filters:
+        downscale:
+          max: [600, 800]
+    scale_lg:
+      filters:
+        downscale:
+          max: [800, 1200]
+    scale_xl:
+      filters:
+        downscale:
+        max: [1200, 1000]
+    scale_xxl:
+      filters:
+        downscale:
+          max: [1800, 1000]

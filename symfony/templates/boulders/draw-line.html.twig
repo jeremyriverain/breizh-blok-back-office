@@ -1,0 +1,41 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title 'Ligne du bloc' %}
+
+{% block page_actions %}
+	{% set indexUrl = ea_url()
+                .setController('App\\Controller\\BoulderCrudController')
+                .setAction('index')
+                 %}
+	<a class="action-index btn btn-secondary" data-action-name="index" href="{{indexUrl}}">Retour à la liste</a>
+{% endblock %}
+{% block page_content %}
+	<div id="vue-draw-line">
+
+		{% if rockPictures|length == 0 %}
+
+			{% set editRockUrl = ea_url()
+                .setController('App\\Controller\\RockCrudController')
+                .setAction('edit')
+                .setEntityId(ea.getEntity().getInstance().rock.id)
+                 %}
+			<div class="alert alert-secondary" role="alert">
+				<p>
+					Vous ne pouvez pas dessiner la ligne de bloc car aucune photo n'est associée au rocher.
+				</p>
+				<div>
+					<a href="{{editRockUrl}}" class="btn btn-secondary">Ajouter des photos</a>
+				</div>
+			</div>
+		{% endif %}
+
+		{% for picture in rockPictures %}
+			{% set lineBoulder = picture.lineBoulders|line_boulder(ea.getEntity().getInstance()) %}
+			{% set lineBoulderProp = lineBoulder is not null ? "{
+				'@id': '/admin/line_boulders/" ~ lineBoulder.id ~ "',
+				arrArrPoints: " ~ lineBoulder.arrArrPoints|json_encode ~ "
+			}" : 'null' %}
+			<drawing-wrapper image-src="{{ vich_uploader_asset(picture, 'file')|my_imagine_filter('scale_md') }}" :initial-line-boulder="{{lineBoulderProp}}" boulder-iri="{{'/boulders/' ~ ea.getEntity().getInstance().id}}" rock-image-iri="{{ '/media/' ~ picture.id}}" class="mb-3"></drawing-wrapper>
+		{% endfor %}
+	</div>
+{% endblock %}

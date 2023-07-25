@@ -1,0 +1,49 @@
+{% if ea.getCrud.getCurrentPage() == 'detail' and field.value|length > 0 %}
+	<table class="table table-responsive table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Nom</th>
+				<th scope="col">Latitude</th>
+				<th scope="col">Longitude</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for element in field.value %}
+				<tr>
+					<th scope="row">
+						<a href="{{ea_url().setController(field.customOptions.get('controller')).setAction('detail').setEntityId(element.id) }}">
+							{{ element }}
+						</a>
+					</th>
+					<td>
+						{{element.centroid.latitude|default('')}}
+					</td>
+					<td>
+						{{element.centroid.longitude|default('')}}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% if entity.instance.centroid is not null %}
+
+		{% set latLng = '[' ~ entity.instance.centroid.latitude ~ ', ' ~ entity.instance.centroid.longitude ~ ']' %}
+		<div id="vue-mapbox">
+			<map-box :center="{{latLng}}">
+				{% for element in field.value %}
+					{% if element.centroid is not null %}
+						{% set elLatLng = '[' ~ element.centroid.latitude ~ ', ' ~ element.centroid.longitude ~ ']' %}
+						<map-box-marker :lat-lng="{{elLatLng}}" label="{{element.name}}"></map-box-marker>
+					{% endif %}
+				{% endfor %}
+			</map-box>
+		</div>
+
+	{% endif %}
+
+{% else %}
+	<div>
+		<span class="badge badge-secondary">{{ field.value|length }}</span>
+	</div>
+{% endif %}

@@ -1,0 +1,14 @@
+{% set media = media is defined ? media : entity.instance %}
+{% if media is null %}
+	{% include "@EasyAdmin/label/null.html.twig" %}
+
+{% else %}
+	{% set html_id = 'ea-lightbox-' ~ media.id %}
+	<a href="#" class="ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
+		<img src="{{ vich_uploader_asset(media, 'file')|my_imagine_filter('scale_sm') }}" class="img-fluid">
+	</a>
+
+	<div id="{{ html_id }}" class="ea-lightbox">
+		<img src="{{ vich_uploader_asset(media, 'file')|my_imagine_filter('scale_md') }}">
+	</div>
+{% endif %}

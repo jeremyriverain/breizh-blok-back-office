@@ -1,0 +1,30 @@
+.line-boulder-container {
+  margin-top: 1rem;
+  max-width: 450px;
+  position: relative;
+}
+
+.ea-index .line-boulder-container {
+  margin-top: 0rem;
+  max-width: 140px;
+  position: relative;
+}
+
+.line-boulder-rock {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+
+.line-boulder-image {
+  position: absolute;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.geo-point-field dt {
+  width: 100%;
+}

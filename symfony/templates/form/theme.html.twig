@@ -1,0 +1,9 @@
+{% block geo_point_widget %}
+	<div id="vue-mapbox">
+		<geo-point-field :required-field="'{{form.vars.required}}' === '1'">
+			<template #form>
+				{{form_widget(form)}}
+			</template>
+		</geo-point-field>
+	</div>
+{% endblock %}

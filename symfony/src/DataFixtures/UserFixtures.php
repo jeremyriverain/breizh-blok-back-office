@@ -1,0 +1,42 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Controller\Utils\Roles;
+use App\Entity\User;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class UserFixtures extends Fixture
+{
+
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
+    {
+    }
+
+    public function load(ObjectManager $manager): void
+    {
+        $super_admin = $this->makeUser(('super-admin@fixture.com'));
+        $super_admin->setRoles([Roles::SUPER_ADMIN->value]);
+        $manager->persist($super_admin);
+
+        $admin = $this->makeUser(('admin@fixture.com'));
+        $admin->setRoles([Roles::ADMIN->value]);
+        $manager->persist($admin);
+
+        $contributor = $this->makeUser(('user@fixture.com'));
+        $manager->persist($contributor);
+
+        $manager->flush();
+    }
+
+    public function makeUser(string $email): User
+    {
+        $user = new User();
+        $user->setEmail($email);
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'root'));
+
+        return $user;
+    }
+}

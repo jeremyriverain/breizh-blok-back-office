@@ -1,0 +1,25 @@
+{# templates/security/login.html.twig #}
+{% extends '@EasyAdmin/page/login.html.twig' %}
+
+{% block page_title %}
+	Se connecter
+{% endblock page_title %}
+
+{% block wrapper_wrapper %}
+	<div class="container">
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{label}}" role="alert">
+					{{message}}
+				</div>
+			{% endfor %}
+		{% endfor %}
+		<form action="{{ path('login') }}" method="POST" class="offset-md-4 col-md-4">
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
+			</div>
+			<button type="submit" class="btn btn-primary">Envoyer lien</button>
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% if field.value|length == 0 %}
+	{% include "@EasyAdmin/label/empty.html.twig" %}
+{% else %}
+	{% if ea.getCrud().getCurrentPage() == 'index' %}
+		<span class="badge badge-secondary">{{ field.formattedValue }}</span>
+		{% include "vich-image.html.twig" with {media: field.value|first} %}
+	{% else %}
+		{% for media in field.value %}
+			{% include "vich-image.html.twig" with {media: media} %}
+		{% endfor %}
+	{% endif %}
+{% endif %}

@@ -1,0 +1,11 @@
+{% set rockPictures = entity.instance.rock.pictures %}
+{% if rockPictures|length == 0 %}
+	{% include "@EasyAdmin/label/empty.html.twig" %}
+{% endif %}
+
+<div>
+	{% for picture in rockPictures %}
+		{% set lineBoulder = picture.lineBoulders|line_boulder(entity.instance) %}
+		<stack-image image-src="{{ vich_uploader_asset(picture, 'file')|my_imagine_filter('scale_md') }}" :initial-arr-arr-points="{{lineBoulder.arrArrPoints|default(null)|json_encode}}"></stack-image>
+	{% endfor %}
+</div>

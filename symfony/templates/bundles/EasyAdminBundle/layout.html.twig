@@ -1,0 +1,10 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block head_javascript %}
+	{{parent()}}
+	{{ vite_script_tag('assets/app.ts') }}
+{% endblock head_javascript %}
+{% block head_stylesheets %}
+	{{parent()}}
+	{{ vite_style_tag('assets/app.css') }}
+{% endblock %}

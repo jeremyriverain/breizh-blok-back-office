@@ -1,0 +1,25 @@
+<!--
+@var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext
+@var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto
+@var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto
+-->
+
+<div class="d-flex align-items-center">
+
+	{% if ea.getCrud.getCurrentPage() == 'detail' and field.value|length > 0 %}
+		<ul class="mb-0">
+			{% for element in field.value %}
+				<li>
+					<a href="{{ea_url().setController(field.customOptions.get('controller')).setAction('detail').setEntityId(element.id) }}">
+						{{ element }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+
+	{% else %}
+		<div>
+			<span class="badge badge-secondary">{{ field.value|length }}</span>
+		</div>
+	{% endif %}
+</div>

@@ -1,0 +1,54 @@
+{% set boulders = entity.instance.getBoulders() %}
+{% if ea.getCrud.getCurrentPage() == 'detail' and boulders|length > 0 %}
+	<table class="table table-responsive table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Nom</th>
+				<th scope="col">Cotation</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for boulder in boulders %}
+				<tr>
+					<th scope="row">
+						<a href="{{ea_url().setController('App\\Controller\\BoulderCrudController').setAction('detail').setEntityId(boulder.id) }}">
+							{{ boulder.name }}
+						</a>
+					</th>
+					<td>
+						{{boulder.grade|default('')}}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if entity.instance.centroid is not null %}
+
+		{% set latLng = '[' ~ entity.instance.centroid.latitude ~ ', ' ~ entity.instance.centroid.longitude ~ ']' %}
+		<div id="vue-mapbox">
+			<map-box :center="{{latLng}}">
+				{% for rock in field.value %}
+					{% set elLatLng = '[' ~ rock.location.latitude ~ ', ' ~ rock.location.longitude ~ ']' %}
+					{% if rock.boulders|length > 0 %}
+						{% set label = '' %}
+						{% for boulder in rock.boulders %}
+							{% set href = ea_url().setController('App\\Controller\\BoulderCrudController').setAction('detail').setEntityId(boulder.id) %}
+							{% set label = label ~ '<a href="' ~ href ~ '">' ~ boulder.name ~ ' (' ~ boulder.grade ~ ')' ~ '</a><br />'  %}
+						{% endfor %}
+						<map-box-marker :lat-lng="{{elLatLng}}" label="{{label}}"></map-box-marker>
+					{% else %}
+						<map-box-marker :lat-lng="{{elLatLng}}"></map-box-marker>
+					{% endif %}
+				{% endfor %}
+			</map-box>
+		</div>
+
+	{% endif %}
+{% else %}
+	{% set bouldersLength = boulders|length %}
+	<div>
+		<span class="badge badge-secondary">{{bouldersLength == 0 ? 'Aucun' : bouldersLength }}</span>
+	</div>
+{% endif %}
