@@ -112,8 +112,29 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
+    "php-http/discovery": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
+    },
     "phpspec/prophecy": {
         "version": "v1.15.0"
+    },
+    "phpstan/phpstan": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "d74d4d719d5f53856c9c13544aa22d44144b1819"
+        }
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.10"
@@ -191,6 +212,18 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
+    },
+    "sentry/sentry-symfony": {
+        "version": "4.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.6",
+            "ref": "f7b4706a3e8a6f096b7392f3146f4f7f65ff594c"
+        },
+        "files": [
+            "config/packages/sentry.yaml"
+        ]
     },
     "symfony/console": {
         "version": "6.0",

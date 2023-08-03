@@ -32,7 +32,7 @@ jobs:
           docker compose exec -T php sh -c "./node_modules/.bin/eslint assets/"
       - name: unit
         run: |
-          docker compose exec -T php sh -c "symfony php ./vendor/bin/phpunit"
+          docker compose exec -T php sh -c "symfony composer phpunit"
       - name: e2e
         run: |
           docker compose up -d
