@@ -42,7 +42,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 ])]
 #[ApiFilter(BoulderTermFilter::class)]
 #[ApiFilter(DateFilter::class, properties: ['createdAt'])]
-#[ApiFilter(GroupFilter::class, arguments: ['overrideDefaultGroups' => true, 'whitelist' => ['Boulder:map']])]
+#[ApiFilter(GroupFilter::class, arguments: ['overrideDefaultGroups' => true, 'whitelist' => ['Boulder:map', 'Boulder:read', 'read', 'Boulder:item-get']])]
 class Boulder implements ContainsMediaInterface
 {
 
@@ -198,7 +198,4 @@ class Boulder implements ContainsMediaInterface
 
         return $this;
     }
-
-
-
 }
