@@ -36,7 +36,7 @@ class LoginController extends AbstractController
             );
 
             $email = NotificationEmail::asPublicEmail()
-                ->from('jeremy@geekco.fr')
+                ->from('riverainjeremy@gmail.com')
                 ->to($user->getEmail())
                 ->subject('Se connecter à Breizh Blok')
                 ->content("Cliquez sur le bouton ci-dessous pour vous authentifier. Ce lien n'est valide que 10 minutes.")

@@ -1,6 +1,6 @@
 FROM alpine:3.16
 
-LABEL maintainer="Jérémy Riverain <jeremy@geekco.fr>"
+LABEL maintainer="Jérémy Riverain <riverainjeremy@gmail.com>"
 
 RUN apk add --no-cache \
     coreutils \

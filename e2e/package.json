@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/jeremyriverain/breizh-blok-back-office.git",
-  "author": "Jérémy Riverain <jeremy@geekco.fr>",
   "license": "MIT",
   "private": true,
   "devDependencies": {
