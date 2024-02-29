@@ -1,6 +1,13 @@
+ARG NODE_VERSION=20
+
+FROM node:${NODE_VERSION}-alpine AS node
+
 FROM alpine:3.16
 
-LABEL maintainer="Jérémy Riverain <riverainjeremy@gmail.com>"
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
 
 RUN apk add --no-cache \
     coreutils \
@@ -67,8 +74,7 @@ RUN wget https://github.com/symfony/cli/releases/download/v$SYMFONY_CLI_VERSION/
     && chmod +x symfony \
     && mv symfony /usr/local/bin/
 
-RUN apk add --update nodejs npm \
-    && npm install --global pnpm@^7
+RUN npm install --global pnpm@^8
 
 COPY symfony.ini /etc/php81/conf.d/
 COPY symfony.ini /etc/php81/cli/conf.d/
