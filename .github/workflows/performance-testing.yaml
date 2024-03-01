@@ -1,6 +1,5 @@
-name: Main Workflow
-on:
-  workflow_dispatch: ~
+name: Performance testing
+on: [workflow_dispatch]
 jobs:
   k6:
     name: Run k6 test
