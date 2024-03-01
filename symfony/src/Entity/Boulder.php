@@ -29,6 +29,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
         'get',
     ],
     paginationClientEnabled: true,
+    paginationClientItemsPerPage: true,
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'name', 'grade.name' => ['nulls_comparison' => OrderFilter::NULLS_LARGEST,]])]
 #[ApiFilter(SearchFilter::class, properties: [

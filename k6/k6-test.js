@@ -7,8 +7,9 @@ export const options = {
 
 export default function () {
   const headers = { Accept: "application/json" };
+  // requête permettant de récupérer 1500 marqueurs de position.
   http.get(
-    "https://boulders.geekco.fr/boulders?page=1&pagination=false&groups%5B%5D=Boulder%3Amap",
+    "https://boulders.geekco.fr/boulders?page=1&itemsPerPage=1500&groups%5B%5D=Boulder%3Amap",
     null,
     { headers }
   );
