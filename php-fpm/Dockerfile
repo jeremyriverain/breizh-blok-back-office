@@ -2,7 +2,7 @@ ARG NODE_VERSION=20
 
 FROM node:${NODE_VERSION}-alpine AS node
 
-FROM alpine:3.16
+FROM alpine:3.19
 
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/lib /usr/local/lib
@@ -12,33 +12,33 @@ COPY --from=node /usr/local/bin /usr/local/bin
 RUN apk add --no-cache \
     coreutils \
     gettext \
-    php81-fpm \
-    php81-ctype \
-    php81-curl \
-    php81-dom \
-    php81-gd \
-    php81-iconv \
-    php81-json \
-    php81-intl \
-    php81-fileinfo\
-    php81-mbstring \
-    php81-opcache \
-    php81-openssl \
-    php81-pdo \
-    php81-pdo_mysql \
-    php81-mysqli \
-    php81-xml \
-    php81-xsl \
-    php81-zlib \
-    php81-phar \
-    php81-tokenizer \
-    php81-session \
-    php81-simplexml \
-    php81-zip \
-    php81-xmlwriter \
-    php81-sodium \
-    php81-pecl-apcu \
-    php81 \
+    php82-fpm \
+    php82-ctype \
+    php82-curl \
+    php82-dom \
+    php82-gd \
+    php82-iconv \
+    php82-json \
+    php82-intl \
+    php82-fileinfo\
+    php82-mbstring \
+    php82-opcache \
+    php82-openssl \
+    php82-pdo \
+    php82-pdo_mysql \
+    php82-mysqli \
+    php82-xml \
+    php82-xsl \
+    php82-zlib \
+    php82-phar \
+    php82-tokenizer \
+    php82-session \
+    php82-simplexml \
+    php82-zip \
+    php82-xmlwriter \
+    php82-sodium \
+    php82-pecl-apcu \
+    php82 \
     make \
     curl \
     jpegoptim \
@@ -52,18 +52,18 @@ RUN apk add --no-cache \
 ARG PHP_XDEBUG_MODE=off
 ARG PHP_XDEBUG_CLIENT_PORT=5902
 ARG PHP_XDEBUG_CLIENT_HOST=host.docker.internal
-COPY xdebug.ini  /etc/php81/conf.d/xdebug.ini.template
+COPY xdebug.ini  /etc/php82/conf.d/xdebug.ini.template
 RUN if [[ "$PHP_XDEBUG_MODE" != "" ]]; then \
-    apk add --no-cache php81-pecl-xdebug; \
+    apk add --no-cache php82-pecl-xdebug; \
     export PHP_XDEBUG_MODE=$PHP_XDEBUG_MODE; \
     export PHP_XDEBUG_CLIENT_PORT=$PHP_XDEBUG_CLIENT_PORT; \
     export PHP_XDEBUG_CLIENT_HOST=$PHP_XDEBUG_CLIENT_HOST; \
-    envsubst < /etc/php81/conf.d/xdebug.ini.template > /etc/php81/conf.d/xdebug.ini; \
+    envsubst < /etc/php82/conf.d/xdebug.ini.template > /etc/php82/conf.d/xdebug.ini; \
     fi
-RUN rm -f /etc/php81/conf.d/xdebug.ini.template
+RUN rm -f /etc/php82/conf.d/xdebug.ini.template
 
 RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
-    && ln -s /usr/bin/php81 /usr/local/bin/php \
+    && ln -s /usr/bin/php82 /usr/local/bin/php \
     && php composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
@@ -76,10 +76,10 @@ RUN wget https://github.com/symfony/cli/releases/download/v$SYMFONY_CLI_VERSION/
 
 RUN npm install --global pnpm@^8
 
-COPY symfony.ini /etc/php81/conf.d/
-COPY symfony.ini /etc/php81/cli/conf.d/
+COPY symfony.ini /etc/php82/conf.d/
+COPY symfony.ini /etc/php82/cli/conf.d/
 
-COPY symfony.pool.conf /etc/php81/php-fpm.d/
+COPY symfony.pool.conf /etc/php82/php-fpm.d/
 
 WORKDIR /var/www/symfony
 
@@ -105,5 +105,5 @@ RUN whoami
 RUN groups
 RUN ls -la
 
-CMD ["php-fpm81", "-F"]
+CMD ["php-fpm82", "-F"]
 EXPOSE 9001

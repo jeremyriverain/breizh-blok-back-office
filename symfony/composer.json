@@ -17,7 +17,7 @@
     "gedmo/doctrine-extensions": "^3.5",
     "liip/imagine-bundle": "^2.6",
     "nelmio/cors-bundle": "^2.1",
-    "nesbot/carbon": "^2.53",
+    "nesbot/carbon": "^3.0",
     "phpdocumentor/reflection-docblock": "^5.3",
     "sentry/sentry-symfony": "^4.14",
     "spatie/image-optimizer": "^1.4",
