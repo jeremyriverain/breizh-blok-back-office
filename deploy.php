@@ -24,7 +24,7 @@ task('deploy:assets:install', function () {
 })->desc('Install bundle assets');
 
 task('reload:php-fpm', function () {
-    run('sudo /usr/sbin/service php8.1-fpm restart');
+    run('sudo /usr/sbin/service php8.2-fpm restart');
 });
 
 task('deploy', [
