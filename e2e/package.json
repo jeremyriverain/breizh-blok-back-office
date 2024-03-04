@@ -11,7 +11,7 @@
     "ohmyfetch": "^0.4.21"
   },
   "scripts": {
-    "cy:open": "CYPRESS_baseUrl=http://localhost:3333 cypress open --e2e",
+    "cy:open": "CYPRESS_baseUrl=http://localhost:3333 cypress open --e2e --browser chrome",
     "cy:run": "cypress run --browser chrome --spec \"cypress/integration/admin/*,cypress/integration/api/*\""
   }
 }

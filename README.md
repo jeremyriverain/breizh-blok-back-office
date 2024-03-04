@@ -39,7 +39,7 @@ Lorsque vous saisissez le mail sur le portail d'authentification, un email est e
 ## Accéder au conteneur de l'application Symfony
 
 ```bash
-docker compose exec php sh
+docker compose exec php bash
 ```
 
 ## Accéder à la base de données
@@ -56,14 +56,14 @@ Le mot de passe est `root`.
 [PHP Stan](https://github.com/phpstan/phpstan) est utilisé pour l'analyse statique de code. Pour la lancer, accéder au conteneur `php` et exécuter le script `composer` approprié:
 
 ```bash
-docker compose exec php sh
+docker compose exec php bash
 composer run phpstan
 ```
 
 ## Lancer les tests PHP Unit
 
 ```bash
-docker compose exec php sh
+docker compose exec php bash
 composer run phpunit
 ```
 

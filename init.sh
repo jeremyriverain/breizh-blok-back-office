@@ -12,4 +12,4 @@ docker compose up -d
 docker compose exec db bash -c "npm run start"
 
 # Exécute le script d'initialisation du conteneur php (./symfony/init.sh)
-docker compose exec php sh -c "./init.sh"
+docker compose exec php bash -c "./init.sh"

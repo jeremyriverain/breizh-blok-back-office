@@ -10,6 +10,7 @@ COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 
 RUN apk add --no-cache \
+    bash \
     coreutils \
     gettext \
     php82-fpm \
@@ -67,12 +68,8 @@ RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
     && php composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
-ARG SYMFONY_CLI_VERSION
-RUN wget https://github.com/symfony/cli/releases/download/v$SYMFONY_CLI_VERSION/symfony_linux_amd64.gz \
-    && gzip -d symfony_linux_amd64.gz \
-    && mv symfony_linux_amd64 symfony \
-    && chmod +x symfony \
-    && mv symfony /usr/local/bin/
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
+    && apk add symfony-cli
 
 RUN npm install --global pnpm@^8
 
@@ -97,7 +94,7 @@ RUN chown -R nobody:nobody /var/www/symfony && \
     chmod -R 775 /var/log && \
     mkdir -p /.composer && chown -R nobody:nobody /.composer && \
     chown -R nobody:nobody /usr/local && \
-    mkdir -p /.symfony && chown -R nobody:nobody /.symfony
+    mkdir -p /.symfony5 && chown -R nobody:nobody /.symfony5
 
 USER nobody
 

@@ -22,7 +22,6 @@ services:
         PHP_XDEBUG_MODE: ${PHP_XDEBUG_MODE}
         PHP_XDEBUG_CLIENT_PORT: ${PHP_XDEBUG_CLIENT_PORT}
         PHP_XDEBUG_CLIENT_HOST: ${PHP_XDEBUG_CLIENT_HOST}
-        SYMFONY_CLI_VERSION: 4.28.1
     volumes:
       - ./symfony:/var/www/symfony:cached
     depends_on:
