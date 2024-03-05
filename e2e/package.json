@@ -1,13 +1,9 @@
 {
   "name": "cypress",
-  "version": "0.0.1",
-  "main": "index.js",
-  "repository": "https://github.com/jeremyriverain/breizh-blok-back-office.git",
-  "license": "MIT",
   "private": true,
   "devDependencies": {
     "cypress": "^12.8.1",
-    "cypress-real-events": "^1.7.6",
+    "cypress-real-events": "^1.12.0",
     "ohmyfetch": "^0.4.21"
   },
   "scripts": {
