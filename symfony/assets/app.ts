@@ -24,7 +24,6 @@ const mapboxApp = vueFactory()
 mapboxApp.component('GeoPointField', GeoPointField)
 mapboxApp.component('MapBox', MapBox)
 mapboxApp.component('MapBoxMarker', MapBoxMarker)
-mapboxApp.config.unwrapInjectedRef = true
 mapboxApp.mount('#vue-mapbox')
 
 const lineDrawerApp = vueFactory()

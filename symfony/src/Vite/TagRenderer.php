@@ -9,13 +9,13 @@ class TagRenderer
     }
     public function renderLinkTag(string $entryName): string
     {
-        $entryNameData = $this->manifestLookup->getManifestContent()[$entryName];
-        $filePath = '/build/' . $entryNameData['file'];
+        $entryNameData = $this->manifestLookup->getManifestContent()[$entryName . ".ts"];
+        $filePath = '/build/' . $entryNameData['css'][0];
         return '<link rel="stylesheet" href="' . $filePath . '">';
     }
     public function renderScriptTag(string $entryName): string
     {
-        $entryNameData = $this->manifestLookup->getManifestContent()[$entryName];
+        $entryNameData = $this->manifestLookup->getManifestContent()[$entryName . ".ts"];
         $filePath = '/build/' . $entryNameData['file'];
         return  '<script type="module" crossorigin src="' . $filePath . '"></script>';
     }

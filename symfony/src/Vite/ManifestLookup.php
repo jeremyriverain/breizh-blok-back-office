@@ -12,7 +12,7 @@ class ManifestLookup
     private array $manifestContent;
     public function __construct(ParameterBagInterface $parameterBag)
     {
-        $filePath = $parameterBag->get('kernel.project_dir') . '/public/build/manifest.json';
+        $filePath = $parameterBag->get('kernel.project_dir') . '/public/build/.vite/manifest.json';
         if (!file_exists($filePath)) {
             return;
         }
