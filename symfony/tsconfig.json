@@ -13,11 +13,5 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true
   },
-  "include": [
-    "assets/**/*.ts",
-    "assets/**/*.d.ts",
-    "assets/**/*.tsx",
-    "assets/**/*.vue"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["assets/**/*.ts", "assets/**/*.d.ts", "assets/**/*.tsx", "assets/**/*.vue"]
 }
