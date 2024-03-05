@@ -22,11 +22,11 @@ class TestController extends AbstractController
     public function initDb(ParameterBagInterface $parameterBag): JsonResponse
     {
         try {
-            (new Process(['/usr/local/bin/symfony', 'console', 'doctrine:database:drop', '--force', '--if-exists', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/local/bin/symfony', 'console', 'doctrine:database:create', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/local/bin/symfony', 'console', 'doctrine:migration:migrate', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:drop', '--force', '--if-exists', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:create', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'doctrine:migration:migrate', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['rm', '-rf', 'public/uploads'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/local/bin/symfony', 'console', 'doctrine:fixtures:load', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'doctrine:fixtures:load', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             return new JsonResponse(['success' => true]);
         } catch (ProcessFailedException $exception) {
             return new JsonResponse(['success' => false, 'message' => $exception->getMessage()]);
