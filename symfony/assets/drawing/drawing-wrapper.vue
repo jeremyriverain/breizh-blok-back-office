@@ -17,7 +17,6 @@ const headers = {
   'Content-Type': 'application/ld+json',
 }
 
-// eslint-disable-next-line no-undef
 const props = defineProps({
   imageSrc: {
     type: String,

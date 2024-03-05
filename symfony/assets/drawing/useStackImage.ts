@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Ref, ref, onMounted } from 'vue'
 
 export default function useStackImage(

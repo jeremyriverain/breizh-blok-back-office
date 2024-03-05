@@ -10,7 +10,11 @@ class TagRenderer
     public function renderLinkTag(string $entryName): string
     {
         $entryNameData = $this->manifestLookup->getManifestContent()[$entryName . ".ts"];
-        $filePath = '/build/' . $entryNameData['css'][0];
+        $cssFile = $entryNameData['css'][0];
+        if (!$cssFile) {
+            throw new \Exception("css file $entryName is not referenced in the manifest", 1);
+        }
+        $filePath = '/build/' . $cssFile;
         return '<link rel="stylesheet" href="' . $filePath . '">';
     }
     public function renderScriptTag(string $entryName): string

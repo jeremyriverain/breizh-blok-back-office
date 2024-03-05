@@ -4,7 +4,7 @@
       <slot name="form" />
     </div>
     <div v-if="!requiredField">
-      <button class="btn btn-secondary mb-3" @click.prevent="showMap = !showMap" data-cy="geo-point-field-toggler-btn">
+      <button class="btn btn-secondary mb-3" data-cy="geo-point-field-toggler-btn" @click.prevent="showMap = !showMap">
         <span class="btn-label"
           ><span class="action-label">{{ showMap ? 'Supprimer' : 'Ajouter' }}</span></span
         >
@@ -104,9 +104,7 @@ export default defineComponent({
       this.latLngInitialized = true
     },
     tearDownMap() {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.longitudeInput!.value = ''
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.latitudeInput!.value = ''
     },
   },

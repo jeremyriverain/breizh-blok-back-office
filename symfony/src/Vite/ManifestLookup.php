@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class ManifestLookup
 {
     /**
-     * @var array<string, array{file: string, src: string}> $manifestContent
+     * @var array<string, array{file: string, src: string, css: array<string>}> $manifestContent
      */
     private array $manifestContent;
     public function __construct(ParameterBagInterface $parameterBag)
@@ -27,7 +27,7 @@ class ManifestLookup
     }
 
     /**
-     * @return array<string, array{file: string, src: string}>
+     * @return array<string, array{file: string, src: string, css: array<string>}> $manifestContent
      */
     public function getManifestContent(): array
     {

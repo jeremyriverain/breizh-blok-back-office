@@ -55,7 +55,6 @@ import { useDrawing, Point } from './useDrawing'
 import { SavePayloadInterface } from './model'
 import useStackImage from './useStackImage'
 
-// eslint-disable-next-line no-undef
 const props = defineProps({
   imageSrc: {
     type: String,
@@ -75,7 +74,6 @@ const svg: Ref<SVGElement | undefined> = ref()
 
 const { onEnd, onMove, onStart, path, arrArrPoints } = useDrawing(svg, props.initialArrArrPoints)
 
-// eslint-disable-next-line no-undef
 const emit = defineEmits<{
   (e: 'save', payload?: SavePayloadInterface): void
 }>()

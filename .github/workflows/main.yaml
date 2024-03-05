@@ -23,16 +23,16 @@ jobs:
           docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
           docker compose up -d
           docker compose exec -T db bash -c "npm run start"
-          docker compose exec -T php sh -c "./init.sh"
+          docker compose exec -T php bash -c "./init.sh"
       - name: lint
         run: |
           echo "lint with phpstan"
-          docker compose exec -T php sh -c "composer run phpstan"
+          docker compose exec -T php bash -c "composer run phpstan"
           echo "lint with eslint"
-          docker compose exec -T php sh -c "./node_modules/.bin/eslint assets/"
+          docker compose exec -T php bash -c "pnpm lint"
       - name: unit
         run: |
-          docker compose exec -T php sh -c "symfony composer phpunit"
+          docker compose exec -T php bash -c "symfony composer phpunit"
       - name: e2e
         run: |
           docker compose up -d
