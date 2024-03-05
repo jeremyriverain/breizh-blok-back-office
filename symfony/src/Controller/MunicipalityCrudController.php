@@ -35,7 +35,7 @@ class MunicipalityCrudController extends AbstractCrudController
             TextField::new('name', 'Nom'),
             TextField::new('code', 'Code')->setHelp('voir https://api.gouv.fr/documentation/api-geo pour récupérer un code valide')->setPermission(Roles::SUPER_ADMIN->value),
             AssociationField::new('department', 'Département'),
-            AssociationField::new('boulderAreas', 'Secteurs')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
+            AssociationField::new('boulderAreas', 'Secteurs')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
         ];
     }
 
