@@ -13,13 +13,13 @@
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.14.3",
     "easycorp/easyadmin-bundle": "^4.0",
-    "gedmo/doctrine-extensions": "^3.5",
+    "gedmo/doctrine-extensions": "^3.15",
     "liip/imagine-bundle": "^2.12.2",
-    "nelmio/cors-bundle": "^2.1",
+    "nelmio/cors-bundle": "^2.4",
     "nesbot/carbon": "^3.0",
     "phpdocumentor/reflection-docblock": "^5.3",
     "sentry/sentry-symfony": "^4.14",
-    "spatie/image-optimizer": "^1.4",
+    "spatie/image-optimizer": "^1.7.2",
     "symfony/asset": "^6.0",
     "symfony/console": "^6.0",
     "symfony/debug-bundle": "^6.0",
@@ -47,7 +47,7 @@
     "twig/extra-bundle": "^3.8",
     "twig/inky-extra": "^3.8",
     "twig/twig": "^3.8",
-    "vich/uploader-bundle": "^1.19"
+    "vich/uploader-bundle": "^1.23.1"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.5.1",
