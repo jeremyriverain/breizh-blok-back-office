@@ -29,7 +29,7 @@ jobs:
           echo "lint with phpstan"
           docker compose exec -T php bash -c "composer run phpstan"
           echo "lint with eslint"
-          docker compose exec -T php bash -c "pnpm lint"
+          docker compose exec -T php bash -c "npm run lint"
       - name: unit
         run: |
           docker compose exec -T php bash -c "symfony composer phpunit"

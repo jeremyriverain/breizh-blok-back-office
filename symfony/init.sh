@@ -18,7 +18,7 @@ symfony console doctrine:migration:migrate --no-interaction
 symfony console doctrine:fixtures:load --no-interaction
 
 # installation des dépendances JS de l'application Symfony
-pnpm install
+npm install
 
 # compilation du JS de l'application
-pnpm build
+npm run build

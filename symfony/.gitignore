@@ -20,5 +20,3 @@ public/uploads
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-
-.pnpm-store

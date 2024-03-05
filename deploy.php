@@ -57,7 +57,7 @@ task('clean:repo', function () {
 
 task('deploy:build-assets', function () {
     cd('{{release_path}}');
-    run("pnpm install && pnpm run build");
+    run("npm install && npm run build");
 });
 
 after('deploy:update_code', 'update:release_path');

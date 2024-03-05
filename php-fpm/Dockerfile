@@ -71,8 +71,6 @@ RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
     && apk add symfony-cli
 
-RUN npm install --global pnpm@^8
-
 COPY symfony.ini /etc/php82/conf.d/
 COPY symfony.ini /etc/php82/cli/conf.d/
 
@@ -94,7 +92,8 @@ RUN chown -R nobody:nobody /var/www/symfony && \
     chmod -R 775 /var/log && \
     mkdir -p /.composer && chown -R nobody:nobody /.composer && \
     chown -R nobody:nobody /usr/local && \
-    mkdir -p /.symfony5 && chown -R nobody:nobody /.symfony5
+    mkdir -p /.symfony5 && chown -R nobody:nobody /.symfony5 && \
+    mkdir -p /.npm && chown -R nobody:nobody /.npm
 
 USER nobody
 
