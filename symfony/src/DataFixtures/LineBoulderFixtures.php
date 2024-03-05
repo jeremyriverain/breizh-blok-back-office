@@ -38,18 +38,6 @@ class LineBoulderFixtures extends Fixture implements DependentFixtureInterface
         return $ref instanceof Boulder ? $ref : throw new \Exception("value should be an instance of Boulder");
     }
 
-    private function getLineBase64FromFile(string $filename): string
-    {
-        $targetPath = dirname(__FILE__) . '/images/' . $filename;
-        if (!file_exists($targetPath)) {
-            throw new FileNotFoundException("File not found");
-        }
-
-        return "data:image/png;base64," . file_get_contents($targetPath);
-    }
-
-
-
     private function getMediaReference(string $value): Media
     {
         $ref = $this->getReference($value);
