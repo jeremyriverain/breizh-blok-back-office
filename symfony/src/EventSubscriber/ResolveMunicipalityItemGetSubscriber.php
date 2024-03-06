@@ -1,11 +1,13 @@
 <?php
+
 namespace App\EventSubscriber;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Symfony\EventListener\EventPriorities;
+use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
-use ApiPlatform\Core\EventListener\EventPriorities;
-use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\Boulder;
 use App\Entity\Municipality;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -36,7 +38,7 @@ final class ResolveMunicipalityItemGetSubscriber implements EventSubscriberInter
             return;
         }
 
-        if (!array_key_exists('item_operation_name', $attributes) || $attributes['item_operation_name'] !== 'get') {
+        if (!$attributes['operation'] instanceof Get) {
             return;
         }
 
@@ -48,14 +50,13 @@ final class ResolveMunicipalityItemGetSubscriber implements EventSubscriberInter
         foreach ($municipality->getBoulderAreas() as $boulderArea) {
             $bouldersSortedByGrade = $boulderArea->getBouldersSortedByGrade();
             $numberOfBoulders = count($bouldersSortedByGrade);
-            $boulderArea->setNumberOfBoulders($numberOfBoulders);
+            $boulderArea->numberOfBoulders = $numberOfBoulders;
             if ($numberOfBoulders > 0) {
-                $boulderArea->setLowestGrade($bouldersSortedByGrade[0]->getGrade());
-                $bouldersWithoutNullGrade = array_filter($bouldersSortedByGrade,  fn(Boulder $value) => $value->getGrade() !== null);
+                $boulderArea->lowestGrade = $bouldersSortedByGrade[0]->getGrade();
+                $bouldersWithoutNullGrade = array_filter($bouldersSortedByGrade,  fn (Boulder $value) => $value->getGrade() !== null);
                 $potentialHighestGrade = count($bouldersWithoutNullGrade) === 0 ? null : $bouldersWithoutNullGrade[count($bouldersWithoutNullGrade) - 1];
-                $boulderArea->setHighestGrade($potentialHighestGrade ? $potentialHighestGrade->getGrade() : null);
+                $boulderArea->highestGrade = $potentialHighestGrade ? $potentialHighestGrade->getGrade() : null;
             }
         }
-
     }
 }

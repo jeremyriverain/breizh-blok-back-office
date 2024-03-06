@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\LineBoulderRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,30 +22,19 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
     message: 'The line of the boulder is already drawn on this rock picture',
 )]
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_USER')"],
+    openapi: false,
+    security: "is_granted('ROLE_USER')",
     normalizationContext: ['groups' => ['LineBoulder:read']],
     denormalizationContext: ['groups' => ['LineBoulder:write']],
-    collectionOperations: [
-        'get' =>  [
-            'path' => '/admin/line_boulders',
-        ],
-        'post' =>  [
-            'validation_groups' => ['Default', 'LineBoulder:collection-post'],
-            'path' => '/admin/line_boulders',
-        ]
-    ],
-    itemOperations: [
-        'get' => [
-            'path' => '/admin/line_boulders/{id}',
-        ],
-        'put' => [
-            'path' => '/admin/line_boulders/{id}',
-        ],
-        'delete' => [
-            'path' => '/admin/line_boulders/{id}',
-        ]
+    operations: [
+        new GetCollection(uriTemplate: '/admin/line_boulders'),
+        new Get(uriTemplate: '/admin/line_boulders/{id}'),
+        new Put(uriTemplate: '/admin/line_boulders/{id}'),
+        new Delete(uriTemplate: '/admin/line_boulders/{id}'),
+        new Post(uriTemplate: '/admin/line_boulders'),
     ],
 )]
+#[Post(validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']])]
 class LineBoulder
 {
     #[ORM\Id]
@@ -60,7 +54,7 @@ class LineBoulder
     #[Groups(["LineBoulder:read", "LineBoulder:collection-post"])]
     private ?Boulder $boulder = null;
 
-    #[Assert\NotBlank(groups: ['LineBoulder:collection-post'])]
+    #[Assert\NotBlank()]
     #[ORM\Column(type: 'text')]
     #[Groups(["LineBoulder:read", "LineBoulder:write", "Boulder:read"])]
     private string $smoothLine;

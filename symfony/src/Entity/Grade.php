@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\GradeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,11 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity('name')]
 #[ApiResource(
     normalizationContext: ['groups' => ['Grade:read']],
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get',
+    operations: [
+        new Get(),
+        new GetCollection(),
     ],
     paginationClientEnabled: true
 )]

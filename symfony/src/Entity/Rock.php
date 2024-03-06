@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\RockRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,11 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: RockRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['Rock:read']],
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get',
+    operations: [
+        new Get(),
+        new GetCollection(),
     ],
     paginationClientEnabled: true,
 )]
@@ -159,5 +159,4 @@ class Rock
 
         return $this;
     }
-
 }

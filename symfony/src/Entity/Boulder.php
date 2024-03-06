@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Serializer\Filter\GroupFilter;
 use App\Filters\Api\BoulderTermFilter;
 use App\Interfaces\ContainsMediaInterface;
 use App\Repository\BoulderRepository;
@@ -22,11 +24,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Index(name: "name_idx", columns: ["name"])]
 #[ApiResource(
     normalizationContext: ['groups' => ['Boulder:read']],
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get',
+    operations: [
+        new GetCollection(),
+        new Get(),
     ],
     paginationClientEnabled: true,
     paginationClientItemsPerPage: true,

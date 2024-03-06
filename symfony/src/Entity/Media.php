@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Interfaces\ContainsMediaInterface;
 use App\Repository\MediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,12 +17,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get',
-    ],
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ]
 )]
 class Media implements ContainsMediaInterface
 {

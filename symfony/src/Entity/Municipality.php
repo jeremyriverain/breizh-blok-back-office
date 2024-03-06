@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Interfaces\ZoneInterface;
 use App\Repository\MunicipalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,12 +17,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: MunicipalityRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['Municipality:read']],
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get',
-    ],
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ]
 )]
 #[UniqueEntity('code')]
 class Municipality implements ZoneInterface
@@ -190,5 +190,4 @@ class Municipality implements ZoneInterface
 
         return $this;
     }
-
 }
