@@ -38,7 +38,7 @@ class ImageType extends AbstractType
                         'label' => false,
                         'required' => true,
                         'allow_delete' => false, // not mandatory, default is true
-                        'download_link' => true, // not mandatory, default is true
+                        'download_uri' => true, // not mandatory, default is true
                         'constraints' => [
                             new Assert\Image(),
                             new Assert\File(mimeTypes: ['image/jpeg', 'image/png', 'image/webp'], maxSize: '8M'),
