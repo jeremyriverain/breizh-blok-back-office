@@ -18,8 +18,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(uriTemplate: '/media/{id}'),
+        new GetCollection(uriTemplate: '/media'),
     ]
 )]
 class Media implements ContainsMediaInterface

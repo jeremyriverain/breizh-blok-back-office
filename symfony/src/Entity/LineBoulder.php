@@ -31,10 +31,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
         new Get(uriTemplate: '/admin/line_boulders/{id}'),
         new Put(uriTemplate: '/admin/line_boulders/{id}'),
         new Delete(uriTemplate: '/admin/line_boulders/{id}'),
-        new Post(uriTemplate: '/admin/line_boulders'),
+        new Post(uriTemplate: '/admin/line_boulders', validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']]),
     ],
 )]
-#[Post(validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']])]
 class LineBoulder
 {
     #[ORM\Id]

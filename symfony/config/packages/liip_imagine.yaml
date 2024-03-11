@@ -35,3 +35,10 @@ liip_imagine:
       filters:
         downscale:
           max: [1800, 1000]
+
+when@prod:
+  liip_imagine:
+    loaders:
+      default:
+        filesystem:
+          data_root: "%env(LIIP_DATA_ROOT)%"
