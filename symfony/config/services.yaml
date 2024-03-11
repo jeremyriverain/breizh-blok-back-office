@@ -26,29 +26,12 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
-  App\EventListener\MediaListener:
+  App\EventSubscriber\MediaSubscriber:
     tags:
       - { name: kernel.event_listener, event: vich_uploader.pre_upload }
       - { name: kernel.event_listener, event: vich_uploader.pre_remove }
-
-  App\EventListener\UserListener:
-    tags:
-      - { name: "doctrine.event_listener", event: "prePersist" }
-      - { name: "doctrine.event_listener", event: "preUpdate" }
 
   App\Serializer\ApiContextBuilder:
     decorates: "api_platform.serializer.context_builder"
     arguments: ['@App\Serializer\ApiContextBuilder.inner']
     autoconfigure: false
-
-  Gedmo\Timestampable\TimestampableListener:
-    tags:
-      - { name: doctrine.event_subscriber, connection: default }
-    calls:
-      - [setAnnotationReader, ["@annotation_reader"]]
-
-  Gedmo\Blameable\BlameableListener:
-    tags:
-      - { name: doctrine.event_subscriber, connection: default }
-    calls:
-      - [setAnnotationReader, ["@annotation_reader"]]

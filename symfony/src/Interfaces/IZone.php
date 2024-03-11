@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 use App\Entity\GeoPoint;
 
-interface ZoneInterface
+interface IZone
 {
     /**
      * @return array<int, GeoPoint>

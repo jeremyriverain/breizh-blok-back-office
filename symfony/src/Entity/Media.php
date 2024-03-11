@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Interfaces\ContainsMediaInterface;
+use App\Interfaces\IContainsMedia;
 use App\Repository\MediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new GetCollection(uriTemplate: '/media'),
     ]
 )]
-class Media implements ContainsMediaInterface
+class Media implements IContainsMedia
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]

@@ -57,8 +57,6 @@ class RockCrudController extends AbstractCrudController
                 ->addCssClass('cy-pictures'),
             DateTimeField::new('createdAt', 'Créé le')->hideOnForm(),
             AssociationField::new('createdBy', 'Créé par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
-            DateTimeField::new('updatedAt', 'Mis à jour le')->hideOnForm(),
-            AssociationField::new('updatedBy', 'Mis à jour par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 
@@ -75,8 +73,7 @@ class RockCrudController extends AbstractCrudController
     {
         return $filters
             ->add(EntityFilter::new('boulderArea', 'Secteur'))
-            ->add(EntityFilter::new('createdBy', 'Créé par'))
-            ;
+            ->add(EntityFilter::new('createdBy', 'Créé par'));
     }
 
     /** @phpstan-ignore-next-line */

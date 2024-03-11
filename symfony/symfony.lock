@@ -13,9 +13,6 @@
             "src/Entity/.gitignore"
         ]
     },
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -74,9 +71,6 @@
             "version": "3.0",
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
         }
-    },
-    "gedmo/doctrine-extensions": {
-        "version": "v3.5.0"
     },
     "liip/imagine-bundle": {
         "version": "2.7",

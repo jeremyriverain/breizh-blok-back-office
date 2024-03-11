@@ -55,8 +55,6 @@ class BoulderCrudController extends AbstractCrudController
             AssociationField::new('lineBoulders', 'Ligne du bloc')->hideOnForm()->setTemplatePath('boulders/line-boulders.html.twig')->setCssClass('vue-draw-line'),
             DateTimeField::new('createdAt', 'Créé le')->hideOnForm(),
             AssociationField::new('createdBy', 'Créé par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
-            DateTimeField::new('updatedAt', 'Mis à jour le')->hideOnForm(),
-            AssociationField::new('updatedBy', 'Mis à jour par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 

@@ -11,14 +11,15 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Serializer\Filter\GroupFilter;
 use App\Filters\Api\BoulderTermFilter;
-use App\Interfaces\ContainsMediaInterface;
+use App\Interfaces\IBlameable;
+use App\Interfaces\IContainsMedia;
+use App\Interfaces\ITimestampable;
 use App\Repository\BoulderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: BoulderRepository::class)]
 #[ORM\Index(name: "name_idx", columns: ["name"])]
@@ -44,7 +45,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ApiFilter(BoulderTermFilter::class)]
 #[ApiFilter(DateFilter::class, properties: ['createdAt'])]
 #[ApiFilter(GroupFilter::class, arguments: ['overrideDefaultGroups' => true, 'whitelist' => ['Boulder:map', 'Boulder:read', 'read', 'Boulder:item-get']])]
-class Boulder implements ContainsMediaInterface
+class Boulder implements IContainsMedia, ITimestampable, IBlameable
 {
 
     use TimestampableTrait;
@@ -83,16 +84,6 @@ class Boulder implements ContainsMediaInterface
     #[ORM\OneToMany(targetEntity: LineBoulder::class, mappedBy: "boulder", orphanRemoval: true)]
     #[Groups(['Boulder:read'])]
     private Collection $lineBoulders;
-
-    #[Gedmo\Blameable(on: "create")]
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(onDelete: "SET NULL")]
-    private ?User $createdBy;
-
-    #[Gedmo\Blameable(on: "update")]
-    #[ORM\ManyToOne()]
-    #[ORM\JoinColumn(onDelete: "SET NULL")]
-    private ?User $updatedBy = null;
 
     public function __construct()
     {

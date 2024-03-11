@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
 use App\Entity\Media;
 use Vich\UploaderBundle\Event\Event;
@@ -9,7 +9,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class MediaListener
+class MediaSubscriber
 {
 
     public function __construct(private StorageInterface $storage, private CacheManager $cacheManager, private ParameterBagInterface $parameterBag)

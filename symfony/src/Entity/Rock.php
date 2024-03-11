@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Interfaces\IBlameable;
+use App\Interfaces\ITimestampable;
 use App\Repository\RockRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationClientEnabled: true,
 )]
-class Rock
+class Rock implements ITimestampable, IBlameable
 {
     use TimestampableTrait;
     use BlameableTrait;

@@ -5,14 +5,15 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Interfaces\ZoneInterface;
+use App\Interfaces\IBlameable;
+use App\Interfaces\ITimestampable;
+use App\Interfaces\IZone;
 use App\Repository\BoulderAreaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: BoulderAreaRepository::class)]
 #[ApiResource(
@@ -22,7 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
         new GetCollection(),
     ]
 )]
-class BoulderArea implements ZoneInterface
+class BoulderArea implements IZone, ITimestampable, IBlameable
 {
     use TimestampableTrait;
     use BlameableTrait;

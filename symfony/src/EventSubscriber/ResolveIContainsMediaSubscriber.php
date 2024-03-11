@@ -5,7 +5,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use App\Entity\Media;
-use App\Interfaces\ContainsMediaInterface;
+use App\Interfaces\IContainsMedia;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -14,7 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-final class ResolveContainsMediaInterfaceSubscriber implements EventSubscriberInterface
+final class ResolveIContainsMediaSubscriber implements EventSubscriberInterface
 {
     private PropertyAccessor $propertyAccessor;
 
@@ -39,7 +39,7 @@ final class ResolveContainsMediaInterfaceSubscriber implements EventSubscriberIn
             return;
         }
 
-        if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) || !class_implements($attributes['resource_class']) || !in_array(ContainsMediaInterface::class, class_implements($attributes['resource_class']))) {
+        if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) || !class_implements($attributes['resource_class']) || !in_array(IContainsMedia::class, class_implements($attributes['resource_class']))) {
             return;
         }
 
@@ -50,7 +50,7 @@ final class ResolveContainsMediaInterfaceSubscriber implements EventSubscriberIn
         }
 
         foreach ($nestedMedias as $nestedMedia) {
-            if (!$nestedMedia instanceof ContainsMediaInterface) {
+            if (!$nestedMedia instanceof IContainsMedia) {
                 continue;
             }
 
@@ -58,7 +58,7 @@ final class ResolveContainsMediaInterfaceSubscriber implements EventSubscriberIn
         }
     }
 
-    private function resolve(ContainsMediaInterface $nestedMedia): void
+    private function resolve(IContainsMedia $nestedMedia): void
     {
         foreach ($nestedMedia->getMediaAttributes() as $mediaProperty) {
 

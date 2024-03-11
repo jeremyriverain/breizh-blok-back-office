@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface ContainsMediaInterface
+interface IContainsMedia
 {
     /**
      * @return array<int, string>

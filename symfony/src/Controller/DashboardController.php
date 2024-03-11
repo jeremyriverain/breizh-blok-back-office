@@ -11,7 +11,6 @@ use App\Entity\Municipality;
 use App\Entity\Rock;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -19,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class DashboardController extends AbstractDashboardController
@@ -34,7 +33,7 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($this->adminUrlGenerator->setController(BoulderAreaCrudController::class)->generateUrl());
     }
 
-    #[Route('/', name: 'homepage')]
+    #[Route('/', name: 'homepage', priority: 10)]
     public function homepage(): Response
     {
         return $this->redirectAdmin();
@@ -88,5 +87,4 @@ class DashboardController extends AbstractDashboardController
         return Crud::new()
             ->setPaginatorPageSize(30);
     }
-
 }

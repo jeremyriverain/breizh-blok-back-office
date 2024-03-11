@@ -43,10 +43,8 @@ class BoulderAreaCrudController extends AbstractCrudController
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             GeoPointField::new('parkingLocation', 'Emplacement parking')->setTemplatePath('common/geo-point.html.twig')->setRequired(false),
             ArrayField::new('rocks', 'Blocs')->setCssClass('cy-boulders')->hideOnForm()->setTemplatePath('boulder-areas/rocks.html.twig'),
-            DateTimeField::new('createdAt', 'Mis à jour le')->hideOnForm(),
+            DateTimeField::new('createdAt', 'Créé le')->hideOnForm(),
             AssociationField::new('createdBy', 'Créé par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
-            DateTimeField::new('updatedAt', 'Mis à jour le')->hideOnForm(),
-            AssociationField::new('updatedBy', 'Mis à jour par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 
@@ -68,8 +66,7 @@ class BoulderAreaCrudController extends AbstractCrudController
     {
         return $filters
             ->add(EntityFilter::new('municipality', 'Commune'))
-            ->add(EntityFilter::new('createdBy', 'Créé par'))
-            ;
+            ->add(EntityFilter::new('createdBy', 'Créé par'));
     }
 
     public function configureActions(Actions $actions): Actions
