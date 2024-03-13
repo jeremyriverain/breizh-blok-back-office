@@ -52,6 +52,7 @@ jobs:
           dep: deploy
           private-key: ${{ secrets.PRIVATE_KEY }}
           verbosity: -vvv
+          deployer-version: "6.9.0"
       - name: artifacts
         uses: actions/upload-artifact@v4
         if: always()
