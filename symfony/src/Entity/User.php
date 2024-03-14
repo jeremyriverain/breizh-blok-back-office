@@ -3,16 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
@@ -30,21 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(type: "json")]
     private array $roles = [];
-
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column(type: "string")]
-    private ?string $password;
-
-    #[Assert\NotBlank(groups: ['registration'])]
-    private ?string $plainPassword = 'pwd';
-
-    /**
-     * @var ?\DateTimeImmutable $passwordUpdatedAt
-     */
-    #[ORM\Column(type: "datetime_immutable", nullable: true)]
-    private $passwordUpdatedAt;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $lastAuthenticatedAt;
@@ -112,34 +95,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
-        $this->passwordUpdatedAt = Carbon::now()->toImmutable();
-
-        return $this;
-    }
-
-    /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
@@ -150,25 +105,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        $this->plainPassword = null;
-    }
-
-    public function getPasswordUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->passwordUpdatedAt;
-    }
-
-    public function setPasswordUpdatedAt(?\DateTimeImmutable $passwordUpdatedAt): self
-    {
-        $this->passwordUpdatedAt = $passwordUpdatedAt;
-
-        return $this;
     }
 
     public function getLastAuthenticatedAt(): ?\DateTimeInterface

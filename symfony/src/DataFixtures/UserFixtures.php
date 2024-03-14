@@ -6,14 +6,9 @@ use App\Controller\Utils\Roles;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-
-    public function __construct(private UserPasswordHasherInterface $passwordHasher)
-    {
-    }
 
     public function load(ObjectManager $manager): void
     {
@@ -35,7 +30,6 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setEmail($email);
-        $user->setPassword($this->passwordHasher->hashPassword($user, 'root'));
 
         return $user;
     }
