@@ -85,6 +85,10 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[Groups(['Boulder:read'])]
     private Collection $lineBoulders;
 
+    #[ORM\Column(options: ['default' => false])]
+    #[Groups(['Boulder:read'])]
+    private ?bool $isUrbanBoulder = false;
+
     public function __construct()
     {
         $this->lineBoulders = new ArrayCollection();
@@ -187,6 +191,18 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
                 $lineBoulder->setBoulder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsUrbanBoulder(): ?bool
+    {
+        return $this->isUrbanBoulder;
+    }
+
+    public function setIsUrbanBoulder(bool $isUrbanBoulder): static
+    {
+        $this->isUrbanBoulder = $isUrbanBoulder;
 
         return $this;
     }

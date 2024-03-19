@@ -16,9 +16,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -47,6 +49,7 @@ class BoulderCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Nom'),
+            BooleanField::new('isUrbanBoulder')->setLabel('Bloc urbain')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
             AssociationField::new('grade', 'Cotation')->setCssClass('cy-grade'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             TextField::new('rock.boulderArea', 'Secteur')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
@@ -81,6 +84,7 @@ class BoulderCrudController extends AbstractCrudController
         return $filters
             ->add(EntityFilter::new('rock', 'Rocher'))
             ->add(EntityFilter::new('createdBy', 'Créé par'))
+            ->add(BooleanFilter::new('isUrbanBoulder', 'Bloc urbain'))
             ->add(AdminBoulderAreaFilter::new('boulderArea'));
     }
 
