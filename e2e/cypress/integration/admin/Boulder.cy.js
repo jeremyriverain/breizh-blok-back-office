@@ -36,13 +36,12 @@ context("Boulders", () => {
   it("filters urban boulders", () => {
     cy.get("table tbody tr").should("have.length", 4);
     cy.get("a.action-filters-button").click();
-    cy.get(
-      "[data-filter-property=isUrbanBoulder] input[type=checkbox]"
-    ).check();
-    cy.get("input[name=filters\\[isUrbanBoulder\\]]").should("have.length", 2);
-    cy.get("input[name=filters\\[isUrbanBoulder\\]]").check("1");
+    cy.get("[data-filter-property=isUrban] input[type=checkbox]").check();
+    cy.get("input[name=filters\\[isUrban\\]]").should("have.length", 2);
+    cy.get("input[name=filters\\[isUrban\\]]").check("1");
     cy.get("#modal-filters button#modal-apply-button").click();
-    cy.contains("Aucun résultat trouvé");
+    cy.get("table tbody tr").should("have.length", 1);
+    cy.get("table tbody tr").first().should("contain.text", "Stone");
   });
 
   it("show details", () => {

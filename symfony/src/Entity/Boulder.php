@@ -87,7 +87,7 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
 
     #[ORM\Column(options: ['default' => false])]
     #[Groups(['Boulder:read'])]
-    private ?bool $isUrbanBoulder = false;
+    private ?bool $isUrban = false;
 
     public function __construct()
     {
@@ -195,14 +195,14 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
         return $this;
     }
 
-    public function isIsUrbanBoulder(): ?bool
+    public function isIsUrban(): ?bool
     {
-        return $this->isUrbanBoulder;
+        return $this->isUrban;
     }
 
-    public function setIsUrbanBoulder(bool $isUrbanBoulder): static
+    public function setIsUrban(bool $isUrban): static
     {
-        $this->isUrbanBoulder = $isUrbanBoulder;
+        $this->isUrban = $isUrban;
 
         return $this;
     }

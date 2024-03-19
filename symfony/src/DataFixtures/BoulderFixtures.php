@@ -22,6 +22,7 @@ class BoulderFixtures extends Fixture implements DependentFixtureInterface
         $stone->setGrade($this->getGradeReference('grade_5'));
         $stone->setRock($this->getRockReference(RockFixtures::ROCK_CREMIOU));
         $stone->setDescription('Un rétablissement sur 2 bonnes réglettes');
+        $stone->setIsUrban(true);
         $manager->persist($stone);
 
         $monkey = new Boulder();

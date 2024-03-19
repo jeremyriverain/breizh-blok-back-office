@@ -8,8 +8,8 @@ context("Boulder", () => {
   it("lists boulders", () => {
     cy.request("/boulders").then((response) => {
       expect(response.body["hydra:totalItems"]).to.eq(4);
-      expect(response.body["hydra:member"][0].name).not.to.be.empty;
-      expect(response.body["hydra:member"][0].isUrbanBoulder).to.be.false;
+      expect(response.body["hydra:member"][0].name).to.eq("Stone");
+      expect(response.body["hydra:member"][0].isUrban).to.be.true;
       expect(response.body["hydra:member"][0].grade.name).not.to.be.empty;
       expect(response.body["hydra:member"][0].rock.location.latitude).not.to.be
         .empty;
@@ -91,8 +91,8 @@ context("Boulder", () => {
 
   it("gets a boulder", () => {
     cy.request("/boulders/1").then((response) => {
-      expect(response.body.name).not.to.be.empty;
-      expect(response.body.isUrbanBoulder).to.be.false;
+      expect(response.body.name).eq("Stone");
+      expect(response.body.isUrban).to.be.true;
       expect(response.body.grade.name).not.to.be.empty;
       expect(response.body.rock.location.latitude).not.to.be.empty;
       expect(response.body.rock.location.longitude).not.to.be.empty;

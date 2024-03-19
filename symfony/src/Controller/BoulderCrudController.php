@@ -49,7 +49,7 @@ class BoulderCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Nom'),
-            BooleanField::new('isUrbanBoulder')->setLabel('Bloc urbain')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
+            BooleanField::new('isUrban')->setLabel('Bloc urbain')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
             AssociationField::new('grade', 'Cotation')->setCssClass('cy-grade'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             TextField::new('rock.boulderArea', 'Secteur')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
@@ -84,7 +84,7 @@ class BoulderCrudController extends AbstractCrudController
         return $filters
             ->add(EntityFilter::new('rock', 'Rocher'))
             ->add(EntityFilter::new('createdBy', 'Créé par'))
-            ->add(BooleanFilter::new('isUrbanBoulder', 'Bloc urbain'))
+            ->add(BooleanFilter::new('isUrban', 'Bloc urbain'))
             ->add(AdminBoulderAreaFilter::new('boulderArea'));
     }
 
