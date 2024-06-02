@@ -21,19 +21,13 @@ class LoginController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $email]);
 
             if (!$user || !$user->getEmail()) {
-                $this->addFlash(
-                    'info',
-                    'L\'email n\'a pas été trouvé'
-                );
+                $this->showInfoMessage();
                 return $this->redirectToRoute('login');
             }
 
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
 
-            $this->addFlash(
-                'info',
-                "Un email d'authentification vous a été envoyé"
-            );
+            $this->showInfoMessage();
 
             $email = NotificationEmail::asPublicEmail()
                 ->from('riverainjeremy@gmail.com')
@@ -49,6 +43,14 @@ class LoginController extends AbstractController
 
         // if it's not submitted, render the "login" form
         return $this->render('security/login.html.twig');
+    }
+
+    private function showInfoMessage(): void
+    {
+        $this->addFlash(
+            'info',
+            "Si le mail renseigné est valide, un email d'authentification vous sera envoyé rapidement."
+        );
     }
 
     #[Route('/admin/logout', name: 'app_logout')]
