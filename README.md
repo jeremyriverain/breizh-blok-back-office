@@ -77,6 +77,8 @@ composer run phpunit
 
 ## Lancer les tests Cypress
 
+Créez un fichier `.env.test.local` et renseignez la variable d'environnement `GCLOUD_PROJECT_ID`.
+
 En mode headless:
 
 ```bash
