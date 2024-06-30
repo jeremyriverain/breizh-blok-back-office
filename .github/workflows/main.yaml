@@ -6,6 +6,9 @@ jobs:
   main:
     name: main
     runs-on: ubuntu-22.04
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - uses: actions/checkout@v4
       - name: setup node
@@ -33,8 +36,17 @@ jobs:
       - name: unit
         run: |
           docker compose exec -T php bash -c "symfony composer phpunit"
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID_TEST }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_CLOUD_STORAGE_TEST }}
       - name: e2e
         run: |
+          touch symfony/.env.test.local
+          echo "GCLOUD_PROJECT_ID=$GOOGLE_CLOUD_PROJECT" >> symfony/.env.test.local
+          echo "GOOGLE_APPLICATION_CREDENTIALS=/var/www/symfony/google_credentials.json" >> symfony/.env.test.local
+          mv gha-creds*.json symfony/google_credentials.json
           docker compose up -d
           docker compose exec -T cypress bash -c "npm run cy:run"
 

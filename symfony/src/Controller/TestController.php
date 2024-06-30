@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use Google\Cloud\Storage\StorageClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Attribute\Route;
+// use Symfony\Component\Uid\Uuid;
+
 
 #[Route(
     '/test',
@@ -64,5 +67,36 @@ class TestController extends AbstractController
         } catch (ProcessFailedException $exception) {
             return new JsonResponse(['success' => false, 'message' => $exception->getMessage()]);
         }
+    }
+
+    #[Route(
+        '/cloud-storage',
+        name: 'cloud_storage',
+    )]
+    public function cloudStorage(): JsonResponse
+    {
+        if (array_key_exists('GOOGLE_APPLICATION_CREDENTIALS', $_ENV)) {
+            putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
+        }
+        # Instantiates a client
+        $storage = new StorageClient([
+            'projectId' => $_ENV['GCLOUD_PROJECT_ID'],
+        ]);
+
+        # The name for the new bucket
+        // $bucketName = Uuid::v7();
+
+        # Creates the new bucket
+        // $bucket = $storage->createBucket($bucketName);
+
+        $file = fopen(__DIR__ . '/foo.bar', 'r');
+        if (!$file) {
+            throw new \Error('file should exist');
+        }
+        $bucket = $storage->bucket('019068e3-e241-7370-9af3-1e937b38172c');
+
+        $bucket->upload($file);
+
+        return new JsonResponse(['success' => true]);
     }
 }
