@@ -32,7 +32,7 @@ jobs:
           docker compose exec -T php bash -c "npm run lint"
       - uses: 'google-github-actions/auth@v2'
         with:
-          credentials_json: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_TEST}}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
 
       - name: unit
         run: |
