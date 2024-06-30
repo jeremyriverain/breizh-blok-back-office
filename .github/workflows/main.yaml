@@ -35,12 +35,13 @@ jobs:
           docker compose exec -T php bash -c "symfony composer phpunit"
       - name: e2e
         run: |
-          touch symfony/.env.test.local && echo "GCLOUD_PROJECT_ID=$GCLOUD_PROJECT_ID_TEST\nGOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> symfony/.env.test.local
+          touch symfony/.env.test.local && echo "GCLOUD_PROJECT_ID=$GCLOUD_PROJECT_ID_TEST\nGOOGLE_APPLICATION_CREDENTIALS=/var/www/symfony/google_credentials.json" >> symfony/.env.test.local
+          echo $GOOGLE_APPLICATION_CREDENTIALS_TEST > symfony/google_credentials.json
           docker compose up -d
           docker compose exec -T cypress bash -c "npm run cy:run"
         env:
           GCLOUD_PROJECT_ID_TEST: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_TEST}}
+          GOOGLE_APPLICATION_CREDENTIALS_TEST: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_TEST}}
 
       - name: prepare deploy
         if: steps.prepare.outputs.branch == 'main'

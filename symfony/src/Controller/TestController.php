@@ -75,9 +75,12 @@ class TestController extends AbstractController
     )]
     public function cloudStorage(): JsonResponse
     {
+        if (array_key_exists('GOOGLE_APPLICATION_CREDENTIALS', $_ENV)) {
+            putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
+        }
         # Instantiates a client
         $storage = new StorageClient([
-            'projectId' => $_ENV['GCLOUD_PROJECT_ID']
+            'projectId' => $_ENV['GCLOUD_PROJECT_ID'],
         ]);
 
         # The name for the new bucket

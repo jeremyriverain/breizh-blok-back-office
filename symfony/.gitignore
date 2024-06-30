@@ -22,3 +22,4 @@ public/uploads
 ###< phpunit/phpunit ###
 
 .env.local
+google_credentials.json
