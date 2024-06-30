@@ -33,14 +33,14 @@ jobs:
           docker compose exec -T php bash -c "composer run phpstan"
           echo "lint with eslint"
           docker compose exec -T php bash -c "npm run lint"
+      - name: unit
+        run: |
+          docker compose exec -T php bash -c "symfony composer phpunit"
       - uses: 'google-github-actions/auth@v2'
         with:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID_TEST }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
-
-      - name: unit
-        run: |
-          docker compose exec -T php bash -c "symfony composer phpunit"
+          service_account: ${{ secrets.SERVICE_ACCOUNT_CLOUD_STORAGE_TEST }}
       - name: e2e
         run: |
           touch symfony/.env.test.local
