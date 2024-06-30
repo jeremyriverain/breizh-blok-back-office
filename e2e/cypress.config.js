@@ -16,7 +16,7 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     experimentalInteractiveRunEvents: true,
     experimentalRunAllSpecs: true,
-    video: true,
+    video: false,
     specPattern: "cypress/integration/**/*.cy.js",
     setupNodeEvents(on, config) {
       on("before:run", async () => {
