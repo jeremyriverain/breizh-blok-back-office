@@ -7,7 +7,7 @@ context("Test", () => {
 
   it("cloud storage works", () => {
     cy.request("/test/cloud-storage").then((response) => {
-      expect(response.body["success"]).to.contain("created");
+      expect(response.body["success"]).to.eq(true);
     });
   });
 });

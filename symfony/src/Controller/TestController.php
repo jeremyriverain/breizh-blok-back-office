@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Uid\Uuid;
+// use Symfony\Component\Uid\Uuid;
 
 
 #[Route(
@@ -84,11 +84,19 @@ class TestController extends AbstractController
         ]);
 
         # The name for the new bucket
-        $bucketName = Uuid::v7();
+        // $bucketName = Uuid::v7();
 
         # Creates the new bucket
-        $bucket = $storage->createBucket($bucketName);
+        // $bucket = $storage->createBucket($bucketName);
 
-        return new JsonResponse(['success' => 'Bucket ' . $bucket->name() . ' created.']);
+        $file = fopen(__DIR__ . '/foo.bar', 'r');
+        if (!$file) {
+            throw new \Error('file should exist');
+        }
+        $bucket = $storage->bucket('019068e3-e241-7370-9af3-1e937b38172c');
+
+        $bucket->upload($file);
+
+        return new JsonResponse(['success' => true]);
     }
 }
