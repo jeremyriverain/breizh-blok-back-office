@@ -9,17 +9,25 @@ Back-office destiné à répertorier les blocs d'escalade de Bretagne.
 
 ## Installation
 
-1. Cloner le dépôt Github et déplacez-vous dans le dossier du projet:
+1. Clonez le dépôt Github et déplacez-vous dans le dossier du projet:
    
 ```bash
 git clone git@github.com:jeremyriverain/breizh-blok-back-office.git
 cd breizh-blok-back-office
 ```
 
-2. Exécuter le script d'initialisation Docker
+2. Exécutez le script d'initialisation Docker
 
 ```bash
 ./init.sh
+```
+
+3. Le projet utilise Cloud Storage pour stocker les images. Créez un fichier `.env.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID` et `GCLOUD_BUCKET_ID`.
+
+4. Pour récupérer vos credentials Google Cloud et pouvoir développer en local, exécutez la commande suivante:
+
+```bash
+docker run -ti --rm -v ~/.config/gcloud:/root/.config/gcloud gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth application-default login
 ```
 
 Accédez à l'application en tapant l'URL: [http://localhost:4444](http://localhost:4444)
@@ -68,6 +76,8 @@ composer run phpunit
 ```
 
 ## Lancer les tests Cypress
+
+Créez un fichier `.env.test.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID` et `GCLOUD_BUCKET_ID`.
 
 En mode headless:
 

@@ -79,10 +79,6 @@ final class ResolveIContainsMediaSubscriber implements EventSubscriberInterface
     {
         $mediaObject->contentUrl = $this->storage->resolveUri($mediaObject, 'file');
 
-        $absolutePath = $this->storage->resolvePath($mediaObject, 'file', null, false);
-
-        if ($absolutePath && file_exists($absolutePath) && is_array(getimagesize($absolutePath))) {
-            $mediaObject->filterUrl = '/media/cache/resolve/%filter%' . $this->storage->resolveUri($mediaObject, 'file');
-        }
+        $mediaObject->filterUrl = '/media/cache/resolve/%filter%' . $this->storage->resolveUri($mediaObject, 'file');
     }
 }

@@ -5,4 +5,4 @@ api_platform:
 
 swagger_ui:
   path: /swagger
-  controller: api_platform.swagger.action.ui
+  controller: api_platform.swagger_ui.action

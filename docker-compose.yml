@@ -24,6 +24,7 @@ services:
         PHP_XDEBUG_CLIENT_HOST: ${PHP_XDEBUG_CLIENT_HOST}
     volumes:
       - ./symfony:/var/www/symfony:cached
+      - ~/.config/gcloud:/.config/gcloud
     depends_on:
       - db
 

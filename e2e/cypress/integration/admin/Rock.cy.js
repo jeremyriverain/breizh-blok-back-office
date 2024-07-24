@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
 
-context("Rocks", () => {
-  beforeEach(() => {
+context("Rock-read", () => {
+  before(() => {
     cy.task("loadDb");
+  });
+  beforeEach(() => {
     cy.realLogin();
     cy.get("#main-menu").contains("Rochers").click();
   });
@@ -24,6 +26,14 @@ context("Rocks", () => {
       .get("img.leaflet-marker-icon");
     cy.get(".cy-boulders").contains("Blocs");
     cy.get(".cy-boulders").contains("Les cornes du diable");
+  });
+});
+
+context("Rock-write", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
+    cy.get("#main-menu").contains("Rochers").click();
   });
 
   it("delete a boulder area", () => {

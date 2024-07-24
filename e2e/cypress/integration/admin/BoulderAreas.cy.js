@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
 
-context("Boulder Areas", () => {
-  beforeEach(() => {
+context("BoulderArea-read", () => {
+  before(() => {
     cy.task("loadDb");
+  });
+  beforeEach(() => {
     cy.realLogin();
   });
 
@@ -31,6 +33,13 @@ context("Boulder Areas", () => {
     cy.get("#map")
       .should("have.class", "leaflet-container")
       .get("img.leaflet-marker-icon");
+  });
+});
+
+context("BoulderArea-write", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
   });
 
   it("delete a boulder area", () => {
@@ -153,11 +162,21 @@ context("Boulder Areas", () => {
       cy.get("[data-cy=geo-point-field-map-box]").should("not.exist");
       cy.get("input[name=BoulderArea\\[name\\]]").type("Rocher Margot");
       // toggles several times the display of the map to check the correct hydration of the inputs
-      cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Ajouter").click();
-      cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Supprimer").click();
-      cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Ajouter").click();
-      cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Supprimer").click();
-      cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Ajouter").click();
+      cy.get("[data-cy=geo-point-field-toggler-btn]")
+        .contains("Ajouter")
+        .click();
+      cy.get("[data-cy=geo-point-field-toggler-btn]")
+        .contains("Supprimer")
+        .click();
+      cy.get("[data-cy=geo-point-field-toggler-btn]")
+        .contains("Ajouter")
+        .click();
+      cy.get("[data-cy=geo-point-field-toggler-btn]")
+        .contains("Supprimer")
+        .click();
+      cy.get("[data-cy=geo-point-field-toggler-btn]")
+        .contains("Ajouter")
+        .click();
       cy.get("button.action-save").contains("Créer").click();
       cy.get("table tbody tr").should("have.length", 7);
       cy.get("td")
@@ -165,7 +184,6 @@ context("Boulder Areas", () => {
         .closest("tr")
         .find('[data-label="Emplacement parking"]')
         .should("not.contain", "Aucun");
-
     });
   });
 });

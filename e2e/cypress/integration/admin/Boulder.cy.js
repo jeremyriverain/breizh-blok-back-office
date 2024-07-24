@@ -1,8 +1,11 @@
 /// <reference types="cypress" />
 
-context("Boulders", () => {
-  beforeEach(() => {
+context("Boulders-read", () => {
+  before(() => {
     cy.task("loadDb");
+  });
+
+  beforeEach(() => {
     cy.realLogin();
     cy.get("#main-menu").contains("Blocs").click();
   });
@@ -14,11 +17,6 @@ context("Boulders", () => {
     cy.get("@firstBoulder")
       .find("td.cy-urban-boulder")
       .should("contain.text", "Non");
-  });
-
-  it("delete a boulder", () => {
-    cy.get("table tbody tr").first().deleteRow();
-    cy.get("table tbody tr").should("have.length", 3);
   });
 
   it("filters boulders", () => {
@@ -53,6 +51,19 @@ context("Boulders", () => {
     cy.get(".drawing-container svg path")
       .invoke("attr", "d")
       .should("match", /^M474/);
+  });
+});
+
+context("Boulders-write", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
+    cy.get("#main-menu").contains("Blocs").click();
+  });
+
+  it("delete a boulder", () => {
+    cy.get("table tbody tr").first().deleteRow();
+    cy.get("table tbody tr").should("have.length", 3);
   });
 
   it("create a boulder", () => {

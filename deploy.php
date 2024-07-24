@@ -7,11 +7,11 @@ require 'deploy_hosts.php';
 
 set('application', 'breizh-blok-back-office');
 set('repository', 'git@github.com:jeremyriverain/breizh-blok-back-office.git');
-set('shared_dirs', ['var/log', 'public/uploads', 'public/media/cache', 'public/.well-known']);
+set('shared_dirs', ['var/log', 'public/.well-known']);
 set('branch', 'main');
-set('shared_files', ['.env.prod.local']);
+set('shared_files', ['.env.prod.local', '.env.local', 'google_credentials.json']);
 set('bin_dir', 'bin');
-set('writable_dirs', ['var', 'public/uploads', 'public/media/cache']);
+set('writable_dirs', ['var']);
 set('clear_paths', ['var/cache']);
 set('deploy_path', '/var/www/boulders-topo');
 

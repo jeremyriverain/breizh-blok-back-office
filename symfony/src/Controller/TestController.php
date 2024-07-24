@@ -22,10 +22,11 @@ class TestController extends AbstractController
     public function initDb(ParameterBagInterface $parameterBag): JsonResponse
     {
         try {
+            (new Process(['/usr/bin/symfony', 'console', 'app:remove-assets', 'privateLocalStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'app:remove-assets', 'picturesStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:drop', '--force', '--if-exists', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:create', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['/usr/bin/symfony', 'console', 'doctrine:migration:migrate', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['rm', '-rf', 'public/uploads'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['/usr/bin/symfony', 'console', 'doctrine:fixtures:load', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             return new JsonResponse(['success' => true]);
         } catch (ProcessFailedException $exception) {
@@ -40,10 +41,8 @@ class TestController extends AbstractController
     public function dumpDb(ParameterBagInterface $parameterBag): JsonResponse
     {
         try {
-            (new Process(['mkdir', '-p', 'var/test/files'], $parameterBag->get('kernel.project_dir')))->mustRun();
             (new Process(['curl', 'http://db/dump'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['rm', '-rf', 'var/test/files/uploads'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['cp', '-r', 'public/uploads', 'var/test/files'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'app:copy-assets', '--from=picturesStorage', '--to=privateLocalStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             return new JsonResponse(['success' => true]);
         } catch (ProcessFailedException $exception) {
             return new JsonResponse(['success' => false, 'message' => $exception->getMessage()]);
@@ -58,8 +57,8 @@ class TestController extends AbstractController
     {
         try {
             (new Process(['curl', 'http://db/load'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['rm', '-rf', 'public/uploads'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['cp', '-r', 'var/test/files/uploads', 'public/uploads'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'app:remove-assets', 'picturesStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'console', 'app:copy-assets', '--from=privateLocalStorage', '--to=picturesStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
             return new JsonResponse(['success' => true]);
         } catch (ProcessFailedException $exception) {
             return new JsonResponse(['success' => false, 'message' => $exception->getMessage()]);

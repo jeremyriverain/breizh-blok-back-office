@@ -6,6 +6,9 @@ jobs:
   main:
     name: main
     runs-on: ubuntu-22.04
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - uses: actions/checkout@v4
       - name: setup node
@@ -17,13 +20,37 @@ jobs:
         run: |
           echo $GITHUB_REF_NAME
           echo "branch=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID_TEST }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_CLOUD_STORAGE_TEST }}
       - name: build
+        env:
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
+          GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
         run: |
           echo "${{ steps.prepare.outputs.branch }}"
           docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
           docker compose up -d
+
+          echo -e "\nGCLOUD_PROJECT_ID=$GCLOUD_PROJECT_ID" >> symfony/.env
+          echo "GCLOUD_BUCKET_ID=${{github.run_id}}--$GCLOUD_BUCKET_ID" >> symfony/.env
+          echo "GOOGLE_APPLICATION_CREDENTIALS=/var/www/symfony/google_credentials.json" >> symfony/.env
+          cat symfony/.env
+
+          mv gha-creds*.json symfony/google_credentials.json
+
           docker compose exec -T db bash -c "npm run start"
-          docker compose exec -T php bash -c "./init.sh"
+          docker compose exec -T php bash -c "composer install"
+          docker compose exec -T php bash -c "symfony console doctrine:database:drop --force --if-exists"
+          docker compose exec -T php bash -c "symfony console doctrine:database:create"
+          docker compose exec -T php bash -c "symfony console doctrine:migration:migrate --no-interaction"
+          docker compose exec -T php bash -c "symfony console app:remove-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
+          docker compose exec -T php bash -c "symfony console app:create-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
+          docker compose exec -T php bash -c "symfony console doctrine:fixtures:load --no-interaction"
+          docker compose exec -T php bash -c "npm install"
+          docker compose exec -T php bash -c "npm run build"
       - name: lint
         run: |
           echo "lint with phpstan"
@@ -31,12 +58,12 @@ jobs:
           echo "lint with eslint"
           docker compose exec -T php bash -c "npm run lint"
       - name: unit
-        run: |
-          docker compose exec -T php bash -c "symfony composer phpunit"
+        run: docker compose exec -T php bash -c "symfony composer phpunit"
       - name: e2e
-        run: |
-          docker compose up -d
-          docker compose exec -T cypress bash -c "npm run cy:run"
+        env:
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
+          GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
+        run: docker compose exec -T cypress bash -c "npm run cy:run"
 
       - name: prepare deploy
         if: steps.prepare.outputs.branch == 'main'
@@ -53,6 +80,12 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           verbosity: -vvv
           deployer-version: "6.9.0"
+
+      - name: remove-bucket
+        run: docker compose exec -T php bash -c "symfony console app:remove-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
+        if: always()
+        env:
+          GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
       - name: artifacts
         uses: actions/upload-artifact@v4
         if: always()

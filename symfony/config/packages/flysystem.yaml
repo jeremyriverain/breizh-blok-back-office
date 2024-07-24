@@ -1,0 +1,14 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+  storages:
+    pictures.storage:
+      adapter: 'gcloud'
+      options:
+          client: 'App\Services\GoogleCloudStorage'
+          bucket: '%env(resolve:GCLOUD_BUCKET_ID)%'
+          prefix: ''
+          visibility_handler: League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility
+    private.local.storage:
+      adapter: 'local'
+      options:
+        directory: '%kernel.project_dir%/var/storage/default'

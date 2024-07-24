@@ -9,12 +9,6 @@ vendor/
 
 /node_modules/
 /public/build/
-public/uploads
-
-###> liip/imagine-bundle ###
-/public/media/cache/*
-!/public/media/cache/.gitkeep
-###< liip/imagine-bundle ###
 
 ###> phpunit/phpunit ###
 /phpunit.xml
@@ -22,3 +16,5 @@ public/uploads
 ###< phpunit/phpunit ###
 
 .env.local
+
+google_credentials.json

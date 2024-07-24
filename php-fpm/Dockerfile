@@ -95,6 +95,8 @@ RUN chown -R nobody:nobody /var/www/symfony && \
     mkdir -p /.symfony5 && chown -R nobody:nobody /.symfony5 && \
     mkdir -p /.npm && chown -R nobody:nobody /.npm
 
+RUN mkdir -p /.config/gcloud && chmod -R 775 /.config/gcloud
+
 USER nobody
 
 RUN whoami

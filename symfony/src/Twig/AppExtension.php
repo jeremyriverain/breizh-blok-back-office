@@ -10,22 +10,17 @@ use Doctrine\Common\Collections\Collection;
 use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\TwigFunction;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 class AppExtension extends AbstractExtension
 {
 
-    private string $uploadDirName;
-
     public function __construct(
         private CacheManager $cacheManager,
-        ParameterBagInterface $parameterBag,
         private StorageInterface $storage,
         private TagRenderer $tagRenderer,
     ) {
-        $this->uploadDirName = $parameterBag->get('general_images_relative_path');
     }
 
     public function getFilters(): array
@@ -45,7 +40,7 @@ class AppExtension extends AbstractExtension
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         if ($ext === "svg") {
-            return $this->uploadDirName . "/" . $path;
+            return "/" . $path;
         } else {
             return $this->cacheManager->getBrowserPath($path, $filter, [], null);
         }

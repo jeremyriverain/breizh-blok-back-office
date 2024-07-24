@@ -30,15 +30,23 @@ liip_imagine:
     scale_xl:
       filters:
         downscale:
-        max: [1200, 1000]
+          max: [1200, 1000]
     scale_xxl:
       filters:
         downscale:
           max: [1800, 1000]
 
-when@prod:
-  liip_imagine:
-    loaders:
-      default:
-        filesystem:
-          data_root: "%env(LIIP_DATA_ROOT)%"
+  loaders:
+    flysystem_loader:
+      flysystem:
+        filesystem_service: 'pictures.storage'
+  data_loader: flysystem_loader
+  cache: flysystem_resolver
+  resolvers:
+    flysystem_resolver:
+      flysystem:
+        filesystem_service: pictures.storage
+        root_url: 'https://storage.googleapis.com/%env(GCLOUD_BUCKET_ID)%'
+        cache_prefix: media/cache
+        visibility: public
+

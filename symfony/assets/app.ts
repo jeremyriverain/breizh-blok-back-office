@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sources = document.querySelectorAll('.js-hidden-vich')
   sources.forEach((s) => {
     const img = document.createElement('img')
-    img.src = `/uploads/${s.getAttribute('image')}`
+    img.src = `/media/cache/resolve/scale_sm/${s.getAttribute('image')}`
     img.classList.add('img-fluid')
     if (s.parentNode) {
       s.parentNode.appendChild(img)

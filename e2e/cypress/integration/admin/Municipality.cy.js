@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
 
 context("Municipality as admin", () => {
-  beforeEach(() => {
+  before(() => {
     cy.task("loadDb");
+  });
+  beforeEach(() => {
     cy.realLogin();
     cy.get("#main-menu").contains("Communes").click();
   });

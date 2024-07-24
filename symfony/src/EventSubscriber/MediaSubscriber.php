@@ -7,12 +7,11 @@ use Vich\UploaderBundle\Event\Event;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Vich\UploaderBundle\Storage\StorageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MediaSubscriber
 {
 
-    public function __construct(private StorageInterface $storage, private CacheManager $cacheManager, private ParameterBagInterface $parameterBag)
+    public function __construct(private StorageInterface $storage, private CacheManager $cacheManager)
     {
     }
 
@@ -37,11 +36,6 @@ class MediaSubscriber
             return;
         }
 
-        // try {
-        // in case the asset does not exist
-        $path = $this->parameterBag->get('general_images_relative_path') . "/" . $this->storage->resolvePath($object, 'file', null, true);
-        $this->cacheManager->remove($path);
-        // } catch (\Throwable $error) {
-        // }
+        $this->cacheManager->remove($this->storage->resolvePath($object, 'file', null, true));
     }
 }
