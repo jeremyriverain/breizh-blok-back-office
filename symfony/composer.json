@@ -47,6 +47,7 @@
     "twig/cssinliner-extra": "^3.8",
     "twig/extra-bundle": "^3.8",
     "twig/inky-extra": "^3.8",
+    "twig/string-extra": "^3.10",
     "twig/twig": "^3.8",
     "vich/uploader-bundle": "^2.3.1"
   },

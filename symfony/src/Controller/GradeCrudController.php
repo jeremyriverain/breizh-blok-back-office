@@ -21,8 +21,8 @@ class GradeCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Cotation')
-            ->setEntityLabelInPlural('Cotations')
+            ->setEntityLabelInSingular('Grade')
+            ->setEntityLabelInPlural('Grades')
             ->setDefaultSort(['name' => 'DESC'])
             ->setFormOptions(['attr' => ['novalidate' => true]])
             ->setPaginatorPageSize(50);
@@ -31,8 +31,8 @@ class GradeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name', 'Nom'),
-            AssociationField::new('boulders', 'Blocs')->hideOnForm()
+            TextField::new('name', 'Name'),
+            AssociationField::new('boulders', 'Boulders')->hideOnForm()
         ];
     }
 

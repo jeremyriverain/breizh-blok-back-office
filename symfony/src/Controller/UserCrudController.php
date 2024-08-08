@@ -22,8 +22,8 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Utilisateur')
-            ->setEntityLabelInPlural('Utilisateurs')
+            ->setEntityLabelInSingular('User')
+            ->setEntityLabelInPlural('Users')
             ->setFormOptions(['validation_groups' => ['Default', 'registration'], 'attr' => ['novalidate' => true]], ['validation_groups' => ['Default'], 'attr' => ['novalidate' => true]])
             ->setDefaultSort(['email' => 'ASC']);
     }
@@ -32,7 +32,7 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             TextField::new('email'),
-            DateTimeField::new('lastAuthenticatedAt', 'Dernière connexion')->hideOnForm(),
+            DateTimeField::new('lastAuthenticatedAt', 'Last_connection')->hideOnForm(),
         ];
     }
 

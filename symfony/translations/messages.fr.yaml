@@ -1,0 +1,37 @@
+add: ajouter
+Add_pictures: Ajouter des photos
+Back_to_listing: Retour à la liste
+Boulder_area: Secteur
+Boulder_areas: Secteurs
+Boulder: Bloc
+Boulder_line: Ligne du bloc
+Boulders: Blocs
+Code: Code
+Configuration: Configuration
+Created_at: Créé le
+Created_by: Créé par
+delete: supprimer
+Department: Département
+Departments: Départements
+Description: Description
+Draw_line.cannot_edit: Vous ne pouvez pas dessiner la ligne de bloc car aucune photo n'est associée au rocher.
+Email: Email
+Grade: Cotation
+Grades: Cotations
+helper_valid_code_department: voir https://api.gouv.fr/documentation/api-geo pour récupérer un code valide	
+ID: ID
+Last_connection: Dernière connexion
+Latitude: Latitude
+Longitude: Longitude
+Municipalities: Communes
+Municipality: Commune
+My_profile: Mon profil
+Parking_location: Emplacement parking
+Name: Nom
+Pictures: Photos
+Position: Position
+Rock: Rocher
+Rocks: Rochers
+Urban_boulder: Bloc urbain
+User: Utilisateur
+Users: Utilisateurs

@@ -30,8 +30,8 @@ class RockCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Rocher')
-            ->setEntityLabelInPlural('Rochers')
+            ->setEntityLabelInSingular('Rock')
+            ->setEntityLabelInPlural('Rocks')
             ->setFormOptions(['attr' => ['novalidate' => true]])
             ->setDefaultSort(['id' => 'DESC'])
             ->addFormTheme('form/theme.html.twig');
@@ -41,11 +41,11 @@ class RockCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id', 'ID')->hideOnForm(),
-            AssociationField::new('boulderArea', 'Secteur'),
+            AssociationField::new('boulderArea', 'Boulder_area'),
             GeoPointField::new('location', 'Position')->hideOnIndex()->setTemplatePath('common/geo-point.html.twig'),
-            AssociationField::new('boulders', 'Blocs')->setCssClass('cy-boulders')->hideOnForm()->setTemplatePath('common/association.html.twig')->setCustomOption('controller', BoulderCrudController::class),
+            AssociationField::new('boulders', 'Boulders')->setCssClass('cy-boulders')->hideOnForm()->setTemplatePath('common/association.html.twig')->setCustomOption('controller', BoulderCrudController::class),
             CollectionField::new('pictures')
-                ->setLabel('Photos')
+                ->setLabel('Pictures')
                 ->setFormType(CollectionType::class)
                 ->setFormTypeOptions(
                     [
@@ -55,8 +55,8 @@ class RockCrudController extends AbstractCrudController
                 )
                 ->setTemplatePath('rocks/pictures.html.twig')
                 ->addCssClass('cy-pictures'),
-            DateTimeField::new('createdAt', 'Créé le')->hideOnForm(),
-            AssociationField::new('createdBy', 'Créé par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
+            DateTimeField::new('createdAt', 'Created_at')->hideOnForm(),
+            AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 
@@ -72,8 +72,8 @@ class RockCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(EntityFilter::new('boulderArea', 'Secteur'))
-            ->add(EntityFilter::new('createdBy', 'Créé par'));
+            ->add(EntityFilter::new('boulderArea', 'Boulder_area'))
+            ->add(EntityFilter::new('createdBy', 'Created_by'));
     }
 
     /** @phpstan-ignore-next-line */

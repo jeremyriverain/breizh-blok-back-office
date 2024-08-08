@@ -39,8 +39,8 @@ class BoulderCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Bloc')
-            ->setEntityLabelInPlural('Blocs')
+            ->setEntityLabelInSingular('Boulder')
+            ->setEntityLabelInPlural('Boulders')
             ->setDefaultSort(['name' => 'ASC'])
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
@@ -48,22 +48,22 @@ class BoulderCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name', 'Nom'),
-            BooleanField::new('isUrban')->setLabel('Bloc urbain')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
-            AssociationField::new('grade', 'Cotation')->setCssClass('cy-grade'),
+            TextField::new('name', 'Name'),
+            BooleanField::new('isUrban')->setLabel('Urban_boulder')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
+            AssociationField::new('grade', 'Grade')->setCssClass('cy-grade'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
-            TextField::new('rock.boulderArea', 'Secteur')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
-            AssociationField::new('rock', 'Rocher')->setFormTypeOption('group_by', 'boulderArea')->setCssClass(('cy-rocks'))->hideOnIndex(),
+            TextField::new('rock.boulderArea', 'Boulder_area')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
+            AssociationField::new('rock', 'Rock')->setFormTypeOption('group_by', 'boulderArea')->setCssClass(('cy-rocks'))->hideOnIndex(),
             GeoPointField::new('rock.location', 'Position')->hideOnForm()->hideOnIndex()->setTemplatePath('common/geo-point.html.twig'),
-            AssociationField::new('lineBoulders', 'Ligne du bloc')->hideOnForm()->setTemplatePath('boulders/line-boulders.html.twig')->setCssClass('vue-draw-line'),
-            DateTimeField::new('createdAt', 'Créé le')->hideOnForm(),
-            AssociationField::new('createdBy', 'Créé par')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
+            AssociationField::new('lineBoulders', 'Boulder_line')->hideOnForm()->setTemplatePath('boulders/line-boulders.html.twig')->setCssClass('vue-draw-line'),
+            DateTimeField::new('createdAt', 'Created_at')->hideOnForm(),
+            AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 
     private function drawLineActionFactory(): Action
     {
-        return  Action::new('drawLine', 'Ligne du bloc')->linkToCrudAction('drawLine');
+        return  Action::new('drawLine', 'Boulder_line')->linkToCrudAction('drawLine');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -82,9 +82,9 @@ class BoulderCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(EntityFilter::new('rock', 'Rocher'))
-            ->add(EntityFilter::new('createdBy', 'Créé par'))
-            ->add(BooleanFilter::new('isUrban', 'Bloc urbain'))
+            ->add(EntityFilter::new('rock', 'Rock'))
+            ->add(EntityFilter::new('createdBy', 'Created_by'))
+            ->add(BooleanFilter::new('isUrban', 'Urban_boulder'))
             ->add(AdminBoulderAreaFilter::new('boulderArea'));
     }
 

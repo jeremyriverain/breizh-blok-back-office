@@ -1,0 +1,5 @@
+email.action: Go to the admin area
+email.content: Click the button below to authenticate. This link is only valid for 10 minutes.
+email.subject: Login to Breizh Blok
+send_link: Send link
+submit_message: If the email provided is valid, an authentication email will be sent to you

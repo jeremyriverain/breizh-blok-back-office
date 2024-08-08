@@ -10,31 +10,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends AbstractController
 {
-    #[Route('/admin/login', name: 'login')]
-    public function requestLoginLink(MailerInterface $mailer, LoginLinkHandlerInterface $loginLinkHandler, UserRepository $userRepository, Request $request): Response
+    #[Route('/admin/login/{_locale<en|fr>}', name: 'login')]
+    public function requestLoginLink(MailerInterface $mailer, LoginLinkHandlerInterface $loginLinkHandler, UserRepository $userRepository, Request $request, TranslatorInterface $translator): Response
     {
         if ($request->isMethod('POST')) {
             $email = $request->request->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
             if (!$user || !$user->getEmail()) {
-                $this->showInfoMessage();
+                $this->addFlash('info', $translator->trans('submit_message', [], 'login'));
                 return $this->redirectToRoute('login');
             }
 
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
 
-            $this->showInfoMessage();
+            $this->addFlash('info', $translator->trans('submit_message', [], 'login'));
 
             $email = NotificationEmail::asPublicEmail()
-                ->from('riverainjeremy@gmail.com')
+                ->from($_ENV['MAILER_RECIPIENT'])
                 ->to($user->getEmail())
-                ->subject('Se connecter à Breizh Blok')
-                ->content("Cliquez sur le bouton ci-dessous pour vous authentifier. Ce lien n'est valide que 10 minutes.")
-                ->action('Se connecter', $loginLinkDetails->getUrl());
+                ->subject($translator->trans('email.subject', [], 'login'))
+                ->content($translator->trans('email.content', [], 'login'))
+                ->action($translator->trans('email.action', [], 'login'), $loginLinkDetails->getUrl());
 
             $mailer->send($email);
 
@@ -45,13 +46,12 @@ class LoginController extends AbstractController
         return $this->render('security/login.html.twig');
     }
 
-    private function showInfoMessage(): void
+    #[Route('/admin/login', name: 'loginNoLocale')]
+    public function loginNoLocale(Request $request): Response
     {
-        $this->addFlash(
-            'info',
-            "Si le mail renseigné est valide, un email d'authentification vous sera envoyé rapidement."
-        );
+        return $this->redirectToRoute('login', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
     }
+
 
     #[Route('/admin/logout', name: 'app_logout')]
     public function logout(): void

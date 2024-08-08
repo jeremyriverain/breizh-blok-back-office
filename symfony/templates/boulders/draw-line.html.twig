@@ -1,13 +1,13 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block page_title 'Ligne du bloc' %}
+{% block page_title 'Boulder_line' | trans %}
 
 {% block page_actions %}
 	{% set indexUrl = ea_url()
                 .setController('App\\Controller\\BoulderCrudController')
                 .setAction('index')
                  %}
-	<a class="action-index btn btn-secondary" data-action-name="index" href="{{indexUrl}}">Retour à la liste</a>
+	<a class="action-index btn btn-secondary" data-action-name="index" href="{{indexUrl}}">{{ 'Back_to_listing' | trans }}</a>
 {% endblock %}
 {% block page_content %}
 	<div id="vue-draw-line">
@@ -21,10 +21,10 @@
                  %}
 			<div class="alert alert-secondary" role="alert">
 				<p>
-					Vous ne pouvez pas dessiner la ligne de bloc car aucune photo n'est associée au rocher.
+					{{ 'Draw_line.cannot_edit' | trans }}
 				</p>
 				<div>
-					<a href="{{editRockUrl}}" class="btn btn-secondary">Ajouter des photos</a>
+					<a href="{{editRockUrl}}" class="btn btn-secondary">{{ 'Add_pictures' | trans }}</a>
 				</div>
 			</div>
 		{% endif %}

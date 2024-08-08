@@ -21,8 +21,8 @@ class DepartmentCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Département')
-            ->setEntityLabelInPlural('Départements')
+            ->setEntityLabelInSingular('Department')
+            ->setEntityLabelInPlural('Departments')
             ->setDefaultSort(['name' => 'ASC'])
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
@@ -30,8 +30,8 @@ class DepartmentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name', 'Nom'),
-            AssociationField::new('municipalities', 'Communes')->hideOnForm()
+            TextField::new('name', 'Name'),
+            AssociationField::new('municipalities', 'Municipalities')->hideOnForm()
         ];
     }
 

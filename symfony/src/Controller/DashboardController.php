@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,12 +35,18 @@ class DashboardController extends AbstractDashboardController
     }
 
     #[Route('/', name: 'homepage', priority: 10)]
-    public function homepage(): Response
+    public function indexNoLocale(Request $request): Response
     {
-        return $this->redirectAdmin();
+        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
     }
 
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'adminNoLocale', priority: 10)]
+    public function adminNoLocale(Request $request): Response
+    {
+        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
+    }
+
+    #[Route('/admin/{_locale<en|fr>}', name: 'admin')]
     public function index(): Response
     {
         return $this->redirectAdmin();
@@ -48,21 +55,25 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Topos');
+            ->setTitle('Breizh Blok')
+            ->setLocales([
+                'en' => '🇬🇧 English',
+                'fr' => '🇫🇷 Français'
+            ]);
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('Départements', 'fas fa-users', Department::class)->setPermission(Roles::SUPER_ADMIN->value);
-        yield MenuItem::linkToCrud('Communes', 'fab fa-unity', Municipality::class);
-        yield MenuItem::linkToCrud('Secteurs', 'fas fa-cubes', BoulderArea::class);
-        yield MenuItem::linkToCrud('Rochers', 'fas fa-cube', Rock::class);
-        yield MenuItem::linkToCrud('Blocs', 'fas fa-level-up-alt', Boulder::class);
+        yield MenuItem::linkToCrud('Departments', 'fab fa-unity', Department::class)->setPermission(Roles::SUPER_ADMIN->value);
+        yield MenuItem::linkToCrud('Municipalities', 'fab fa-unity', Municipality::class);
+        yield MenuItem::linkToCrud('Boulder_areas', 'fas fa-cubes', BoulderArea::class);
+        yield MenuItem::linkToCrud('Rocks', 'fas fa-cube', Rock::class);
+        yield MenuItem::linkToCrud('Boulders', 'fas fa-level-up-alt', Boulder::class);
 
         yield MenuItem::section('Configuration');
 
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class)->setPermission(Roles::SUPER_ADMIN->value);
-        yield MenuItem::linkToCrud('Cotations', 'fas fa-ruler-vertical', Grade::class);
+        yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class)->setPermission(Roles::SUPER_ADMIN->value);
+        yield MenuItem::linkToCrud('Grades', 'fas fa-ruler-vertical', Grade::class);
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -78,7 +89,7 @@ class DashboardController extends AbstractDashboardController
             ->generateUrl();
         return parent::configureUserMenu($user)
             ->addMenuItems([
-                MenuItem::linkToUrl('Mon profil', 'fa fa-id-card', $url),
+                MenuItem::linkToUrl('My_profile', 'fa fa-id-card', $url),
             ]);
     }
 

@@ -14,7 +14,7 @@ class BoulderAreaFilter implements FilterInterface
 {
     use FilterTrait;
 
-    public static function new(string $propertyName, ?string  $label = 'Secteur'): self
+    public static function new(string $propertyName, ?string  $label = 'Boulder_area'): self
     {
         return (new self())
             ->setFilterFqcn(__CLASS__)

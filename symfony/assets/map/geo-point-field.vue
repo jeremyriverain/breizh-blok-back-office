@@ -6,7 +6,7 @@
     <div v-if="!requiredField">
       <button class="btn btn-secondary mb-3" data-cy="geo-point-field-toggler-btn" @click.prevent="showMap = !showMap">
         <span class="btn-label"
-          ><span class="action-label">{{ showMap ? 'Supprimer' : 'Ajouter' }}</span></span
+          ><span class="action-label">{{ showMap ? deleteLabel : addLabel }}</span></span
         >
       </button>
     </div>
@@ -26,6 +26,14 @@ export default defineComponent({
     requiredField: {
       type: Boolean,
       default: true,
+    },
+    deleteLabel: {
+      type: String,
+      required: true,
+    },
+    addLabel: {
+      type: String,
+      required: true,
     },
   },
   data() {

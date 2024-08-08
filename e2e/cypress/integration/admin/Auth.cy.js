@@ -7,14 +7,14 @@ context("Auth", () => {
 
   it("authentication works", () => {
     cy.visit("/admin");
-    cy.url().should("match", /\/login$/);
+    cy.url().should("match", /\/login/);
 
     cy.realLogin("fake-user@fixture.com");
     cy.visit("/admin");
-    cy.url().should("match", /\/login$/);
+    cy.url().should("match", /\/login/);
 
     cy.realLogin();
-    cy.url().should("not.match", /\/login$/);
+    cy.url().should("not.match", /\/login/);
   });
 
   it("updates profile", () => {
@@ -30,13 +30,13 @@ context("Auth", () => {
     cy.get("button").contains("Sauvegarder").click();
     cy.logout();
     cy.visit("/admin");
-    cy.url().should("match", /\/login$/);
+    cy.url().should("match", /\/login/);
 
     cy.realLogin();
     cy.visit("/admin");
-    cy.url().should("match", /\/login$/);
+    cy.url().should("match", /\/login/);
 
     cy.realLogin(newEmail);
-    cy.url().should("not.match", /\/login$/);
+    cy.url().should("not.match", /\/login/);
   });
 });

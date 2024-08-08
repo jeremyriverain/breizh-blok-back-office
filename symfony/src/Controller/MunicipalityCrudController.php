@@ -23,8 +23,8 @@ class MunicipalityCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Commune')
-            ->setEntityLabelInPlural('Communes')
+            ->setEntityLabelInSingular('Municipality')
+            ->setEntityLabelInPlural('Municipalities')
             ->setDefaultSort(['name' => 'ASC'])
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
@@ -32,10 +32,10 @@ class MunicipalityCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name', 'Nom'),
-            TextField::new('code', 'Code')->setHelp('voir https://api.gouv.fr/documentation/api-geo pour récupérer un code valide')->setPermission(Roles::SUPER_ADMIN->value),
-            AssociationField::new('department', 'Département'),
-            AssociationField::new('boulderAreas', 'Secteurs')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
+            TextField::new('name', 'Name'),
+            TextField::new('code', 'Code')->setHelp('helper_valid_code_department')->setPermission(Roles::SUPER_ADMIN->value),
+            AssociationField::new('department', 'Department'),
+            AssociationField::new('boulderAreas', 'Boulder_areas')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
         ];
     }
 
@@ -54,6 +54,6 @@ class MunicipalityCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(EntityFilter::new('department', 'Département'));
+            ->add(EntityFilter::new('department', 'Department'));
     }
 }

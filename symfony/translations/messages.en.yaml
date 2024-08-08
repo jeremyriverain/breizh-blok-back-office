@@ -1,0 +1,37 @@
+add: add
+Add_pictures: Add pictures
+Back_to_listing: Back to listing
+Boulder_area: Boulder area
+Boulder_areas: Boulder areas
+Boulder: Boulder
+Boulder_line: Boulder line
+Boulders: Boulders
+Code: Code
+Configuration: Configuration
+Created_at: Created at
+Created_by: Created by
+delete: delete
+Draw_line.cannot_edit: You cannot draw the boulder line because there is no photo associated with the rock.
+helper_valid_code_department: see https://api.gouv.fr/documentation/api-geo to get a valid code	
+Department: Department
+Departments: Departments
+Description: Description
+Email: Email
+Grade: Grade
+Grades: Grades
+ID: ID
+Last_connection: Last connection
+Latitude: Latitude
+Longitude: Longitude
+Municipalities: Municipalities
+Municipality: Municipality
+My_profile: My profile
+Name: Name
+Parking_location: Parking location
+Pictures: Pictures
+Position: Position
+Rock: Rock
+Rocks: Rocks
+Urban_boulder: Urban boulder
+User: User
+Users: Users

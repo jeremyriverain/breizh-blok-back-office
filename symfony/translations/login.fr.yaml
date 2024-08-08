@@ -1,0 +1,5 @@
+email.action: Se connecter
+email.content: Cliquez sur le bouton ci-dessous pour vous authentifier. Ce lien n'est valide que 10 minutes.
+email.subject: Se connecter à Breizh Blok
+send_link: Envoyer lien
+submit_message: Si le mail renseigné est valide, un email d'authentification vous sera envoyé rapidement
