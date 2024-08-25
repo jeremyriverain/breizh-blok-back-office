@@ -32,6 +32,11 @@ Pictures: Pictures
 Position: Position
 Rock: Rock
 Rocks: Rocks
+Roles: Roles
+ROLE_ADMIN: ROLE_ADMIN
+ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR
+ROLE_USER: ROLE_USER
+ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 Urban_boulder: Urban boulder
 User: User
 Users: Users

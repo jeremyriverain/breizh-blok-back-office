@@ -17,12 +17,17 @@ context("Auth", () => {
     cy.url().should("not.match", /\/login/);
   });
 
+  it("user cannot access the dashboard", () => {
+    cy.realLogin("user@fixture.com");
+    cy.contains("Access Denied.");
+  });
+
   it("updates profile", () => {
     const emailSelector = "input[name=User\\[email\\]]";
     const newEmail = "cy-test@fixture.com";
     cy.realLogin();
     cy.visit("/admin");
-    cy.get("aside.content-top").contains("user@fixture.com").click();
+    cy.get("aside.content-top").contains("contributor@fixture.com").click();
     cy.get("a").contains("Mon profil").click({ force: true });
     cy.get("h1").contains("Modifier Utilisateur");
 

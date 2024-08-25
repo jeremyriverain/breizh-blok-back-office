@@ -37,9 +37,9 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add("realLogin", (email = "user@fixture.com") => {
+Cypress.Commands.add("realLogin", (email = "contributor@fixture.com") => {
   cy.task("fetchEmails").as("beforeEmails");
-  cy.visit("/admin/login");
+  cy.visit("/admin/login", { failOnStatusCode: false });
   cy.get("input[name=email]").clear().type(email);
   cy.contains("Envoyer lien").click();
   // cy.wait(100)
@@ -53,14 +53,14 @@ Cypress.Commands.add("realLogin", (email = "user@fixture.com") => {
         const loginUrl = email
           .match(/Se connecter: (.*)/g)[0]
           .replace("Se connecter: ", "");
-        cy.visit(loginUrl);
+        cy.visit(loginUrl, { failOnStatusCode: false });
       });
     });
   });
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.request("/admin/logout");
+  cy.request({ url: "/admin/logout", failOnStatusCode: false });
 });
 
 const originalVisit = cy.visit;

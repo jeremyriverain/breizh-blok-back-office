@@ -8,7 +8,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
@@ -32,6 +34,16 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             TextField::new('email'),
+            ChoiceField::new('roles')->allowMultipleChoices(true)->setChoices([
+                Roles::USER->value => Roles::USER->value,
+                Roles::CONTRIBUTOR->value => Roles::CONTRIBUTOR->value,
+                Roles::ADMIN->value => Roles::ADMIN->value,
+                Roles::SUPER_ADMIN->value => Roles::SUPER_ADMIN->value,
+            ])->renderExpanded(true)->renderAsBadges([
+                Roles::CONTRIBUTOR->value => 'primary',
+                Roles::ADMIN->value => 'warning',
+                Roles::SUPER_ADMIN->value => 'danger',
+            ]),
             DateTimeField::new('lastAuthenticatedAt', 'Last_connection')->hideOnForm(),
         ];
     }

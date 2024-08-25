@@ -36,11 +36,12 @@ Accédez à l'application en tapant l'URL: [http://localhost:4444](http://localh
 
 3 utilisateurs sont pré-configurés:
 
-| Rôle             | Email                   |
-| ---------------- | ----------------------- |
-| ROLE_USER        | user@fixture.com        |
-| ROLE_ADMIN       | admin@fixture.com       |
-| ROLE_SUPER_ADMIN | super-admin@fixture.com |
+| Rôle                    | Email                   |
+| ----------------------- | ----------------------- |
+| ROLE_USER               | user@fixture.com        |
+| ROLE_CONTRIBUTOR        | contributor@fixture.com |
+| ROLE_ADMIN              | admin@fixture.com       |
+| ROLE_SUPER_ADMIN        | super-admin@fixture.com |
 
 Lorsque vous saisissez le mail sur le portail d'authentification, un email est envoyé contenant un lien pour se connecter sans mot de passe. Pour récupérer ce lien, vous pouvez ouvrir [http://localhost:1080](http://localhost:1080).
 

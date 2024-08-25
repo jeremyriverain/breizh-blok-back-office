@@ -32,6 +32,11 @@ Pictures: Photos
 Position: Position
 Rock: Rocher
 Rocks: Rochers
+Roles: Rôles
+ROLE_ADMIN: ROLE_ADMIN
+ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR
+ROLE_USER: ROLE_USER
+ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 Urban_boulder: Bloc urbain
 User: Utilisateur
 Users: Utilisateurs

@@ -20,8 +20,12 @@ class UserFixtures extends Fixture
         $admin->setRoles([Roles::ADMIN->value]);
         $manager->persist($admin);
 
-        $contributor = $this->makeUser(('user@fixture.com'));
+        $contributor = $this->makeUser(('contributor@fixture.com'));
+        $contributor->setRoles([Roles::CONTRIBUTOR->value]);
         $manager->persist($contributor);
+
+        $user = $this->makeUser(('user@fixture.com'));
+        $manager->persist($user);
 
         $manager->flush();
     }
