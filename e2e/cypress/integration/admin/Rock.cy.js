@@ -30,10 +30,10 @@ context("Rock-read", () => {
   });
 });
 
-context("Rock-write", () => {
+context("Rock-write as admin", () => {
   beforeEach(() => {
     cy.task("loadDb");
-    cy.realLogin();
+    cy.realLogin("admin@fixture.com");
     cy.get("#main-menu").contains("Rochers").click();
   });
 
@@ -90,5 +90,52 @@ context("Rock-write", () => {
         expect($el2.text()).not.to.eq(lat);
       });
     });
+  });
+});
+
+context("Rock-write as contributor", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
+    cy.get("#main-menu").contains("Rochers").click();
+
+    cy.contains("Créer Rocher").click();
+    cy.get("h1").should("contain.text", 'Créer "Rocher"');
+    cy.get("select[name=Rock\\[boulderArea\\]]").chooseOption("Petit paradis");
+    cy.get(".cy-pictures button").contains("Ajouter un nouvel élément").click();
+    cy.fixture("boulder.jpg", { encoding: null }).as("boulder");
+    cy.get('.cy-pictures input[type="file"]').selectFile({
+      contents: "@boulder",
+      fileName: "boulder.jpg",
+    });
+
+    cy.get("button.action-save").contains("Créer").click();
+    cy.get("table tbody tr").should("have.length", 4);
+  });
+
+  it("cannot delete or edit a rock are that does not belong to me", () => {
+    cy.get("input[name=query]").type("Cremiou").type("{enter}");
+    cy.get("table tbody tr")
+      .first()
+      .find("a.dropdown-toggle")
+      .click()
+      .next()
+      .find("a")
+      .should("have.length", 1);
+    cy.get("table tbody tr").first().find("a.dropdown-toggle").click();
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+  });
+
+  it("can delete a rock created by me", () => {
+    cy.get("input[name=query]").type("Petit paradis").type("{enter}");
+    cy.get("table tbody tr").first().deleteRow();
+    cy.get("input[name=query]").clear().type("{enter}");
+    cy.get("table tbody tr").should("have.length", 3);
+  });
+
+  it("can edit a rock created by me", () => {
+    cy.get("input[name=query]").type("Petit paradis").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.contains("Modifier Rocher");
   });
 });

@@ -51,10 +51,10 @@ context("Boulders-read", () => {
   });
 });
 
-context("Boulders-write", () => {
+context("Boulders-write as admin", () => {
   beforeEach(() => {
     cy.task("loadDb");
-    cy.realLogin();
+    cy.realLogin("admin@fixture.com");
     cy.get("#main-menu").contains("Blocs").click();
   });
 
@@ -147,6 +147,79 @@ context("Boulders-write", () => {
         expect(interception.request.body).not.to.have.property("rockImage");
         expect(interception.request.body.arrArrPoints).to.have.length(2);
       });
+    });
+  });
+});
+
+context("Boulders-write as contributor", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
+    cy.get("#main-menu").contains("Blocs").click();
+    cy.contains("Créer Bloc").click();
+    cy.get("h1").should("contain.text", 'Créer "Bloc"');
+    cy.get("button.action-save").contains("Créer").click();
+    cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou");
+
+    cy.get("button.action-save").contains("Créer").click();
+    cy.get("table tbody tr").should("have.length", 5);
+  });
+
+  it("cannot delete or edit a boulder that does not belong to me", () => {
+    cy.get("input[name=query]").type("L'essai").type("{enter}");
+    cy.get("table tbody tr")
+      .first()
+      .find("a.dropdown-toggle")
+      .click()
+      .next()
+      .find("a")
+      .should("have.length", 1);
+    cy.get("table tbody tr").first().find("a.dropdown-toggle").click();
+
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+  });
+
+  it("i can delete a boulder created by me", () => {
+    cy.get("input[name=query]").type("La route du rhum").type("{enter}");
+    cy.get("table tbody tr").first().deleteRow();
+    cy.get("input[name=query]").clear().type("{enter}");
+    cy.get("table tbody tr").should("have.length", 4);
+  });
+
+  it("i can edit a boulder created by me", () => {
+    cy.get("input[name=query]").type("La route du rhum").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.contains("Modifier Bloc");
+  });
+
+  it("can draw line for a boulder created by me", () => {
+    cy.get("input[name=query]").type("La route du rhum").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Ligne du bloc");
+
+    cy.get(".drawing-container svg")
+      .realMouseDown()
+      .realMouseMove(100, 100, { position: "center" });
+
+    cy.intercept("DELETE", "/admin/line_boulders/*").as("deleteLineBoulder");
+
+    cy.intercept("POST", "/admin/line_boulders").as("postLineBoulder");
+    cy.get("[aria-label=save]").click();
+    cy.wait("@postLineBoulder").then((interception) => {
+      const lineBoulderIri = interception.response.body["@id"];
+      expect(interception.response.statusCode).to.eq(201);
+
+      cy.intercept("PUT", lineBoulderIri).as("editLineBoulder");
+      cy.get("[aria-label=save]").click();
+      cy.wait("@editLineBoulder").then((interception) => {
+        expect(interception.response.statusCode).to.eq(200);
+      });
+
+      cy.get("[aria-label=clear]").click();
+      cy.get("[aria-label=save]").click();
+      cy.wait("@deleteLineBoulder")
+        .its("response.statusCode")
+        .should("eq", 204);
     });
   });
 });

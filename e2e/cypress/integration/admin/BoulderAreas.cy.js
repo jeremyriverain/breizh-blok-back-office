@@ -34,10 +34,10 @@ context("BoulderArea-read", () => {
   });
 });
 
-context("BoulderArea-write", () => {
+context("BoulderArea-write as admin", () => {
   beforeEach(() => {
     cy.task("loadDb");
-    cy.realLogin();
+    cy.realLogin("admin@fixture.com");
   });
 
   it("delete a boulder area", () => {
@@ -184,5 +184,48 @@ context("BoulderArea-write", () => {
         .find('[data-label="Emplacement parking"]')
         .should("not.contain", "Aucun");
     });
+  });
+});
+
+context("BoulderArea-write as contributor", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin();
+
+    cy.contains("Créer Secteur").click();
+    cy.get("h1").should("contain.text", 'Créer "Secteur"');
+
+    cy.get("input[name=BoulderArea\\[name\\]]").type("SNSM");
+    cy.get("select[name=BoulderArea\\[municipality\\]]").chooseOption(
+      "Kerlouan"
+    );
+    cy.get("button.action-save").contains("Créer").click();
+    cy.get("table tbody tr").should("have.length", 7);
+  });
+
+  it("cannot delete or edit a boulder are that does not belong to me", () => {
+    cy.get("input[name=query]").type("Cremiou").type("{enter}");
+    cy.get("table tbody tr")
+      .first()
+      .find("a.dropdown-toggle")
+      .click()
+      .next()
+      .find("a")
+      .should("have.length", 1);
+    cy.get("table tbody tr").first().find("a.dropdown-toggle").click();
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+  });
+
+  it("can delete a boulder area created by me", () => {
+    cy.get("input[name=query]").type("SNSM").type("{enter}");
+    cy.get("table tbody tr").first().deleteRow();
+    cy.get("input[name=query]").clear().type("{enter}");
+    cy.get("table tbody tr").should("have.length", 6);
+  });
+
+  it("can edit a boulder area created by me", () => {
+    cy.get("input[name=query]").type("SNSM").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.contains("Modifier Secteur");
   });
 });

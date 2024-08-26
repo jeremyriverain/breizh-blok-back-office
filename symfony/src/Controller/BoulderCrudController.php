@@ -100,7 +100,7 @@ class BoulderCrudController extends AbstractCrudController
             throw new \Exception("Instance of App\Entity\Boulder expected");
         }
 
-        if (!$this->isGranted(Roles::ADMIN) && $entity->getCreatedBy() !== $context->getUser()) {
+        if (!$this->isGranted(Roles::ADMIN->value) && $entity->getCreatedBy() !== $context->getUser()) {
             throw new AccessDeniedException();
         }
         /** @var \App\Repository\MediaRepository **/
