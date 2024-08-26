@@ -18,16 +18,13 @@ class MunicipalityFixtures extends Fixture implements DependentFixtureInterface
     {
         $lampaul_plouarzel = new Municipality();
         $lampaul_plouarzel->setName('Lampaul-Plouarzel');
-        $lampaul_plouarzel->setCode('29098');
         $lampaul_plouarzel->setDepartment($this->getDepartmentReference(DepartmentFixtures::FINISTERE));
         $manager->persist($lampaul_plouarzel);
 
         $kerlouan = new Municipality();
         $kerlouan->setName('Kerlouan');
-        $kerlouan->setCode('29091');
         $kerlouan->setDepartment($this->getDepartmentReference(DepartmentFixtures::FINISTERE));
         $manager->persist($kerlouan);
-
 
         $manager->flush();
 

@@ -67,20 +67,20 @@ context("Municipality as super admin", () => {
       "have.class",
       "is-invalid"
     );
-    cy.get("input[name=Municipality\\[code\\]]").should(
-      "have.class",
-      "is-invalid"
-    );
 
-    cy.get("input[name=Municipality\\[name\\]]").type("Locmaria-Plouzané");
-    cy.get("input[name=Municipality\\[code\\]]").type("29098");
+    cy.get("input[name=Municipality\\[name\\]]").type("Kerlouan");
+    cy.get("select[name=Municipality\\[department\\]]").chooseOption(
+      "Finistère"
+    );
     cy.get("button.action-save").contains("Créer").click();
-    cy.get("input[name=Municipality\\[code\\]]")
+    cy.get("input[name=Municipality\\[name\\]]")
       .next()
       .get(".invalid-feedback")
       .should("contain.text", "Cette valeur est déjà utilisée");
 
-    cy.get("input[name=Municipality\\[code\\]]").type("29130");
+    cy.get("input[name=Municipality\\[name\\]]")
+      .clear()
+      .type("Locmaria-Plouzané");
     cy.get("button.action-save").contains("Créer").click();
 
     cy.get("table tbody tr").should("have.length", 3);

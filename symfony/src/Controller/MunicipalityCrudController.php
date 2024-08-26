@@ -33,7 +33,6 @@ class MunicipalityCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Name'),
-            TextField::new('code', 'Code')->setHelp('helper_valid_code_department')->setPermission(Roles::SUPER_ADMIN->value),
             AssociationField::new('department', 'Department'),
             AssociationField::new('boulderAreas', 'Boulder_areas')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
         ];

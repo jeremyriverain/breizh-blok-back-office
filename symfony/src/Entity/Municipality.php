@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(),
     ]
 )]
-#[UniqueEntity('code')]
+#[UniqueEntity(fields: ['name', 'department'], ignoreNull: false)]
 class Municipality implements IZone
 {
     #[ORM\Id]
@@ -35,11 +35,6 @@ class Municipality implements IZone
     #[Assert\Length(max: 150)]
     #[Groups(["Boulder:read", "Department:read", "BoulderArea:read", "Municipality:read"])]
     private ?string $name;
-
-    #[ORM\Column(type: "string", length: 10, unique: true)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(max: 10)]
-    private ?string $code;
 
     /**
      * @var Collection<int, BoulderArea>|BoulderArea[]
@@ -81,18 +76,6 @@ class Municipality implements IZone
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
 
         return $this;
     }
