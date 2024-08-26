@@ -23,15 +23,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 )]
 #[ApiResource(
     openapi: false,
-    security: "is_granted('ROLE_USER')",
     normalizationContext: ['groups' => ['LineBoulder:read']],
     denormalizationContext: ['groups' => ['LineBoulder:write']],
     operations: [
-        new GetCollection(uriTemplate: '/admin/line_boulders'),
-        new Get(uriTemplate: '/admin/line_boulders/{id}'),
-        new Put(uriTemplate: '/admin/line_boulders/{id}'),
-        new Delete(uriTemplate: '/admin/line_boulders/{id}'),
-        new Post(uriTemplate: '/admin/line_boulders', validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']]),
+        new GetCollection(uriTemplate: '/admin/line_boulders', security: "is_granted('ROLE_CONTRIBUTOR')"),
+        new Get(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_CONTRIBUTOR')"),
+        new Put(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
+        new Delete(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
+        new Post(uriTemplate: '/admin/line_boulders', validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']], securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
     ],
 )]
 class LineBoulder

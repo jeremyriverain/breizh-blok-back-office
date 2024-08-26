@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Controller\Utils\Roles;
+use App\Utils\Roles;
 use App\Entity\Boulder;
 use App\Entity\BoulderArea;
 use App\Entity\Department;
@@ -25,9 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DashboardController extends AbstractDashboardController
 {
 
-    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
-    {
-    }
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator) {}
 
     private function redirectAdmin(): Response
     {

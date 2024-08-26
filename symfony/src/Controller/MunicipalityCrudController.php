@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Controller\Utils\Roles;
+use App\Utils\Roles;
 use App\Entity\Municipality;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;

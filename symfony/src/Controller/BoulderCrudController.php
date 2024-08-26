@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\Utils\Roles;
+use App\Utils\AllowContributionExpression;
+use App\Utils\Roles;
 use App\Entity\Boulder;
 use App\Entity\Media;
 use App\Field\GeoPointField;
@@ -23,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class BoulderCrudController extends AbstractCrudController
 {
@@ -74,7 +76,11 @@ class BoulderCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $this->drawLineActionFactory())
             ->add(Crud::PAGE_DETAIL, $this->drawLineActionFactory()->addCssClass('btn'))
             ->reorder(Crud::PAGE_DETAIL, [Action::DELETE, Action::INDEX, Action::EDIT, 'drawLine'])
-            ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::EDIT, 'drawLine', Action::DELETE]);
+            ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::EDIT, 'drawLine', Action::DELETE])
+            ->setPermission(Action::DELETE, new AllowContributionExpression())
+            ->setPermission(Action::EDIT, new AllowContributionExpression())
+            ->setPermission('drawLine', new AllowContributionExpression())
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -92,6 +98,10 @@ class BoulderCrudController extends AbstractCrudController
         $entity = $context->getEntity()->getInstance();
         if (!$entity instanceof Boulder) {
             throw new \Exception("Instance of App\Entity\Boulder expected");
+        }
+
+        if (!$this->isGranted(Roles::ADMIN) && $entity->getCreatedBy() !== $context->getUser()) {
+            throw new AccessDeniedException();
         }
         /** @var \App\Repository\MediaRepository **/
         $repository = $this->em->getRepository(Media::class);

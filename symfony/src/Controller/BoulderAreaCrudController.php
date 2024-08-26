@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\Utils\Roles;
+use App\Utils\AllowContributionExpression;
+use App\Utils\Roles;
 use App\Entity\BoulderArea;
 use App\Field\GeoPointField;
 use Doctrine\ORM\EntityManagerInterface;
@@ -75,6 +76,8 @@ class BoulderAreaCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
             ->remove(Crud::PAGE_INDEX, Action::BATCH_DELETE)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->setPermission(Action::DELETE, new AllowContributionExpression())
+            ->setPermission(Action::EDIT, new AllowContributionExpression());
     }
 }

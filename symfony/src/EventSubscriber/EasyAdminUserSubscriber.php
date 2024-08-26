@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Controller\Utils\Roles;
+use App\Utils\Roles;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -12,9 +12,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EasyAdminUserSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private Security $security, private AuthorizationCheckerInterface $authorizationChecker)
-    {
-    }
+    public function __construct(private Security $security, private AuthorizationCheckerInterface $authorizationChecker) {}
 
     public static function getSubscribedEvents(): array
     {
