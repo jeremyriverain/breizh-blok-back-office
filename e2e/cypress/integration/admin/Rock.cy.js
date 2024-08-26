@@ -19,6 +19,7 @@ context("Rock-read", () => {
   });
 
   it("show details", () => {
+    cy.get("input[name=query]").type("Menez Ham").type("{enter}");
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
     cy.get("h1").should("contain.text", "Menez Ham #");
     cy.get("#map")

@@ -5,7 +5,7 @@ context("User", () => {
     cy.task("loadDb");
   });
 
-  it("admins cannot access User section", () => {
+  it("users cannot access User section", () => {
     cy.realLogin();
     cy.get("#main-menu").contains("Utilisateurs").should("not.exist");
   });

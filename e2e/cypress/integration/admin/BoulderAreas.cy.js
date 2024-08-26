@@ -10,8 +10,6 @@ context("BoulderArea-read", () => {
 
   it("list boulder areas", () => {
     cy.get("table tbody tr").should("have.length", 6);
-    cy.get("table tbody tr").first().should("contain.text", "Bivouac");
-    cy.get("table tbody tr").last().should("contain.text", "Petit paradis");
 
     cy.get("input[name=query]").type("Cremiou").type("{enter}");
     cy.get("table tbody tr")
@@ -43,6 +41,7 @@ context("BoulderArea-write", () => {
   });
 
   it("delete a boulder area", () => {
+    cy.get("input[name=query]").type("Bivouac").type("{enter}");
     cy.get("table tbody tr").first().should("contain.text", "Bivouac");
     cy.get("table tbody tr").first().deleteRow();
     cy.get("table tbody tr").first().should("not.contain.text", "Bivouac");
@@ -62,8 +61,8 @@ context("BoulderArea-write", () => {
       "Kerlouan"
     );
     cy.get("button.action-save").contains("Créer").click();
-    cy.get("table tbody tr").last().should("contain.text", "SNSM");
-    cy.get("table tbody tr").last().should("contain.text", "Kerlouan");
+    cy.get("table tbody tr").first().should("contain.text", "SNSM");
+    cy.get("table tbody tr").first().should("contain.text", "Kerlouan");
   });
 
   it("does not fill parking location by default", () => {

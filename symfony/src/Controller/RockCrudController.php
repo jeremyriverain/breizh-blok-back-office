@@ -32,8 +32,9 @@ class RockCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Rock')
             ->setEntityLabelInPlural('Rocks')
+            ->setSearchFields(['boulderArea.name'])
             ->setFormOptions(['attr' => ['novalidate' => true]])
-            ->setDefaultSort(['id' => 'DESC'])
+            ->setDefaultSort(['createdAt' => 'DESC'])
             ->addFormTheme('form/theme.html.twig');
     }
 

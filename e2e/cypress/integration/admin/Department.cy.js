@@ -5,7 +5,7 @@ context("Department", () => {
     cy.task("loadDb");
   });
 
-  it("admins cannot access Department section", () => {
+  it("users cannot access Department section", () => {
     cy.realLogin();
     cy.get("#main-menu").contains("Départements").should("not.exist");
   });

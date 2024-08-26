@@ -27,9 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BoulderCrudController extends AbstractCrudController
 {
 
-    public function __construct(private EntityManagerInterface $em)
-    {
-    }
+    public function __construct(private EntityManagerInterface $em) {}
 
     public static function getEntityFqcn(): string
     {
@@ -41,7 +39,7 @@ class BoulderCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Boulder')
             ->setEntityLabelInPlural('Boulders')
-            ->setDefaultSort(['name' => 'ASC'])
+            ->setDefaultSort(['createdAt' => 'DESC'])
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 

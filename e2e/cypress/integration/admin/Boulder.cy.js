@@ -13,10 +13,6 @@ context("Boulders-read", () => {
   it("list boulder", () => {
     cy.get("table tbody tr").should("have.length", 4);
     cy.get("table tbody tr").first().as("firstBoulder");
-    cy.get("@firstBoulder").should("contain.text", "L'essai");
-    cy.get("@firstBoulder")
-      .find("td.cy-urban-boulder")
-      .should("contain.text", "Non");
   });
 
   it("filters boulders", () => {
@@ -43,7 +39,8 @@ context("Boulders-read", () => {
   });
 
   it("show details", () => {
-    cy.get("tr a.dropdown-toggle").last().takeAction("Consulter");
+    cy.get("input[name=query]").type("Stone").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
     cy.get("h1").should("contain.text", "Stone");
     cy.get("#map")
       .should("have.class", "leaflet-container")
@@ -80,6 +77,7 @@ context("Boulders-write", () => {
   });
 
   it("cannot draw line if no picture associated to the rock", () => {
+    cy.get("input[name=query]").type("L'essai").type("{enter}");
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
     cy.get("a").contains("Ligne du bloc").click();
     cy.get("h1").contains("Ligne du bloc");
@@ -91,7 +89,8 @@ context("Boulders-write", () => {
   });
 
   it("can draw line", () => {
-    cy.get("tr a.dropdown-toggle").last().takeAction("Ligne du bloc");
+    cy.get("input[name=query]").type("Stone").type("{enter}");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Ligne du bloc");
 
     cy.get("img[data-cy=drawing-image]")
       .should("be.visible")
