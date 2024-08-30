@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="form" class="invisible" style="height: 0">
+    <div ref="form">
       <slot name="form" />
     </div>
     <div v-if="!requiredField">
@@ -122,7 +122,7 @@ export default defineComponent({
 <style scoped>
 .map-container {
   width: 100%;
-  height: 400px;
+  height: 600px;
   position: relative;
 }
 
