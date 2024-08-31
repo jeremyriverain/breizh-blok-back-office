@@ -19,4 +19,18 @@ trait TimestampableTrait
         $this->createdAt = $dateTime;
         return $this;
     }
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $updatedAt;
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $dateTime): self
+    {
+        $this->updatedAt = $dateTime;
+        return $this;
+    }
 }

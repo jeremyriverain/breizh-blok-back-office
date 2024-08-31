@@ -10,11 +10,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preUpdate)]
 class IBlameableSubscriber
 {
-    public function __construct(private Security $security)
-    {
-    }
+    public function __construct(private Security $security) {}
 
     /**
      * @param LifecycleEventArgs<\Doctrine\ORM\EntityManager> $args
@@ -30,6 +29,23 @@ class IBlameableSubscriber
         $user = $this->security->getUser();
         if ($user instanceof User) {
             $entity->setCreatedBy($user);
+        }
+    }
+
+    /**
+     * @param LifecycleEventArgs<\Doctrine\ORM\EntityManager> $args
+     */
+    public function preUpdate(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        if (!$entity instanceof IBlameable) {
+            return;
+        }
+
+        $user = $this->security->getUser();
+        if ($user instanceof User) {
+            $entity->setUpdatedBy($user);
         }
     }
 }

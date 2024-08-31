@@ -20,4 +20,19 @@ trait BlameableTrait
         $this->createdBy = $user;
         return $this;
     }
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    private ?User $updatedBy;
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $user): self
+    {
+        $this->updatedBy = $user;
+        return $this;
+    }
 }

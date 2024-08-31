@@ -51,6 +51,28 @@ context("Boulders-read", () => {
   });
 });
 
+context("Boulders-write as superadmin", () => {
+  beforeEach(() => {
+    cy.task("loadDb");
+    cy.realLogin("super-admin@fixture.com");
+    cy.get("#main-menu").contains("Blocs").click();
+  });
+
+  it("updatedBy and updatedAt fields are automatically assigned", () => {
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+    cy.get(".cy_updated_at").contains("Mis à jour le");
+    cy.get(".cy_updated_at").should("contain", "Aucun(e)");
+    cy.get(".cy_updated_by").contains("Mis à jour par");
+    cy.get(".cy_updated_by").should("contain", "Aucun(e)");
+    cy.contains("Éditer").click();
+    cy.get("input[name=Boulder\\[name\\]]").clear().type("Foo");
+    cy.contains("Sauvegarder les modifications").click();
+    cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+    cy.get(".cy_updated_at").should("not.contain", "Aucun(e)");
+    cy.get(".cy_updated_by").should("contain", "super-admin@fixture.com");
+  });
+});
+
 context("Boulders-write as admin", () => {
   beforeEach(() => {
     cy.task("loadDb");

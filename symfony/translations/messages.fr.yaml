@@ -37,6 +37,8 @@ ROLE_ADMIN: ROLE_ADMIN
 ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR
 ROLE_USER: ROLE_USER
 ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
+Updated_at: Mis à jour le
+Updated_by: Mis à jour par
 Urban_boulder: Bloc urbain
 User: Utilisateur
 Users: Utilisateurs

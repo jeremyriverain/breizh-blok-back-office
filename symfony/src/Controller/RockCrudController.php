@@ -59,6 +59,8 @@ class RockCrudController extends AbstractCrudController
                 ->addCssClass('cy-pictures'),
             DateTimeField::new('createdAt', 'Created_at')->hideOnForm(),
             AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
+            DateTimeField::new('updatedAt', 'Updated_at')->hideOnForm(),
+            AssociationField::new('updatedBy', 'Updated_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 

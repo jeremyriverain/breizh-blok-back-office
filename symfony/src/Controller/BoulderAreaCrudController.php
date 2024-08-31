@@ -46,6 +46,8 @@ class BoulderAreaCrudController extends AbstractCrudController
             ArrayField::new('rocks', 'Boulders')->setCssClass('cy-boulders')->hideOnForm()->setTemplatePath('boulder-areas/rocks.html.twig'),
             DateTimeField::new('createdAt', 'Created_at')->hideOnForm(),
             AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
+            DateTimeField::new('updatedAt', 'Updated_at')->hideOnForm(),
+            AssociationField::new('updatedBy', 'Updated_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
         ];
     }
 

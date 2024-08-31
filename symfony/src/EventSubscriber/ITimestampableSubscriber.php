@@ -9,6 +9,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 #[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preUpdate)]
 class ITimestampableSubscriber
 {
     /**
@@ -22,5 +23,18 @@ class ITimestampableSubscriber
             return;
         }
         $entity->setCreatedAt(Carbon::now()->toImmutable());
+    }
+
+    /**
+     * @param LifecycleEventArgs<\Doctrine\ORM\EntityManager> $args
+     */
+    public function preUpdate(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        if (!$entity instanceof ITimestampable) {
+            return;
+        }
+        $entity->setUpdatedAt(Carbon::now()->toImmutable());
     }
 }
