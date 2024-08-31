@@ -69,7 +69,8 @@ class BoulderAreaCrudController extends AbstractCrudController
     {
         return $filters
             ->add(EntityFilter::new('municipality', 'Municipality'))
-            ->add(EntityFilter::new('createdBy', 'Created_by'));
+            ->add(EntityFilter::new('createdBy', 'Created_by'))
+            ->add(EntityFilter::new('updatedBy', 'Updated_by'));
     }
 
     public function configureActions(Actions $actions): Actions

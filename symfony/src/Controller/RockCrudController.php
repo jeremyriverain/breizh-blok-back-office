@@ -80,7 +80,9 @@ class RockCrudController extends AbstractCrudController
     {
         return $filters
             ->add(EntityFilter::new('boulderArea', 'Boulder_area'))
-            ->add(EntityFilter::new('createdBy', 'Created_by'));
+            ->add(EntityFilter::new('createdBy', 'Created_by'))
+            ->add(EntityFilter::new('updatedBy', 'Updated_by'))
+        ;
     }
 
     /** @phpstan-ignore-next-line */

@@ -90,6 +90,7 @@ class BoulderCrudController extends AbstractCrudController
         return $filters
             ->add(EntityFilter::new('rock', 'Rock'))
             ->add(EntityFilter::new('createdBy', 'Created_by'))
+            ->add(EntityFilter::new('updatedBy', 'Updated_by'))
             ->add(BooleanFilter::new('isUrban', 'Urban_boulder'))
             ->add(AdminBoulderAreaFilter::new('boulderArea'));
     }
