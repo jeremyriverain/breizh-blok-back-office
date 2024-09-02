@@ -9,7 +9,10 @@ use App\Entity\Media;
 use App\Field\GeoPointField;
 use App\Filters\Admin\BoulderAreaFilter as AdminBoulderAreaFilter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -53,7 +56,11 @@ class BoulderCrudController extends AbstractCrudController
             AssociationField::new('grade', 'Grade')->setCssClass('cy-grade'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             TextField::new('rock.boulderArea', 'Boulder_area')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
-            AssociationField::new('rock', 'Rock')->setFormTypeOption('group_by', 'boulderArea')->setCssClass(('cy-rocks'))->hideOnIndex(),
+            AssociationField::new('rock', 'Rock')->setCssClass(('cy-rocks'))->hideOnIndex()
+                ->setQueryBuilder(
+                    fn(QueryBuilder $queryBuilder) => $queryBuilder->addCriteria(Criteria::create()
+                        ->orderBy(['id' => Order::Descending]))
+                ),
             GeoPointField::new('rock.location', 'Position')->hideOnForm()->hideOnIndex()->setTemplatePath('common/geo-point.html.twig'),
             AssociationField::new('lineBoulders', 'Boulder_line')->hideOnForm()->setTemplatePath('boulders/line-boulders.html.twig')->setCssClass('vue-draw-line'),
             DateTimeField::new('createdAt', 'Created_at')->hideOnForm(),

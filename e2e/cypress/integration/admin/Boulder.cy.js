@@ -92,7 +92,7 @@ context("Boulders-write as admin", () => {
     cy.get("input[name=Boulder\\[name\\]]").should("have.class", "is-invalid");
 
     cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
-    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Menez Ham");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Menez Ham #3");
 
     cy.get("button.action-save").contains("Créer").click();
     cy.get("table tbody tr").should("have.length", 5);
@@ -182,7 +182,7 @@ context("Boulders-write as contributor", () => {
     cy.get("h1").should("contain.text", 'Créer "Bloc"');
     cy.get("button.action-save").contains("Créer").click();
     cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
-    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou #1");
 
     cy.get("button.action-save").contains("Créer").click();
     cy.get("table tbody tr").should("have.length", 5);
