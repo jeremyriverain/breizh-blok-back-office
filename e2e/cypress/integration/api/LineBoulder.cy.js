@@ -120,7 +120,7 @@ context("LineBoulder-write as contributor", () => {
     cy.get("h1").should("contain.text", 'Créer "Bloc"');
     cy.get("button.action-save").contains("Créer").click();
     cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
-    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou #1");
 
     cy.get("button.action-save").contains("Créer").click();
     cy.get("table tbody tr").should("have.length", 5);

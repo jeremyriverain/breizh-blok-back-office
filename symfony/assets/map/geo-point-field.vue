@@ -85,8 +85,8 @@ export default defineComponent({
     }
   },
   unmounted() {
-    this.latitudeInput.removeEventListener('change', this.syncMapFromInputs)
-    this.latitudeInput.removeEventListener('change', this.syncMapFromInputs)
+    this.latitudeInput?.removeEventListener('change', this.syncMapFromInputs)
+    this.latitudeInput?.removeEventListener('change', this.syncMapFromInputs)
   },
   methods: {
     syncMapFromInputs() {
