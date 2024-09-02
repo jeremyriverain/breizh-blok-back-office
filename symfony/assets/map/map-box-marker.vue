@@ -29,11 +29,14 @@ export default defineComponent({
     }
   },
   watch: {
-    lngLat(newValue) {
-      if (!this.markerInstance) {
-        return
-      }
-      this.markerInstance.setLatLng(newValue)
+    latLng: {
+      handler(newValue) {
+        if (!this.markerInstance) {
+          return
+        }
+        this.markerInstance.setLatLng(newValue)
+      },
+      deep: true,
     },
     map(map: Map) {
       if (!map) {

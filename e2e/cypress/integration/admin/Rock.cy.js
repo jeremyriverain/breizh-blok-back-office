@@ -72,11 +72,20 @@ context("Rock-write as admin", () => {
       .get("img.leaflet-marker-icon");
     cy.get("[data-cy=longitude]").then(($el) => {
       const lng = $el.text();
+      cy.log(`initial longitude: ${lng}`);
       expect(lng.length).to.greaterThan(0);
+      cy.get("a.action-edit").contains("Éditer").click();
+      cy.get("input#Rock_location_longitude").clear().type(4);
+      cy.get("button").contains("Sauvegarder les modifications").click();
+      cy.get("tr a.dropdown-toggle").last().takeAction("Consulter");
+
+      cy.get("[data-cy=longitude]").should(($el2) => {
+        expect($el2.text()).eq("4");
+      });
     });
     cy.get("[data-cy=latitude]").then(($el) => {
       const lat = $el.text();
-      cy.log(lat);
+      cy.log(`initial latitude: ${lat}`);
       expect(lat.length).to.greaterThan(0);
 
       cy.get("a.action-edit").contains("Éditer").click();
@@ -85,6 +94,7 @@ context("Rock-write as admin", () => {
         .trigger("mousemove", { clientX: 600 })
         .trigger("mouseup", { force: true });
       cy.get("button").contains("Sauvegarder les modifications").click();
+      cy.get("tr a.dropdown-toggle").last().takeAction("Consulter");
 
       cy.get("[data-cy=latitude]").should(($el2) => {
         expect($el2.text()).not.to.eq(lat);

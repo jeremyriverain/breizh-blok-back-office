@@ -77,10 +77,16 @@ export default defineComponent({
     if (!this.latitudeInput || !this.longitudeInput) {
       throw new Error('latitude and longitude inputs should exist')
     }
+    this.latitudeInput.addEventListener('change', this.syncMapFromInputs)
+    this.latitudeInput.addEventListener('change', this.syncMapFromInputs)
     this.syncMapFromInputs()
     if (this.requiredField || this.areInputsInitiallyHydrated) {
       this.showMap = true
     }
+  },
+  unmounted() {
+    this.latitudeInput.removeEventListener('change', this.syncMapFromInputs)
+    this.latitudeInput.removeEventListener('change', this.syncMapFromInputs)
   },
   methods: {
     syncMapFromInputs() {
