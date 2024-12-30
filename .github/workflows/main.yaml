@@ -72,7 +72,7 @@ jobs:
           DATABASE_URL: ${{secrets.DATABASE_URL_TEST}}
           NEON_API_KEY: ${{secrets.NEON_API_KEY}}
           NEON_PROJECT_ID: ${{secrets.NEON_PROJECT_ID_TEST}}
-          DATABASE_BRANCH_NAME: ${{github.run_number}}
+          DATABASE_BRANCH_NAME: ${{github.run_id}}
         run: docker compose exec -T cypress bash -c "DATABASE_BRANCH_NAME=$DATABASE_BRANCH_NAME npm run cy:run"
 
       - name: prepare deploy
@@ -96,6 +96,10 @@ jobs:
         if: always()
         env:
           GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
+      - name: clean-db
+        run: curl http://localhost:3333/test/clean-db/${{github.run_id}}
+        if: always()
+        continue-on-error: true
       - name: artifacts
         uses: actions/upload-artifact@v4
         if: always()

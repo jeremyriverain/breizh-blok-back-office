@@ -26,11 +26,6 @@ module.exports = defineConfig({
           config.baseUrl + `/test/init-db/${databaseBranchName}`
         );
       });
-      on("after:run", async () => {
-        return await ofetch(
-          config.baseUrl + `/test/clean-db/${databaseBranchName}`
-        );
-      });
       on("task", {
         async loadDb() {
           return await ofetch(
