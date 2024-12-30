@@ -1,6 +1,5 @@
 const { defineConfig } = require("cypress");
 const { ofetch } = require("ofetch");
-const { v4: uuidv4 } = require("uuid");
 const runBaseUrl = "http://app_test";
 
 function getMailCatcherUrl(baseUrl) {
@@ -9,8 +8,8 @@ function getMailCatcherUrl(baseUrl) {
     : "http://localhost:1080";
 }
 
-const isCI = !!process.env.CI;
-const databaseBranchName = isCI ? uuidv4() : "main";
+const databaseBranchName = process.env.DATABASE_BRANCH_NAME ?? "main";
+
 module.exports = defineConfig({
   e2e: {
     baseUrl: runBaseUrl,

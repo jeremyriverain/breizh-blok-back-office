@@ -72,7 +72,8 @@ jobs:
           DATABASE_URL: ${{secrets.DATABASE_URL_TEST}}
           NEON_API_KEY: ${{secrets.NEON_API_KEY}}
           NEON_PROJECT_ID: ${{secrets.NEON_PROJECT_ID_TEST}}
-        run: docker compose exec -T cypress bash -c "npm run cy:run"
+          DATABASE_BRANCH_NAME: ${{github.run_number}}
+        run: docker compose exec -T cypress bash -c "DATABASE_BRANCH_NAME=$DATABASE_BRANCH_NAME npm run cy:run"
 
       - name: prepare deploy
         if: steps.prepare.outputs.branch == 'main'
