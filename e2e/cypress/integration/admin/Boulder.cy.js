@@ -59,15 +59,17 @@ context("Boulders-write as superadmin", () => {
   });
 
   it("updatedBy and updatedAt fields are automatically assigned", () => {
+    cy.contains("Nom").click();
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
     cy.get(".cy_updated_at").contains("Mis à jour le");
     cy.get(".cy_updated_at").should("contain", "Aucun(e)");
     cy.get(".cy_updated_by").contains("Mis à jour par");
     cy.get(".cy_updated_by").should("contain", "Aucun(e)");
     cy.contains("Éditer").click();
-    cy.get("input[name=Boulder\\[name\\]]").clear().type("Foo");
+    cy.get("input[name=Boulder\\[name\\]]").clear().type("Zzz");
     cy.contains("Sauvegarder les modifications").click();
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
+    cy.contains("Zzz");
     cy.get(".cy_updated_at").should("not.contain", "Aucun(e)");
     cy.get(".cy_updated_by").should("contain", "super-admin@fixture.com");
   });
@@ -92,7 +94,7 @@ context("Boulders-write as admin", () => {
     cy.get("input[name=Boulder\\[name\\]]").should("have.class", "is-invalid");
 
     cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
-    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Menez Ham #3");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Menez Ham");
 
     cy.get("button.action-save").contains("Créer").click();
     cy.get("table tbody tr").should("have.length", 5);
@@ -182,7 +184,7 @@ context("Boulders-write as contributor", () => {
     cy.get("h1").should("contain.text", 'Créer "Bloc"');
     cy.get("button.action-save").contains("Créer").click();
     cy.get("input[name=Boulder\\[name\\]]").type("La route du rhum");
-    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou #1");
+    cy.get("select[name=Boulder\\[rock\\]]").chooseOption("Cremiou");
 
     cy.get("button.action-save").contains("Créer").click();
     cy.get("table tbody tr").should("have.length", 5);
