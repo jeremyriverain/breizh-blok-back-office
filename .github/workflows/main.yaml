@@ -7,8 +7,8 @@ jobs:
     name: main
     runs-on: ubuntu-22.04
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     steps:
       - uses: actions/checkout@v4
       - name: setup node
@@ -20,7 +20,7 @@ jobs:
         run: |
           echo $GITHUB_REF_NAME
           echo "branch=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
-      - uses: 'google-github-actions/auth@v2'
+      - uses: "google-github-actions/auth@v2"
         with:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID_TEST }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
@@ -69,10 +69,10 @@ jobs:
         if: steps.prepare.outputs.branch == 'main'
         run: echo $HOSTS | base64 -d > deploy_hosts.php
         env:
-          HOSTS : ${{secrets.HOSTS}}
+          HOSTS: ${{secrets.HOSTS}}
       - name: deploy
         env:
-          HOSTS : ${{secrets.HOSTS}}
+          HOSTS: ${{secrets.HOSTS}}
         if: steps.prepare.outputs.branch == 'main'
         uses: deployphp/action@v1
         with:
@@ -94,3 +94,4 @@ jobs:
           path: |
             e2e/cypress/videos
             e2e/cypress/screenshots
+            symfony/var/log

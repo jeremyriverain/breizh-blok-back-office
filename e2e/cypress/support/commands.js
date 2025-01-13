@@ -39,21 +39,31 @@ Cypress.Commands.add(
 
 Cypress.Commands.add("realLogin", (email = "contributor@fixture.com") => {
   cy.task("fetchEmails").as("beforeEmails");
-  cy.visit("/admin/login", { failOnStatusCode: false });
-  cy.get("input[name=email]").clear().type(email);
-  cy.contains("Envoyer lien").click();
-  // cy.wait(100)
-  cy.task("fetchEmails").then((emails) => {
-    cy.get("@beforeEmails").then((beforeEmails) => {
-      if (beforeEmails.length === emails.length) {
-        cy.log("authentication failed");
-        return;
-      }
-      cy.task("fetchEmail", emails[emails.length - 1].id).then((email) => {
-        const loginUrl = email
-          .match(/Se connecter: (.*)/g)[0]
-          .replace("Se connecter: ", "");
-        cy.visit(loginUrl, { failOnStatusCode: false });
+  const body = new URLSearchParams();
+  body.append("email", email);
+  cy.request({
+    method: "POST",
+    url: "/admin/login/fr",
+    failOnStatusCode: false,
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+    body: Object.fromEntries(body),
+    "content-type": "application/x-www-form-urlencoded",
+  }).then((r) => {
+    // cy.wait(200);
+    cy.task("fetchEmails").then((emails) => {
+      cy.get("@beforeEmails").then((beforeEmails) => {
+        if (beforeEmails.length === emails.length) {
+          cy.log("authentication failed");
+          return;
+        }
+        cy.task("fetchEmail", emails[emails.length - 1].id).then((email) => {
+          const loginUrl = email
+            .match(/Se connecter: (.*)/g)[0]
+            .replace("Se connecter: ", "");
+          cy.visit(loginUrl, { failOnStatusCode: false });
+        });
       });
     });
   });

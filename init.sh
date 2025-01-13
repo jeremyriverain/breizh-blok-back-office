@@ -6,7 +6,7 @@ set -e
 docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) # --no-cache --pull
 
 # Lance les conteneurs de l'application
-docker compose up -d
+docker compose up -d --remove-orphans
 
 # Démarre l'API permettant de sauvegarder et charger la base de données à la volée durant les tests E2E.
 docker compose exec db bash -c "npm run start"

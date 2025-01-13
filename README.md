@@ -16,6 +16,8 @@ git clone git@github.com:jeremyriverain/breizh-blok-back-office.git
 cd breizh-blok-back-office
 ```
 
+2. Renseignez les variables d'environnement `GCLOUD_PROJECT_ID`, `GCLOUD_BUCKET_ID` dans le fichier `.env.local`
+
 2. Exécutez le script d'initialisation Docker
 
 ```bash
@@ -60,6 +62,7 @@ mysql -u root -p
 
 Le mot de passe est `root`.
 
+
 ## Lancer l'analyse statique de code
 
 [PHP Stan](https://github.com/phpstan/phpstan) est utilisé pour l'analyse statique de code. Pour la lancer, accéder au conteneur `php` et exécuter le script `composer` approprié:
@@ -78,7 +81,7 @@ composer run phpunit
 
 ## Lancer les tests Cypress
 
-Créez un fichier `.env.test.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID` et `GCLOUD_BUCKET_ID`.
+Créez un fichier `.env.test.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID`, `GCLOUD_BUCKET_ID`.
 
 En mode headless:
 
