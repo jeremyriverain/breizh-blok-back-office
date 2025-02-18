@@ -1,0 +1,11 @@
+{% if field.value == null %}
+    <div>
+		<span class="badge badge-secondary">{{'Nothing'|trans }}</span>
+	</div>
+{% elseif field.value.min == 0 and field.value.max != null %}
+	{{ 'heightLessThan'|trans({'%value%': field.value.max}) }}
+{% elseif field.value.max != null %}
+	{{ 'heightBetween'|trans({'%min%': field.value.min, '%max%': field.value.max}) }}
+{% else %}
+	{{ 'heightMoreThan'|trans({'%value%': field.value.min}) }}
+{% endif %}

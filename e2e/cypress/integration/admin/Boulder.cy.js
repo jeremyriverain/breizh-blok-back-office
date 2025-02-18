@@ -38,6 +38,19 @@ context("Boulders-read", () => {
     cy.get("table tbody tr").first().should("contain.text", "Stone");
   });
 
+  it("filters height boulders", () => {
+    cy.get("table tbody tr").should("have.length", 4);
+    cy.get("a.action-filters-button").click();
+    cy.get("[data-filter-property=height] input[type=checkbox]").check();
+    cy.get("select[name=filters\\[height\\]\\[value\\]]").select(
+      "Moins de 3m",
+      { force: true }
+    );
+    cy.get("#modal-filters button#modal-apply-button").click();
+    cy.get("table tbody tr").should("have.length", 1);
+    cy.get("table tbody tr").first().should("contain.text", "Stone");
+  });
+
   it("show details", () => {
     cy.get("input[name=query]").type("Stone").type("{enter}");
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
@@ -48,6 +61,8 @@ context("Boulders-read", () => {
     cy.get(".drawing-container svg path")
       .invoke("attr", "d")
       .should("match", /^M474/);
+
+    cy.contains("Moins de 3m");
   });
 });
 

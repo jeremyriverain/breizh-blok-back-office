@@ -29,6 +29,7 @@ context("Boulder", () => {
       expect(
         response.body["hydra:member"][0].lineBoulders[0].rockImage.contentUrl
       ).not.to.be.empty;
+      expect(response.body["hydra:member"][0].height).to.be.undefined;
     });
 
     cy.request({
@@ -102,6 +103,8 @@ context("Boulder", () => {
       );
       expect(response.body.lineBoulders[0].rockImage.contentUrl).not.to.be
         .empty;
+      expect(response.body.height.min).eq(0);
+      expect(response.body.height.max).eq(3);
     });
   });
 

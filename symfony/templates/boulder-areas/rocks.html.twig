@@ -49,6 +49,6 @@
 {% else %}
 	{% set bouldersLength = boulders|length %}
 	<div>
-		<span class="badge badge-secondary">{{bouldersLength == 0 ? 'Aucun' : bouldersLength }}</span>
+		<span class="badge badge-secondary">{{bouldersLength == 0 ? 'Nothing'|trans : bouldersLength }}</span>
 	</div>
 {% endif %}

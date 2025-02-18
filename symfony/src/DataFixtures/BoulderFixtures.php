@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Boulder;
 use App\Entity\Grade;
+use App\Entity\HeightBoulder;
 use App\Entity\Rock;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -23,6 +24,7 @@ class BoulderFixtures extends Fixture implements DependentFixtureInterface
         $stone->setRock($this->getRockReference(RockFixtures::ROCK_CREMIOU));
         $stone->setDescription('Un rétablissement sur 2 bonnes réglettes');
         $stone->setIsUrban(true);
+        $stone->setHeight($this->getHeightReference(HeightBoulderFixtures::LESS_THAN_3));
         $manager->persist($stone);
 
         $monkey = new Boulder();
@@ -62,6 +64,12 @@ class BoulderFixtures extends Fixture implements DependentFixtureInterface
     {
         $ref = $this->getReference($value);
         return $ref instanceof Grade ? $ref : throw new \Exception("value should be an instance of Grade");
+    }
+
+    private function getHeightReference(string $value): HeightBoulder
+    {
+        $ref = $this->getReference($value);
+        return $ref instanceof HeightBoulder ? $ref : throw new \Exception("value should be an instance of HeightBoulder");
     }
 
     public function getDependencies()

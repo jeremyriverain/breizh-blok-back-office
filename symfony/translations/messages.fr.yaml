@@ -1,5 +1,6 @@
 add: ajouter
 Add_pictures: Ajouter des photos
+Nothing: Aucun
 Back_to_listing: Retour à la liste
 Boulder_area: Secteur
 Boulder_areas: Secteurs
@@ -18,11 +19,18 @@ Draw_line.cannot_edit: Vous ne pouvez pas dessiner la ligne de bloc car aucune p
 Email: Email
 Grade: Cotation
 Grades: Cotations
+Height: Hauteur
+Heights: Hauteurs
+heightBetween: Entre %min% et %max%m
+heightLessThan: Moins de %value%m
+heightMoreThan: Plus de %value%m
 helper_valid_code_department: voir https://api.gouv.fr/documentation/api-geo pour récupérer un code valide	
 ID: ID
 Last_connection: Dernière connexion
 Latitude: Latitude
 Longitude: Longitude
+Max: Max
+Min: Min
 Municipalities: Communes
 Municipality: Commune
 My_profile: Mon profil

@@ -89,6 +89,11 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[Groups(['Boulder:read'])]
     private ?bool $isUrban = false;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    #[Groups(['Boulder:item-get'])]
+    private ?HeightBoulder $height = null;
+
     public function __construct()
     {
         $this->lineBoulders = new ArrayCollection();
@@ -203,6 +208,18 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     public function setIsUrban(bool $isUrban): static
     {
         $this->isUrban = $isUrban;
+
+        return $this;
+    }
+
+    public function getHeight(): ?HeightBoulder
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?HeightBoulder $height): static
+    {
+        $this->height = $height;
 
         return $this;
     }

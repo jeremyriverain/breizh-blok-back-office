@@ -7,6 +7,7 @@ use App\Entity\Boulder;
 use App\Entity\BoulderArea;
 use App\Entity\Department;
 use App\Entity\Grade;
+use App\Entity\HeightBoulder;
 use App\Entity\Municipality;
 use App\Entity\Rock;
 use App\Entity\User;
@@ -68,10 +69,11 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Rocks', 'fas fa-cube', Rock::class);
         yield MenuItem::linkToCrud('Boulders', 'fas fa-level-up-alt', Boulder::class);
 
-        yield MenuItem::section('Configuration');
+        yield MenuItem::section('Configuration')->setPermission(Roles::SUPER_ADMIN->value);
 
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class)->setPermission(Roles::SUPER_ADMIN->value);
-        yield MenuItem::linkToCrud('Grades', 'fas fa-ruler-vertical', Grade::class);
+        yield MenuItem::linkToCrud('Grades', 'fas fa-ruler-vertical', Grade::class)->setPermission(Roles::SUPER_ADMIN->value);
+        yield MenuItem::linkToCrud('Heights', 'fas fa-ruler-vertical', HeightBoulder::class)->setPermission(Roles::SUPER_ADMIN->value);
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu

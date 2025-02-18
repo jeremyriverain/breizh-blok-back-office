@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Utils\AllowContributionExpression;
 use App\Utils\Roles;
 use App\Entity\Boulder;
+use App\Entity\HeightBoulder;
 use App\Entity\Media;
 use App\Field\GeoPointField;
 use App\Filters\Admin\BoulderAreaFilter as AdminBoulderAreaFilter;
+use App\Repository\HeightBoulderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
@@ -28,11 +30,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BoulderCrudController extends AbstractCrudController
 {
 
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em, private TranslatorInterface $translator) {}
 
     public static function getEntityFqcn(): string
     {
@@ -54,6 +57,17 @@ class BoulderCrudController extends AbstractCrudController
             TextField::new('name', 'Name'),
             BooleanField::new('isUrban')->setLabel('Urban_boulder')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
             AssociationField::new('grade', 'Grade')->setCssClass('cy-grade'),
+            AssociationField::new('height', 'Height')->hideOnIndex()->setCssClass('cy-height')->setFormTypeOptions([
+                'query_builder' => function (HeightBoulderRepository $repository) {
+                    return self::orderHeightBoulders($repository);
+                },
+                'choice_label' => function (HeightBoulder $height) {
+                    return HeightBoulder::trans(
+                        translator: $this->translator,
+                        heightBoulder: $height
+                    );
+                },
+            ])->setTemplatePath('boulders/height.html.twig'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             TextField::new('rock.boulderArea', 'Boulder_area')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
             AssociationField::new('rock', 'Rock')->setCssClass(('cy-rocks'))->hideOnIndex()
@@ -70,7 +84,7 @@ class BoulderCrudController extends AbstractCrudController
         ];
     }
 
-    private function drawLineActionFactory(): Action
+    private static function drawLineActionFactory(): Action
     {
         return  Action::new('drawLine', 'Boulder_line')->linkToCrudAction('drawLine');
     }
@@ -92,6 +106,11 @@ class BoulderCrudController extends AbstractCrudController
         ;
     }
 
+    private static function orderHeightBoulders(HeightBoulderRepository $repository): QueryBuilder
+    {
+        return $repository->createQueryBuilder('c')->orderBy('c.min', 'ASC');
+    }
+
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
@@ -99,6 +118,22 @@ class BoulderCrudController extends AbstractCrudController
             ->add(EntityFilter::new('createdBy', 'Created_by'))
             ->add(EntityFilter::new('updatedBy', 'Updated_by'))
             ->add(BooleanFilter::new('isUrban', 'Urban_boulder'))
+            ->add(
+                EntityFilter::new('height', 'Height')
+                    ->setFormTypeOption(
+                        'value_type_options.query_builder',
+                        static fn(HeightBoulderRepository $repository) => self::orderHeightBoulders($repository)
+                    )
+                    ->setFormTypeOption(
+                        'value_type_options.choice_label',
+                        function (HeightBoulder $height) {
+                            return HeightBoulder::trans(
+                                translator: $this->translator,
+                                heightBoulder: $height
+                            );
+                        },
+                    )
+            )
             ->add(AdminBoulderAreaFilter::new('boulderArea'));
     }
 
