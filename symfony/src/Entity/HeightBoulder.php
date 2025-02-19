@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\HeightBoulderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +19,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     errorPath: 'min',
     message: 'theCombinationOfMinAndMaxAlreadyExist',
 )]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['HeightBoulder:read']],
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    paginationClientEnabled: true
+)]
 class HeightBoulder
 {
     #[ORM\Id]
