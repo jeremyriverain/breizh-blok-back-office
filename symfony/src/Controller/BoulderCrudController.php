@@ -48,6 +48,7 @@ class BoulderCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Boulder')
             ->setEntityLabelInPlural('Boulders')
             ->setDefaultSort(['createdAt' => 'DESC'])
+            ->setPaginatorPageSize(10)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 
