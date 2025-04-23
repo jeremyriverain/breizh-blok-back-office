@@ -26,6 +26,7 @@ class MunicipalityCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Municipality')
             ->setEntityLabelInPlural('Municipalities')
             ->setDefaultSort(['name' => 'ASC'])
+            ->setPageTitle('detail', fn(Municipality $municipality) => (string) $municipality)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 

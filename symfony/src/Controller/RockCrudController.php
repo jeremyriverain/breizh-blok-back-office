@@ -37,6 +37,7 @@ class RockCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->setFormOptions(['attr' => ['novalidate' => true]])
             ->setDefaultSort(['createdAt' => 'DESC'])
+            ->setPageTitle('detail', fn(Rock $rock) => (string) $rock)
             ->addFormTheme('form/theme.html.twig');
     }
 

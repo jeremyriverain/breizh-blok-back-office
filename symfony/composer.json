@@ -12,7 +12,7 @@
     "doctrine/doctrine-bundle": "^2.14.0",
     "doctrine/doctrine-migrations-bundle": "^3.4.0",
     "doctrine/orm": "^2.20.0",
-    "easycorp/easyadmin-bundle": "~4.9.3",
+    "easycorp/easyadmin-bundle": "^4.24",
     "league/flysystem-bundle": "^3.4",
     "league/flysystem-google-cloud-storage": "^3.28",
     "liip/imagine-bundle": "^2.13",

@@ -27,6 +27,7 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('User')
             ->setEntityLabelInPlural('Users')
             ->setFormOptions(['validation_groups' => ['Default', 'registration'], 'attr' => ['novalidate' => true]], ['validation_groups' => ['Default'], 'attr' => ['novalidate' => true]])
+            ->setPageTitle('detail', fn(User $user) => (string) $user)
             ->setDefaultSort(['email' => 'ASC']);
     }
 

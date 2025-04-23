@@ -33,6 +33,7 @@ class BoulderAreaCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Boulder_areas')
             ->setDefaultSort(['createdAt' => 'DESC'])
             ->setFormOptions(['attr' => ['novalidate' => true]])
+            ->setPageTitle('detail', fn(BoulderArea $boulderArea) => (string) $boulderArea)
             ->addFormTheme('form/theme.html.twig');
     }
 

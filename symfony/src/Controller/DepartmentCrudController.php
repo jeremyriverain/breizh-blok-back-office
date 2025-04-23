@@ -24,6 +24,7 @@ class DepartmentCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Department')
             ->setEntityLabelInPlural('Departments')
             ->setDefaultSort(['name' => 'ASC'])
+            ->setPageTitle('detail', fn(Department $department) => (string) $department)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 
