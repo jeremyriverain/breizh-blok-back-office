@@ -34,17 +34,15 @@ class LineBoulderFixtures extends Fixture implements DependentFixtureInterface
 
     private function getBoulderReference(string $value): Boulder
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Boulder ? $ref : throw new \Exception("value should be an instance of Boulder");
+        return $this->getReference($value, 'App\Entity\Boulder');
     }
 
     private function getMediaReference(string $value): Media
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Media ? $ref : throw new \Exception("value should be an instance of Media");
+        return $this->getReference($value, 'App\Entity\Media');
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             BoulderFixtures::class,

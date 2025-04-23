@@ -114,7 +114,7 @@ context("BoulderArea-write as admin", () => {
             .closest("tr")
             .find("a.dropdown-toggle")
             .first()
-            .takeAction("Éditer");
+            .takeAction("Modifier");
           cy.get("[data-cy=geo-point-field-map-box]");
           cy.get("[data-cy=geo-point-field-toggler-btn]").contains("Supprimer");
 
@@ -139,7 +139,7 @@ context("BoulderArea-write as admin", () => {
         .closest("tr")
         .find("a.dropdown-toggle")
         .first()
-        .takeAction("Éditer");
+        .takeAction("Modifier");
 
       cy.get("[data-cy=geo-point-field-toggler-btn]")
         .contains("Supprimer")
@@ -225,7 +225,7 @@ context("BoulderArea-write as contributor", () => {
 
   it("can edit a boulder area created by me", () => {
     cy.get("input[name=query]").type("SNSM").type("{enter}");
-    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Modifier");
     cy.contains("Modifier Secteur");
   });
 });

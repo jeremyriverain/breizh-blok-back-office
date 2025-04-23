@@ -9,17 +9,14 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\State\SerializerContextBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 
 final class ApiContextBuilder implements SerializerContextBuilderInterface
 {
-    public function __construct(private SerializerContextBuilderInterface $decorated)
-    {
-    }
+    public function __construct(private SerializerContextBuilderInterface $decorated) {}
 
     /**
-     * @return array<string>
      * @phpstan-ignore-next-line
      */
     public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array
@@ -41,6 +38,9 @@ final class ApiContextBuilder implements SerializerContextBuilderInterface
 
         $operationType = '';
 
+        /**
+         * @phpstan-ignore-next-line
+         */
         switch (get_class($context['operation'])) {
             case GetCollection::class:
                 $operationType = 'collection-get';
@@ -64,6 +64,9 @@ final class ApiContextBuilder implements SerializerContextBuilderInterface
                 throw new \Exception("opreration not implemented");
         }
 
+        /**
+         * @phpstan-ignore-next-line
+         */
         $context['groups'] = array_merge($this->getCommonContextGroups($className, $normalization, $operationType), $context['groups']);
 
         return $context;

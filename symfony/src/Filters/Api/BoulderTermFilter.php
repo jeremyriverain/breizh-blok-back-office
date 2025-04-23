@@ -41,7 +41,6 @@ final class BoulderTermFilter extends AbstractFilter
         }
     }
 
-    // @phpstan-ignore-next-line
     public function getDescription(string $resourceClass): array
     {
         $description = [];

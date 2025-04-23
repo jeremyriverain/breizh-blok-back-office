@@ -56,6 +56,7 @@ class User implements UserInterface
 
     /**
      * A visual identifier that represents this user.
+     * @return string
      *
      * @see UserInterface
      */

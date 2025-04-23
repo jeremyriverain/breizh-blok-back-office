@@ -79,7 +79,7 @@ context("Boulders-write as superadmin", () => {
     cy.get(".cy_updated_at").should("contain", "Aucun(e)");
     cy.get(".cy_updated_by").contains("Mis à jour par");
     cy.get(".cy_updated_by").should("contain", "Aucun(e)");
-    cy.contains("Éditer").click();
+    cy.contains("Modifier").click();
     cy.get("input[name=Boulder\\[name\\]]").clear().type("Foo");
     cy.contains("Sauvegarder les modifications").click();
     cy.get("tr a.dropdown-toggle").first().takeAction("Consulter");
@@ -226,7 +226,7 @@ context("Boulders-write as contributor", () => {
 
   it("i can edit a boulder created by me", () => {
     cy.get("input[name=query]").type("La route du rhum").type("{enter}");
-    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Modifier");
     cy.contains("Modifier Bloc");
   });
 

@@ -74,7 +74,7 @@ context("Rock-write as admin", () => {
       const lng = $el.text();
       cy.log(`initial longitude: ${lng}`);
       expect(lng.length).to.greaterThan(0);
-      cy.get("a.action-edit").contains("Éditer").click();
+      cy.get("a.action-edit").contains("Modifier").click();
       cy.get("input#Rock_location_longitude").clear().type(4);
       cy.get("button").contains("Sauvegarder les modifications").click();
       cy.get("tr a.dropdown-toggle").last().takeAction("Consulter");
@@ -88,7 +88,7 @@ context("Rock-write as admin", () => {
       cy.log(`initial latitude: ${lat}`);
       expect(lat.length).to.greaterThan(0);
 
-      cy.get("a.action-edit").contains("Éditer").click();
+      cy.get("a.action-edit").contains("Modifier").click();
       cy.get("img.leaflet-marker-icon")
         .trigger("mousedown", { which: 1 })
         .trigger("mousemove", { clientX: 600 })
@@ -145,7 +145,7 @@ context("Rock-write as contributor", () => {
 
   it("can edit a rock created by me", () => {
     cy.get("input[name=query]").type("Petit paradis").type("{enter}");
-    cy.get("tr a.dropdown-toggle").first().takeAction("Éditer");
+    cy.get("tr a.dropdown-toggle").first().takeAction("Modifier");
     cy.contains("Modifier Rocher");
   });
 });

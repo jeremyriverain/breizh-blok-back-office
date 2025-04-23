@@ -34,11 +34,10 @@ class MunicipalityFixtures extends Fixture implements DependentFixtureInterface
 
     private function getDepartmentReference(string $value): Department
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Department ? $ref : throw new \Exception("value should be an instance of Department");
+        return $this->getReference($value, 'App\Entity\Department');
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             DepartmentFixtures::class

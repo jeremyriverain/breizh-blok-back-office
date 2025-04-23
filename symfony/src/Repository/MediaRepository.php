@@ -29,7 +29,6 @@ class MediaRepository extends ServiceEntityRepository
      */
     public function findByRockAndBoulder(Rock $rock, Boulder $boulder)
     {
-        // @phpstan-ignore-next-line
         return $this->createQueryBuilder('m')
             ->andWhere('m.rock = :rock')
             ->setParameter('rock', $rock)

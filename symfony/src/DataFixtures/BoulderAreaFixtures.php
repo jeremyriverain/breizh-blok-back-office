@@ -54,11 +54,10 @@ class BoulderAreaFixtures extends Fixture implements DependentFixtureInterface
 
     private function getMunicipalityReference(string $value): Municipality
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Municipality ? $ref : throw new \Exception("value should be an instance of Municipality");
+        return $this->getReference($value, 'App\Entity\Municipality');
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             MunicipalityFixtures::class,

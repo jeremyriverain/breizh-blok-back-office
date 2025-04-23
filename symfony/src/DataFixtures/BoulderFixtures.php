@@ -56,23 +56,20 @@ class BoulderFixtures extends Fixture implements DependentFixtureInterface
 
     private function getRockReference(string $value): Rock
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Rock ? $ref : throw new \Exception("value should be an instance of Rock");
+        return $this->getReference($value, 'App\Entity\Rock');
     }
 
     private function getGradeReference(string $value): Grade
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Grade ? $ref : throw new \Exception("value should be an instance of Grade");
+        return $this->getReference($value, 'App\Entity\Grade');
     }
 
     private function getHeightReference(string $value): HeightBoulder
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof HeightBoulder ? $ref : throw new \Exception("value should be an instance of HeightBoulder");
+        return $this->getReference($value, 'App\Entity\HeightBoulder');
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             GradeFixtures::class,

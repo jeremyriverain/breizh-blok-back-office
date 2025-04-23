@@ -55,17 +55,15 @@ class RockFixtures extends Fixture implements DependentFixtureInterface
 
     private function getBoulderAreaReference(string $value): BoulderArea
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof BoulderArea ? $ref : throw new \Exception("value should be an instance of BoulderArea");
+        return $this->getReference($value, 'App\Entity\BoulderArea');
     }
 
     private function getMediaAreaReference(string $value): Media
     {
-        $ref = $this->getReference($value);
-        return $ref instanceof Media ? $ref : throw new \Exception("value should be an instance of Media");
+        return $this->getReference($value, 'App\Entity\Media');
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             BoulderAreaFixtures::class,
