@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="drawing-container">
-      <img ref="image" :data-src="imageSrc" alt="" class="lozad drawing-img" data-cy="drawing-image" />
+      <img
+        ref="image"
+        :data-src="imageSrc"
+        alt=""
+        class="lozad drawing-img"
+        data-cy="drawing-image"
+      >
       <svg
         ref="svg"
         :width="imgCurrentWidth"
@@ -16,9 +22,19 @@
         @touchmove.prevent="onMove"
         @touchend.prevent="onEnd"
       >
-        <path fill="none" :d="path" stroke-linecap="round" stroke="red" stroke-width="4px" class="path" />
+        <path
+          fill="none"
+          :d="path"
+          stroke-linecap="round"
+          stroke="red"
+          stroke-width="4px"
+          class="path"
+        />
       </svg>
-      <div v-if="imageLoaded" class="drawing-actions">
+      <div
+        v-if="imageLoaded"
+        class="drawing-actions"
+      >
         <button
           class="btn btn-secondary text-primary btn-undo"
           href="#"
@@ -26,11 +42,14 @@
           :disabled="arrArrPoints.length === 0"
           @click.prevent="undo"
         >
-          <i class="fa fa-rotate-left"></i>
+          <i class="fa fa-rotate-left" />
         </button>
-        <a class="btn btn-secondary text-danger btn-clear" href="#" aria-label="clear" @click.prevent="clear"
-          ><i class="fa fa-fw fa-trash-o"></i
-        ></a>
+        <a
+          class="btn btn-secondary text-danger btn-clear"
+          href="#"
+          aria-label="clear"
+          @click.prevent="clear"
+        ><i class="fa fa-fw fa-trash-o" /></a>
         <button
           class="btn btn-secondary text-primary btn-save"
           href="#"
@@ -38,9 +57,16 @@
           :disabled="loading"
           @click.prevent="save"
         >
-          <i v-if="!loading" class="fas fa-save"></i>
+          <i
+            v-if="!loading"
+            class="fas fa-save"
+          />
           <template v-else>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
             <span class="sr-only">Loading...</span>
           </template>
         </button>

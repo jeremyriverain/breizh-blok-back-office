@@ -1,6 +1,9 @@
 <template>
   <div class="map-container">
-    <div id="map" class="map-field"></div>
+    <div
+      id="map"
+      class="map-field"
+    />
     <slot />
   </div>
 </template>

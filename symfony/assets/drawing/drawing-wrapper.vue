@@ -4,7 +4,7 @@
     :initial-arr-arr-points="initialLineBoulder?.arrArrPoints"
     :loading="loading"
     @save="onSave"
-  ></drawing-box>
+  />
 </template>
 
 <script lang="ts" setup>

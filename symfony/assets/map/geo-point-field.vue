@@ -4,14 +4,23 @@
       <slot name="form" />
     </div>
     <div v-if="!requiredField">
-      <button class="btn btn-secondary mb-3" data-cy="geo-point-field-toggler-btn" @click.prevent="showMap = !showMap">
-        <span class="btn-label"
-          ><span class="action-label">{{ showMap ? deleteLabel : addLabel }}</span></span
-        >
+      <button
+        class="btn btn-secondary mb-3"
+        data-cy="geo-point-field-toggler-btn"
+        @click.prevent="showMap = !showMap"
+      >
+        <span class="btn-label"><span class="action-label">{{ showMap ? deleteLabel : addLabel }}</span></span>
       </button>
     </div>
-    <MapBox v-if="latLngInitialized && showMap" :center="latLng" data-cy="geo-point-field-map-box">
-      <MapBoxMarker v-model:lat-lng="latLng" :draggable="true" />
+    <MapBox
+      v-if="latLngInitialized && showMap"
+      :center="latLng"
+      data-cy="geo-point-field-map-box"
+    >
+      <MapBoxMarker
+        v-model:lat-lng="latLng"
+        :draggable="true"
+      />
     </MapBox>
   </div>
 </template>

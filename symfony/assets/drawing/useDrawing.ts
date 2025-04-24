@@ -59,7 +59,6 @@ function polyline(points: Point[]): string {
   return result
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function useDrawing(svg: Ref<SVGElement | undefined>, initialArrArrPoints?: Point[][]) {
   const isMoving = ref(false)
   const arrArrPoints: Ref<Point[][]> = ref(initialArrArrPoints ?? [])
