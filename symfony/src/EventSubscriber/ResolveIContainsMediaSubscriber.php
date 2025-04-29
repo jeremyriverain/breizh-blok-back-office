@@ -2,8 +2,8 @@
 
 namespace App\EventSubscriber;
 
+use ApiPlatform\State\Util\RequestAttributesExtractor;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
-use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use App\Entity\Media;
 use App\Interfaces\IContainsMedia;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

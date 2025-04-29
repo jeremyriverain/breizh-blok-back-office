@@ -176,7 +176,7 @@ context("Boulders-write as admin", () => {
 
       cy.get("[aria-label=undo]").click();
 
-      cy.intercept("PUT", lineBoulderIri).as("editLineBoulder");
+      cy.intercept("PATCH", lineBoulderIri).as("editLineBoulder");
       cy.get("[aria-label=save]").click();
       cy.wait("@editLineBoulder").then((interception) => {
         expect(interception.response.statusCode).to.eq(200);
@@ -246,7 +246,7 @@ context("Boulders-write as contributor", () => {
       const lineBoulderIri = interception.response.body["@id"];
       expect(interception.response.statusCode).to.eq(201);
 
-      cy.intercept("PUT", lineBoulderIri).as("editLineBoulder");
+      cy.intercept("PATCH", lineBoulderIri).as("editLineBoulder");
       cy.get("[aria-label=save]").click();
       cy.wait("@editLineBoulder").then((interception) => {
         expect(interception.response.statusCode).to.eq(200);

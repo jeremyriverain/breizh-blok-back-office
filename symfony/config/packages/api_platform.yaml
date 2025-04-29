@@ -1,4 +1,9 @@
 api_platform:
   title: Breizh Blok
   version: 1.0.0
-  event_listeners_backward_compatibility_layer: true
+  use_symfony_listeners: true
+  serializer:
+    hydra_prefix: true
+  formats:
+    jsonld: ["application/ld+json"]
+    json: ["application/json"]

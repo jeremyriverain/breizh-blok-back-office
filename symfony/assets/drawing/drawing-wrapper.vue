@@ -12,11 +12,6 @@ import { ref, Ref } from 'vue'
 import DrawingBox from './drawing-box.vue'
 import { LineBoulderInterface, SavePayloadInterface } from './model'
 
-const headers = {
-  Accept: 'application/ld+json',
-  'Content-Type': 'application/ld+json',
-}
-
 const props = defineProps({
   imageSrc: {
     type: String,
@@ -46,7 +41,10 @@ async function postLineBoulder(payload: SavePayloadInterface) {
   const { arrArrPoints, path: smoothLine } = payload
   const response = await fetch('/admin/line_boulders', {
     method: 'POST',
-    headers,
+    headers: {
+      Accept: 'application/ld+json',
+      'Content-Type': 'application/ld+json',
+    },
     body: JSON.stringify({
       boulder: props.boulderIri,
       rockImage: props.rockImageIri,
@@ -72,8 +70,11 @@ async function editLineBoulder(payload: SavePayloadInterface) {
   }
   const { arrArrPoints, path: smoothLine } = payload
   const response = await fetch(currentLineBoulder.value['@id'], {
-    method: 'PUT',
-    headers,
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/ld+json',
+      'Content-Type': 'application/merge-patch+json',
+    },
     body: JSON.stringify({
       arrArrPoints,
       smoothLine,
@@ -91,7 +92,10 @@ async function deleteLineBoulder() {
   }
   const response = await fetch(currentLineBoulder.value['@id'], {
     method: 'DELETE',
-    headers,
+    headers: {
+      Accept: 'application/ld+json',
+      'Content-Type': 'application/ld+json',
+    },
   })
 
   currentLineBoulder.value = null

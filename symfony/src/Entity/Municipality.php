@@ -18,7 +18,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['Municipality:read']],
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['Municipality:item-get']],
+        ),
         new GetCollection(),
     ]
 )]

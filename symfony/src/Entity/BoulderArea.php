@@ -19,7 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     normalizationContext: ['groups' => ['BoulderArea:read']],
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['BoulderArea:item-get']],
+        ),
         new GetCollection(),
     ]
 )]

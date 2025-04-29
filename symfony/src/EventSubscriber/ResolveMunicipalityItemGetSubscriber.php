@@ -3,8 +3,8 @@
 namespace App\EventSubscriber;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\State\Util\RequestAttributesExtractor;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
-use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;

@@ -6,8 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use App\Repository\LineBoulderRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -28,9 +28,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
     operations: [
         new GetCollection(uriTemplate: '/admin/line_boulders', security: "is_granted('ROLE_CONTRIBUTOR')"),
         new Get(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_CONTRIBUTOR')"),
-        new Put(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
+        new Patch(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
         new Delete(uriTemplate: '/admin/line_boulders/{id}', security: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
-        new Post(uriTemplate: '/admin/line_boulders', validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']], securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user"),
+        new Post(
+            uriTemplate: '/admin/line_boulders',
+            validationContext: ['groups' => ['Default', 'LineBoulder:collection-post']],
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.getBoulder()?.getCreatedBy() == user",
+            denormalizationContext: ['groups' => ['LineBoulder:collection-post']]
+        ),
     ],
 )]
 class LineBoulder

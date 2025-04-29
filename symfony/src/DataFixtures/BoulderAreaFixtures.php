@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\BoulderArea;
+use App\Entity\GeoPoint;
 use App\Entity\Municipality;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,6 +18,7 @@ class BoulderAreaFixtures extends Fixture implements DependentFixtureInterface
     {
         $cremiou = new BoulderArea();
         $cremiou->setName('Cremiou');
+      $cremiou->setParkingLocation(new GeoPoint("48.6734", "-4.35788"));
         $this->getMunicipalityReference(MunicipalityFixtures::KERLOUAN)->addBoulderArea($cremiou);
         $manager->persist($cremiou);
 

@@ -96,7 +96,11 @@ context("LineBoulder-write as admin", () => {
     cy.realLogin("admin@fixture.com");
 
     cy.request({
-      method: "PUT",
+      method: "PATCH",
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/merge-patch+json',
+      },
       url: "/admin/line_boulders/1",
       body: {
         rockImage: "/media/2", // check I cant update this field
@@ -138,7 +142,11 @@ context("LineBoulder-write as contributor", () => {
 
   it("cannot edit a line boulder for a boulder not created by me", () => {
     cy.request({
-      method: "PUT",
+      method: "PATCH",
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/merge-patch+json',
+      },
       url: "/admin/line_boulders/1",
       body: {},
       failOnStatusCode: false,
@@ -163,7 +171,11 @@ context("LineBoulder-write as contributor", () => {
     });
 
     cy.request({
-      method: "PUT",
+      method: "PATCH",
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/merge-patch+json',
+      },
       url: "/admin/line_boulders/3",
       body: {},
       failOnStatusCode: false,

@@ -27,7 +27,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['Boulder:read']],
     operations: [
         new GetCollection(),
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['Boulder:item-get']],
+        ),
     ],
     paginationClientEnabled: true,
     paginationClientItemsPerPage: true,
