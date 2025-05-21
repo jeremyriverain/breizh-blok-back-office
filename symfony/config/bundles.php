@@ -20,4 +20,6 @@ return [
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
+    DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
+    Zenstruck\Foundry\ZenstruckFoundryBundle::class => ['dev' => true, 'test' => true],
 ];
