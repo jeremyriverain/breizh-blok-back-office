@@ -11,5 +11,8 @@ when@dev: &dev
             add_hints: false
         make_story:
             default_namespace:    DataFixtures\Story
+        orm:
+            reset:
+                mode: migrate
 
 when@test: *dev

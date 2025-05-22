@@ -58,7 +58,10 @@ jobs:
           echo "lint with eslint"
           docker compose exec -T php bash -c "npm run lint"
       - name: unit
-        run: docker compose exec -T php bash -c "symfony composer phpunit"
+        env:
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
+          GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
+        run: docker compose exec -T php bash -c "symfony composer run test-fixtures && symfony composer phpunit"
       - name: e2e
         env:
           GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}

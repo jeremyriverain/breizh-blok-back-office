@@ -94,7 +94,7 @@
   },
   "scripts": {
     "phpstan": "symfony php -d memory_limit=-1 ./vendor/bin/phpstan analyze",
-    "phpunit": "SYMFONY_DEPRECATIONS_HELPER=weak symfony php ./vendor/bin/phpunit",
+    "phpunit": "symfony php ./vendor/bin/phpunit",
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -111,6 +111,14 @@
       "symfony console doctrine:database:create",
       "symfony console doctrine:migration:migrate --no-interaction",
       "symfony console doctrine:fixtures:load --no-interaction"
+    ],
+    "test-fixtures": [
+      "symfony console app:remove-assets privateLocalStorage --env=test",
+      "symfony console app:remove-assets picturesStorage --env=test",
+      "symfony console doctrine:database:drop --force --if-exists --env=test",
+      "symfony console doctrine:database:create --env=test",
+      "symfony console doctrine:migration:migrate --no-interaction --env=test",
+      "symfony console doctrine:fixtures:load --no-interaction --env=test"
     ]
   },
   "conflict": {

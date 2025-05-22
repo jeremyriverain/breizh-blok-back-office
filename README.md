@@ -76,6 +76,7 @@ composer run phpstan
 
 ```bash
 docker compose exec php bash
+composer run test-fixtures
 composer run phpunit
 ```
 

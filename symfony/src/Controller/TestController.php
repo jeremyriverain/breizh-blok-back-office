@@ -22,12 +22,7 @@ class TestController extends AbstractController
     public function initDb(ParameterBagInterface $parameterBag): JsonResponse
     {
         try {
-            (new Process(['/usr/bin/symfony', 'console', 'app:remove-assets', 'privateLocalStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/bin/symfony', 'console', 'app:remove-assets', 'picturesStorage', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:drop', '--force', '--if-exists', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/bin/symfony', 'console', 'doctrine:database:create', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/bin/symfony', 'console', 'doctrine:migration:migrate', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
-            (new Process(['/usr/bin/symfony', 'console', 'doctrine:fixtures:load', '--no-interaction', '--env=test'], $parameterBag->get('kernel.project_dir')))->mustRun();
+            (new Process(['/usr/bin/symfony', 'composer', 'run', 'test-fixtures'], $parameterBag->get('kernel.project_dir')))->mustRun();
             return new JsonResponse(['success' => true]);
         } catch (ProcessFailedException $exception) {
             return new JsonResponse(['success' => false, 'message' => $exception->getMessage()]);
