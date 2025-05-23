@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tests;
+namespace App\Tests\Entity;
 
 use App\Entity\BoulderArea;
 use App\Entity\GeoPoint;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Tests;
+namespace App\Tests\Services;
 
 use App\Entity\GeoPoint;
 use App\Services\CentroidCalculator;
