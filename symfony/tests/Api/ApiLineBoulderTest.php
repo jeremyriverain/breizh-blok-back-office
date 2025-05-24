@@ -221,7 +221,7 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertEquals('/media/1', $lineBoulder['rockImage']['@id']);
     }
 
-    public function testContributorCannotDeleteLineBoulder() {
+    public function testContributorCannotDeleteLineBoulderNotCreatedByHim() {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
