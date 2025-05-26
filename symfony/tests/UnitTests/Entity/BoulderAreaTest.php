@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Entity;
+namespace App\Tests\UnitTests\Entity;
 
 use App\Entity\Boulder;
 use App\Entity\BoulderArea;

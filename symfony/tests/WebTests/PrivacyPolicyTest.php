@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api;
+namespace App\Tests\WebTests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

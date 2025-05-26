@@ -1,9 +1,8 @@
 <?php 
 
-namespace App\Tests\Api;
+namespace App\Tests\ApiTests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\DataFixtures\Factory\BoulderFactory;
 use App\Repository\BoulderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;

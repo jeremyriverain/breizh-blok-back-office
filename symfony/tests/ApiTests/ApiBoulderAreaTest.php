@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\ApiTests;
+
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
 class ApiBoulderAreaTest extends ApiTestCase {
