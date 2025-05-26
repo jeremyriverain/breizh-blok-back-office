@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -140,6 +141,7 @@ class BoulderCrudController extends AbstractCrudController
     }
 
 
+    #[AdminAction(routePath: '{entityId}/draw-line', routeName: 'draw_line', methods: ['GET'])]
     public function drawLine(AdminContext $context): Response
     {
         $entity = $context->getEntity()->getInstance();

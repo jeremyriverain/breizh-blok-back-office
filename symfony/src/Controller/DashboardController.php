@@ -11,6 +11,7 @@ use App\Entity\HeightBoulder;
 use App\Entity\Municipality;
 use App\Entity\Rock;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -18,38 +19,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[AdminDashboard(routePath: '/admin/{_locale<en|fr>}', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
 
     public function __construct(private AdminUrlGenerator $adminUrlGenerator) {}
 
-    private function redirectAdmin(): Response
-    {
-        return $this->redirect($this->adminUrlGenerator->setController(BoulderAreaCrudController::class)->generateUrl());
-    }
-
-    #[Route('/', name: 'homepage', priority: 10)]
-    public function indexNoLocale(Request $request): Response
-    {
-        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
-    }
-
-    #[Route('/admin', name: 'adminNoLocale', priority: 10)]
-    public function adminNoLocale(Request $request): Response
-    {
-        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
-    }
-
-    #[Route('/admin/{_locale<en|fr>}', name: 'admin')]
     public function index(): Response
     {
-        return $this->redirectAdmin();
+        return $this->redirectToRoute('admin_boulder_area_index');
     }
+
 
     public function configureDashboard(): Dashboard
     {

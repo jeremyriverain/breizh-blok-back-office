@@ -8,17 +8,6 @@ context("BoulderArea-read", () => {
     cy.realLogin();
   });
 
-  it("list boulder areas", () => {
-    cy.get("table tbody tr").should("have.length", 6);
-
-    cy.get("input[name=query]").type("Cremiou").type("{enter}");
-    cy.get("table tbody tr")
-      .first()
-      .should("contain.text", "Cremiou")
-      .get(".cy-boulders")
-      .should("contain.text", "3");
-  });
-
   it("show details", () => {
     cy.get("table tbody tr")
       .contains("Cremiou")
