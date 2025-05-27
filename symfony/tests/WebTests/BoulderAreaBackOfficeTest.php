@@ -2,29 +2,22 @@
 
 namespace App\Tests\WebTests;
 
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class BoulderAreaBackOfficeTest extends WebTestCase {
+class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
     public function testListBoulderAreas () {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
 
-        $testUser = $userRepository->findOneByEmail('contributor@fixture.com');
+        $this->assertIndexPageEntityCount(6);
+    }
 
-        $client->loginUser($testUser);
-        
-        $client->followRedirects();
-        $crawler = $client->request('GET', '/admin');
+    public function testSearchBoulderAreas () {
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
 
-        $this->assertSelectorCount(6, "table tbody tr");
+        $this->searchResults(query: 'Cremiou');
 
-        $form = $crawler->filter('.form-action-search')->form();
-        $form['query'] = 'Cremiou';
-        $client->submit($form);
-        
-        $this->assertSelectorTextContains('table tbody tr:first-child', 'Cremiou');
-        
-        $this->assertSelectorTextContains('.cy-boulders', '3');
+        $this->assertIndexPageEntityCount(1);
     }
 }
