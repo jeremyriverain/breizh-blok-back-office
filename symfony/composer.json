@@ -94,7 +94,7 @@
   },
   "scripts": {
     "phpstan": "symfony php -d memory_limit=-1 ./vendor/bin/phpstan analyze",
-    "phpunit": "symfony php ./vendor/bin/phpunit --testdox",
+    "phpunit": "symfony php ./vendor/bin/phpunit --testdox  --display-notices --display-deprecations --display-warnings",
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd"

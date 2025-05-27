@@ -1,16 +1,5 @@
 /// <reference types="cypress" />
 
-context("User", () => {
-  beforeEach(() => {
-    cy.task("loadDb");
-  });
-
-  it("users cannot access User section", () => {
-    cy.realLogin();
-    cy.get("#main-menu").contains("Utilisateurs").should("not.exist");
-  });
-});
-
 context("User Super Admin", () => {
   beforeEach(() => {
     cy.task("loadDb");

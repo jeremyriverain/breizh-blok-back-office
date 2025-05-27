@@ -2,29 +2,147 @@
 
 namespace App\Tests\WebTests;
 
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Repository\BoulderAreaRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
-class BoulderAreaBackOfficeTest extends WebTestCase {
+class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
     public function testListBoulderAreas () {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
 
-        $testUser = $userRepository->findOneByEmail('contributor@fixture.com');
+        $this->assertIndexFullEntityCount(6);
+    }
 
-        $client->loginUser($testUser);
-        
-        $client->followRedirects();
-        $crawler = $client->request('GET', '/admin');
+    public function testSearchBoulderAreas () {
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
 
-        $this->assertSelectorCount(6, "table tbody tr");
+        $this->indexSearch(query: 'Cremiou');
 
-        $form = $crawler->filter('.form-action-search')->form();
-        $form['query'] = 'Cremiou';
-        $client->submit($form);
-        
-        $this->assertSelectorTextContains('table tbody tr:first-child', 'Cremiou');
-        
-        $this->assertSelectorTextContains('.cy-boulders', '3');
+        $this->assertIndexFullEntityCount(1);
+    }
+
+    public function testShowDetails () {
+        $crawler = $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
+
+        $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
+        $boulderArea = $boulderAreaRepository->findOneBy(['name' => 'Cremiou']);
+
+        $this->assertNotNull($boulderArea);
+
+        $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, $boulderArea->getId()))->link();
+        $this->client->click($link);
+
+        $this->assertSelectorTextContains('h1', 'Cremiou');
+
+        $this->assertSelectorCount(3, '.cy-boulders tbody tr');
+
+        $this->assertSelectorTextContains('.cy-boulders tbody tr', 'Stone');
+    }
+
+    public function testAdminCanDeleteBoulderArea() {
+        $this->visitBackOffice(
+            userEmail: 'admin@fixture.com',
+        );
+
+        $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
+
+        $boulderArea = $boulderAreaRepository->find(1);
+
+        $this->assertNotNull($boulderArea); 
+
+        $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
+
+        $this->assertIndexFullEntityCount(6);
+
+        $this->assertIndexEntityActionExists(Action::DELETE, $boulderArea->getId());
+
+        $this->indexDeleteEntity(id: $boulderArea->getId());
+
+        $this->assertIndexFullEntityCount(5);
+        $this->assertSelectorTextNotContains('table tbody', $boulderArea->getName());
+
+    }
+
+    public function testContributorCannotUpdateOrDeleteBoulderAreaIfNotCreatedByHim() {
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
+
+        $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
+
+        $boulderArea = $boulderAreaRepository->find(1);
+
+        $this->assertNotNull($boulderArea); 
+
+        $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
+
+        $this->assertIndexEntityActionNotExists(Action::DELETE, $boulderArea->getId()); 
+        $this->assertIndexEntityActionNotExists(Action::EDIT, $boulderArea->getId()); 
+    }
+
+    public function testContributorCanUpdateBoulderAreaCreatedByHim() {
+
+        $userEmail = 'contributor@fixture.com';
+        $user = $this->findUser(email: $userEmail);
+
+        $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
+
+        $boulderArea = $boulderAreaRepository->find(1);
+        $boulderArea->setCreatedBy($user);
+
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $em->flush();  
+
+        $crawler = $this->visitBackOffice(
+            userEmail: $userEmail,
+        );
+
+        $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
+
+        $this->assertIndexEntityActionExists(Action::EDIT, $boulderArea->getId()); 
+
+        $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, $boulderArea->getId()))->link();
+        $crawler = $this->client->click($link);
+
+        $this->assertSelectorTextContains('h1','Modifier Secteur');
+
+        $nameInput = $crawler->filter("#".$this->getFormFieldIdValue('name'));
+        $this->assertEquals($boulderArea->getName(), $nameInput->attr('value'));
+    }
+
+    public function testContributorCanDeleteBoulderAreaCreatedByHim() {
+
+        $userEmail = 'contributor@fixture.com';
+        $user = $this->findUser(email: $userEmail);
+
+        $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
+
+        $boulderArea = $boulderAreaRepository->find(1);
+        $boulderArea->setCreatedBy($user);
+
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $em->flush();  
+
+        $this->visitBackOffice(
+            userEmail: $userEmail,
+        );
+
+        $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
+
+        $this->assertIndexFullEntityCount(6);
+
+        $this->assertIndexEntityActionExists(Action::DELETE, $boulderArea->getId());
+
+        $this->indexDeleteEntity(id: $boulderArea->getId());
+
+        $this->assertIndexFullEntityCount(5);
+        $this->assertSelectorTextNotContains('table tbody', $boulderArea->getName());
+
     }
 }

@@ -10,8 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -35,7 +35,7 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             TextField::new('email'),
-            ChoiceField::new('roles')->allowMultipleChoices(true)->setChoices([
+            ChoiceField::new('roles')->setPermission(Roles::SUPER_ADMIN->value)->allowMultipleChoices(true)->setChoices([
                 Roles::USER->value => Roles::USER->value,
                 Roles::CONTRIBUTOR->value => Roles::CONTRIBUTOR->value,
                 Roles::ADMIN->value => Roles::ADMIN->value,
@@ -57,7 +57,10 @@ class UserCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN)
             ->remove(Crud::PAGE_INDEX, Action::BATCH_DELETE)
             ->setPermission(Action::NEW, Roles::SUPER_ADMIN->value)
-            ->setPermission(Action::DETAIL, Roles::SUPER_ADMIN->value)
-            ->setPermission(Action::DELETE, Roles::SUPER_ADMIN->value);
+            ->setPermission(Action::DELETE, Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::EDIT, new Expression('"ROLE_SUPER_ADMIN" in role_names or subject.getId() == user.getId()'))
+            ->setPermission(Action::INDEX, Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::DETAIL, new Expression('"ROLE_SUPER_ADMIN" in role_names or subject.getId() == user.getId()'))
+            ;
     }
 }
