@@ -24,6 +24,8 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', "/admin/fr/user/$ownId/edit");
         $this->assertResponseIsSuccessful();
+        $this->assertFormFieldNotExists('roles');
+        $this->assertFormFieldExists('email');
 
         $this->client->request('GET', "/admin/fr/user/$ownId");
         $this->assertResponseIsSuccessful();
@@ -51,9 +53,9 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(4);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionExists(Action::EDIT, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 2); 
+        $this->assertIndexEntityActionExists(Action::EDIT, 2); 
         $this->assertGlobalActionExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
+        $this->assertIndexEntityActionExists(Action::DETAIL, 2); 
     }
 }
