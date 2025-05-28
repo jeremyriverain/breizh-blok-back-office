@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestActions;
+use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestFormAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestIndexAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestUrlGeneration;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -15,6 +16,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class BackOfficeTestCase extends WebTestCase {
 
     use CrudTestActions;
+    use CrudTestFormAsserts;
     use CrudTestIndexAsserts;
     use CrudTestUrlGeneration;
 
