@@ -70,7 +70,7 @@ Cypress.Commands.add("realLogin", (email = "contributor@fixture.com") => {
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.request({ url: "/admin/logout", failOnStatusCode: false });
+  cy.request({ url: "/admin/logout/fr", failOnStatusCode: false });
 });
 
 const originalVisit = cy.visit;

@@ -53,14 +53,14 @@ class LoginController extends AbstractController
     }
 
 
-    #[Route('/admin/logout', name: 'app_logout')]
+    #[Route('/admin/logout/{_locale<en|fr>}', name: 'app_logout')]
     public function logout(): void
     {
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 
-    #[Route('/admin/login_check', name: 'login_check')]
+    #[Route('/admin/login_check/{_locale<en|fr>}', name: 'login_check')]
     public function check(): never
     {
         throw new \LogicException('This code should never be reached');

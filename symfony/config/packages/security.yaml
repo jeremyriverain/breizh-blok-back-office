@@ -26,6 +26,7 @@ security:
       login_link:
         check_route: login_check
         signature_properties: ['id']
+        success_handler: App\Security\AuthenticationSuccessHandler
 
       logout:
         path: app_logout

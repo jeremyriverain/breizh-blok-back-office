@@ -33,3 +33,6 @@ services:
     decorates: "api_platform.serializer.context_builder"
     arguments: ['@App\Serializer\ApiContextBuilder.inner']
     autoconfigure: false
+
+  App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']

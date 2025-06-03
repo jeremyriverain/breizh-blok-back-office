@@ -12,12 +12,12 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'home', priority: 10)]
     public function index(Request $request): Response
     {
-        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
+        return $this->redirectToRoute('admin', ['_locale' => $request->getLocale()]);
     }
 
     #[Route('/admin', name: 'adminNoLocale', priority: 10)]
     public function adminNoLocale(Request $request): Response
     {
-        return $this->redirectToRoute('admin', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
+        return $this->redirectToRoute('admin', ['_locale' => $request->getLocale()]);
     }
 }

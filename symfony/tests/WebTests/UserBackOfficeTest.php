@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Symfony\Component\Security\Core\Role\Role;
 
 class UserBackOfficeTest extends BackOfficeTestCase {
 
