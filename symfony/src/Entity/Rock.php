@@ -51,6 +51,7 @@ class Rock implements ITimestampable, IBlameable
      */
     #[ORM\OneToMany(targetEntity: Boulder::class, mappedBy: "rock", orphanRemoval: true)]
     #[Groups(["Rock:read"])]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $boulders;
 
     /**

@@ -1,4 +1,4 @@
-{% set boulders = entity.instance.getBoulders() %}
+{% set boulders = entity.instance.getBouldersSortedByName() %}
 {% if ea.getCrud.getCurrentPage() == 'detail' and boulders|length > 0 %}
 	<table class="table table-responsive table-striped">
 		<thead>

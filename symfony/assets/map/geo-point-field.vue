@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div ref="form">
-      <slot name="form" />
-    </div>
     <div v-if="!requiredField">
       <button
         class="btn btn-secondary mb-3"
@@ -81,8 +78,8 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.latitudeInput = (this.$refs.form as HTMLFormElement).querySelector("input[name*='latitude']")
-    this.longitudeInput = (this.$refs.form as HTMLFormElement).querySelector("input[name*='longitude']")
+    this.latitudeInput = document.querySelector("input[name*='latitude']")
+    this.longitudeInput = document.querySelector("input[name*='longitude']")
     if (!this.latitudeInput || !this.longitudeInput) {
       throw new Error('latitude and longitude inputs should exist')
     }
@@ -117,8 +114,8 @@ export default defineComponent({
       return geopoint.toString().replace('.', ',')
     },
     syncInputsFromMap() {
-      this.latitudeInput = (this.$refs.form as HTMLFormElement).querySelector("input[name*='latitude']")
-      this.longitudeInput = (this.$refs.form as HTMLFormElement).querySelector("input[name*='longitude']")
+      this.latitudeInput = document.querySelector("input[name*='latitude']")
+      this.longitudeInput = document.querySelector("input[name*='longitude']")
       if (!this.latitudeInput || !this.longitudeInput) {
         throw new Error('latitude and longitude inputs should exist')
       }

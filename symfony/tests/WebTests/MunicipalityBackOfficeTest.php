@@ -127,4 +127,18 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', 'foo');
     }
+
+    public function testCanShowDetailsAboutMunicipality() {
+        $this->visitBackOffice(
+            userEmail: 'admin@fixture.com',
+        );
+
+        $this->client->request('GET', '/admin/fr/municipality/2');
+
+        $this->assertSelectorTextContains('h1','Kerlouan');
+
+        $this->assertSelectorCount(5, '.cy-boulderAreas tbody tr');
+        $this->assertSelectorTextContains('.cy-boulderAreas tbody tr:nth-child(1)', 'Bivouac');
+        $this->assertSelectorTextContains('.cy-boulderAreas tbody tr:nth-child(2)', 'Cremiou');
+    }
 }

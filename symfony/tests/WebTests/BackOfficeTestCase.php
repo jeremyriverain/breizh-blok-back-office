@@ -5,6 +5,8 @@ namespace App\Tests\WebTests;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestActions;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestFormAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestIndexAsserts;
@@ -21,11 +23,13 @@ class BackOfficeTestCase extends WebTestCase {
     use CrudTestUrlGeneration;
 
     protected KernelBrowser $client;
+    protected AdminUrlGeneratorInterface $adminUrlGenerator;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
         $container = static::getContainer();
+        $this->adminUrlGenerator = $container->get(AdminUrlGenerator::class);
     }
 
     public function visitBackOffice(string $userEmail, ?string $locale = 'fr'): Crawler {

@@ -42,7 +42,9 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorCount(3, '.cy-boulders tbody tr');
 
-        $this->assertSelectorTextContains('.cy-boulders tbody tr', 'Stone');
+        $this->assertSelectorTextContains('.cy-boulders tbody tr:nth-child(1)', "L'essai");
+        $this->assertSelectorTextContains('.cy-boulders tbody tr:nth-child(2)', 'Monkey');
+        $this->assertSelectorTextContains('.cy-boulders tbody tr:nth-child(3)', 'Stone');
     }
 
     public function testAdminCanDeleteBoulderArea() {
@@ -144,5 +146,48 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexFullEntityCount(5);
         $this->assertSelectorTextNotContains('table tbody', $boulderArea->getName());
 
+    }
+
+    public function testCannotCreateInvalidBoulderArea() {
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
+
+        $this->client->request('GET', '/admin/fr/boulder-area');
+
+        $this->client->clickLink('Créer Secteur');
+
+        $this->assertSelectorTextContains('h1','Créer "Secteur"');
+        
+        $this->client->submitForm('Créer', []);
+
+        $this->assertResponseStatusCodeSame(422);
+
+        $this->assertFieldIsInvalid(fieldName: 'name');
+    }
+
+    public function testContributorCanCreateDepartment() {
+        $this->visitBackOffice(
+            userEmail: 'contributor@fixture.com',
+        );
+
+        $this->client->request('GET', '/admin/fr/boulder-area');
+
+        $this->assertIndexPageEntityCount(6);
+
+        $this->client->clickLink('Créer Secteur');
+
+        $this->assertSelectorTextContains('h1','Créer "Secteur"');
+        
+        $this->client->submitForm('Créer', fieldValues: [
+            'BoulderArea[name]' => 'foo',
+            'BoulderArea[municipality]' => 1
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertIndexPageEntityCount(7);
+
+        $this->assertSelectorTextContains('table tbody', 'foo');
     }
 }
