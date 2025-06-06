@@ -42,12 +42,9 @@ jobs:
           mv gha-creds*.json symfony/google_credentials.json
 
           docker compose exec -T php bash -c "composer install"
-          docker compose exec -T php bash -c "symfony console doctrine:database:drop --force --if-exists"
           docker compose exec -T php bash -c "symfony console doctrine:database:create"
-          docker compose exec -T php bash -c "symfony console doctrine:migration:migrate --no-interaction"
           docker compose exec -T php bash -c "symfony console app:remove-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
           docker compose exec -T php bash -c "symfony console app:create-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
-          docker compose exec -T php bash -c "symfony console doctrine:fixtures:load --no-interaction"
           docker compose exec -T php bash -c "npm install"
           docker compose exec -T php bash -c "npm run build"
       - name: lint
@@ -88,6 +85,4 @@ jobs:
         with:
           name: artifacts
           path: |
-            e2e/cypress/videos
-            e2e/cypress/screenshots
             symfony/var/log
