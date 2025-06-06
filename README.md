@@ -79,22 +79,3 @@ docker compose exec php bash
 composer run test-fixtures
 composer run phpunit
 ```
-
-## Lancer les tests Cypress
-
-Créez un fichier `.env.test.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID`, `GCLOUD_BUCKET_ID`.
-
-En mode headless:
-
-```bash
-docker compose exec cypress bash -c "npm run cy:run"
-```
-
-En mode intéractif (en dehors de Docker pour le moment):
-
-```bash
-cd e2e
-npm run cy:open
-```
-
-En mode intéractif, vous devrez peut-être réinstaller les dépendances en local.

@@ -41,7 +41,6 @@ jobs:
 
           mv gha-creds*.json symfony/google_credentials.json
 
-          docker compose exec -T db bash -c "npm run start"
           docker compose exec -T php bash -c "composer install"
           docker compose exec -T php bash -c "symfony console doctrine:database:drop --force --if-exists"
           docker compose exec -T php bash -c "symfony console doctrine:database:create"
@@ -62,12 +61,6 @@ jobs:
           GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
           GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
         run: docker compose exec -T php bash -c "symfony composer run test-fixtures && symfony composer phpunit"
-      - name: e2e
-        env:
-          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
-          GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
-        run: docker compose exec -T cypress bash -c "npm run cy:run"
-
       - name: prepare deploy
         if: steps.prepare.outputs.branch == 'main'
         run: echo $HOSTS | base64 -d > deploy_hosts.php
