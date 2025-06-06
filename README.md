@@ -1,78 +1,76 @@
-# Back-office Breizh Blok
+# Breizh Blok Back-office
 
-Back-office destiné à répertorier les blocs d'escalade de Bretagne.
+Back-office application designed to catalog climbing blocks in Brittany.
 
-## Pré-requis
+## Prerequisites
 
 - git
 - docker
 
 ## Installation
 
-1. Clonez le dépôt Github et déplacez-vous dans le dossier du projet:
+1. Clone the Github repository and navigate to the project folder:
    
 ```bash
 git clone git@github.com:jeremyriverain/breizh-blok-back-office.git
 cd breizh-blok-back-office
 ```
 
-2. Renseignez les variables d'environnement `GCLOUD_PROJECT_ID`, `GCLOUD_BUCKET_ID` dans le fichier `.env.local`
+2. Set the environment variables `GCLOUD_PROJECT_ID`, `GCLOUD_BUCKET_ID` in the `.env.local` file
 
-2. Exécutez le script d'initialisation Docker
+3. Run the Docker initialization script
 
 ```bash
 ./init.sh
 ```
 
-3. Le projet utilise Cloud Storage pour stocker les images. Créez un fichier `.env.local` et renseignez les variables d'environnement `GCLOUD_PROJECT_ID` et `GCLOUD_BUCKET_ID`.
+4. The project uses Cloud Storage to store images. Create a `.env.local` file and set the environment variables `GCLOUD_PROJECT_ID` and `GCLOUD_BUCKET_ID`.
 
-4. Pour récupérer vos credentials Google Cloud et pouvoir développer en local, exécutez la commande suivante:
+5. To retrieve your Google Cloud credentials and be able to develop locally, run the following command:
 
 ```bash
 docker run -ti --rm -v ~/.config/gcloud:/root/.config/gcloud gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth application-default login
 ```
+Access the application by typing the URL: [http://localhost:4444](http://localhost:4444)
 
-Accédez à l'application en tapant l'URL: [http://localhost:4444](http://localhost:4444)
+## Logging into the application
 
-## Se connecter à l'application
+4 users are pre-configured:
 
-3 utilisateurs sont pré-configurés:
-
-| Rôle                    | Email                   |
+| Role                    | Email                   |
 | ----------------------- | ----------------------- |
 | ROLE_USER               | user@fixture.com        |
 | ROLE_CONTRIBUTOR        | contributor@fixture.com |
 | ROLE_ADMIN              | admin@fixture.com       |
 | ROLE_SUPER_ADMIN        | super-admin@fixture.com |
 
-Lorsque vous saisissez le mail sur le portail d'authentification, un email est envoyé contenant un lien pour se connecter sans mot de passe. Pour récupérer ce lien, vous pouvez ouvrir [http://localhost:1080](http://localhost:1080).
+When you enter the email on the authentication portal, an email is sent containing a link to log in without a password. To retrieve this link, you can open [http://localhost:1080](http://localhost:1080).
 
-## Accéder au conteneur de l'application Symfony
+## Accessing the Symfony application container
 
 ```bash
 docker compose exec php bash
 ```
 
-## Accéder à la base de données
+## Accessing the database
 
 ```bash
 docker compose exec db bash
 mysql -u root -p
 ```
 
-Le mot de passe est `root`.
+The password is `root`.
 
+## Running static code analysis
 
-## Lancer l'analyse statique de code
-
-[PHP Stan](https://github.com/phpstan/phpstan) est utilisé pour l'analyse statique de code. Pour la lancer, accéder au conteneur `php` et exécuter le script `composer` approprié:
+[PHP Stan](https://github.com/phpstan/phpstan) is used for static code analysis. To run it, access the `php` container and execute the appropriate `composer` script:
 
 ```bash
 docker compose exec php bash
 composer run phpstan
 ```
 
-## Lancer les tests PHP Unit
+## Running PHP Unit tests
 
 ```bash
 docker compose exec php bash
