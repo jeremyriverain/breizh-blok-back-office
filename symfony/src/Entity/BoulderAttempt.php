@@ -2,9 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\BoulderAttemptRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
+#[ApiResource(security: "is_granted('ROLE_USING_TOKEN')")]
+#[Get(security: "is_granted('ROLE_USING_TOKEN') or object.userInfo.identifier == user.userIdentifier")]
+#[GetCollection(security: "is_granted('ROLE_USING_TOKEN')")]
+#[Post(security: "is_granted('ROLE_USING_TOKEN')")]
 #[ORM\Entity(repositoryClass: BoulderAttemptRepository::class)]
 class BoulderAttempt
 {
@@ -15,6 +24,7 @@ class BoulderAttempt
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["BoulderAttempt:read"])]
     private ?Boulder $boulder = null;
 
     #[ORM\ManyToOne(inversedBy: 'boulderAttempts')]
