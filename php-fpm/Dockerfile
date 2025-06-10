@@ -39,6 +39,9 @@ RUN apk add --no-cache \
     php83-xmlwriter \
     php83-sodium \
     php83-pecl-apcu \
+    php83-sysvmsg \
+    php83-sysvsem \
+    php83-sysvshm \
     php83 \
     make \
     curl \
