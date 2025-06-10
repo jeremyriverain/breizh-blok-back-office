@@ -19,14 +19,14 @@ class UserInfo
     private ?string $identifier = null;
 
     /**
-     * @var Collection<int, BoulderAttempt>
+     * @var Collection<int, BoulderFeedback>
      */
-    #[ORM\OneToMany(mappedBy: 'userInfo', targetEntity: BoulderAttempt::class, orphanRemoval: true)]
-    private Collection $boulderAttempts;
+    #[ORM\OneToMany(mappedBy: 'sentBy', targetEntity: BoulderFeedback::class, orphanRemoval: true)]
+    private Collection $boulderFeedbacks;
 
     public function __construct()
     {
-        $this->boulderAttempts = new ArrayCollection();
+        $this->boulderFeedbacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,29 +47,29 @@ class UserInfo
     }
 
     /**
-     * @return Collection<int, BoulderAttempt>
+     * @return Collection<int, BoulderFeedback>
      */
-    public function getBoulderAttempts(): Collection
+    public function getBoulderFeedbacks(): Collection
     {
-        return $this->boulderAttempts;
+        return $this->boulderFeedbacks;
     }
 
-    public function addBoulderAttempt(BoulderAttempt $boulderAttempt): static
+    public function addBoulderFeedback(BoulderFeedback $boulderFeedback): static
     {
-        if (!$this->boulderAttempts->contains($boulderAttempt)) {
-            $this->boulderAttempts->add($boulderAttempt);
-            $boulderAttempt->setUserInfo($this);
+        if (!$this->boulderFeedbacks->contains($boulderFeedback)) {
+            $this->boulderFeedbacks->add($boulderFeedback);
+            $boulderFeedback->setSentBy($this);
         }
 
         return $this;
     }
 
-    public function removeBoulderAttempt(BoulderAttempt $boulderAttempt): static
+    public function removeBoulderFeedback(BoulderFeedback $boulderFeedback): static
     {
-        if ($this->boulderAttempts->removeElement($boulderAttempt)) {
+        if ($this->boulderFeedbacks->removeElement($boulderFeedback)) {
             // set the owning side to null (unless already changed)
-            if ($boulderAttempt->getUserInfo() === $this) {
-                $boulderAttempt->setUserInfo(null);
+            if ($boulderFeedback->getSentBy() === $this) {
+                $boulderFeedback->setSentBy(null);
             }
         }
 

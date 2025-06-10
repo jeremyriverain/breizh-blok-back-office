@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\BoulderAttempt;
+use App\Entity\BoulderFeedback;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<BoulderAttempt>
+ * @extends ServiceEntityRepository<BoulderFeedback>
  */
-class BoulderAttemptRepository extends ServiceEntityRepository
+class BoulderFeedbackRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, BoulderAttempt::class);
+        parent::__construct($registry, BoulderFeedback::class);
     }
 
     //    /**
-    //     * @return BoulderAttempt[] Returns an array of BoulderAttempt objects
+    //     * @return BoulderFeedback[] Returns an array of BoulderFeedback objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class BoulderAttemptRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?BoulderAttempt
+    //    public function findOneBySomeField($value): ?BoulderFeedback
     //    {
     //        return $this->createQueryBuilder('b')
     //            ->andWhere('b.exampleField = :val')
