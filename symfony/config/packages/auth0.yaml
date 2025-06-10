@@ -1,0 +1,12 @@
+auth0:
+  sdk:
+    domain: "%env(trim:string:AUTH0_DOMAIN)%"
+    client_id: "%env(trim:string:AUTH0_CLIENT_ID)%"
+    client_secret: "%env(trim:string:AUTH0_CLIENT_SECRET)%"
+    cookie_secret: "%kernel.secret%"
+
+    scopes:
+      - openid
+      - profile
+      - email
+      - offline_access
