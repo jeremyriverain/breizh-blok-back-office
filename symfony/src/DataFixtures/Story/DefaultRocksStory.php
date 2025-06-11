@@ -13,7 +13,6 @@ use App\Entity\Municipality;
 use App\Services\CentroidCalculator;
 use Zenstruck\Foundry\Story;
 
-use function Zenstruck\Foundry\Persistence\flush_after;
 use function Zenstruck\Foundry\Persistence\repository;
 
 final class DefaultRocksStory extends Story

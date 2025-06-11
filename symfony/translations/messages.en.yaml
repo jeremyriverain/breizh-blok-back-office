@@ -7,6 +7,8 @@ Boulder_areas: Boulder areas
 Boulder: Boulder
 Boulder_line: Boulder line
 Boulders: Boulders
+BoulderFeedback: 'Message received'
+BoulderFeedbacks: 'Inbox'
 Code: Code
 Configuration: Configuration
 Created_at: Created at
@@ -29,15 +31,20 @@ ID: ID
 Last_connection: Last connection
 Latitude: Latitude
 Longitude: Longitude
+Mailbox: Mailbox
 Max: Max
+message: Message
 Min: Min
 Municipalities: Municipalities
 Municipality: Municipality
 My_profile: My profile
 Name: Name
+newGrade: Grade submitted
+newLocation: Location submitted
 Parking_location: Parking location
 Pictures: Pictures
 Position: Position
+receivedAt: Received at
 Rock: Rock
 Rocks: Rocks
 Roles: Roles
@@ -45,6 +52,7 @@ ROLE_ADMIN: ROLE_ADMIN
 ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR
 ROLE_USER: ROLE_USER
 ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
+sentBy: Sent by
 Urban_boulder: Urban boulder
 Updated_at: Updated at
 Updated_by: Updated by

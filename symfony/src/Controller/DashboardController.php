@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Utils\Roles;
 use App\Entity\Boulder;
 use App\Entity\BoulderArea;
+use App\Entity\BoulderFeedback;
 use App\Entity\Department;
 use App\Entity\Grade;
 use App\Entity\HeightBoulder;
@@ -51,6 +52,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Boulder_areas', 'fas fa-cubes', BoulderArea::class);
         yield MenuItem::linkToCrud('Rocks', 'fas fa-cube', Rock::class);
         yield MenuItem::linkToCrud('Boulders', 'fas fa-level-up-alt', Boulder::class);
+
+     yield MenuItem::section('Mailbox')->setPermission(Roles::SUPER_ADMIN->value);
+
+        yield MenuItem::linkToCrud('BoulderFeedbacks', 'fas fa-envelope', BoulderFeedback::class)->setPermission(Roles::SUPER_ADMIN->value);
 
         yield MenuItem::section('Configuration')->setPermission(Roles::SUPER_ADMIN->value);
 

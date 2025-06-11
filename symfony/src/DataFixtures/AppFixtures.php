@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Story\DefaultBoulderAreasStory;
+use App\DataFixtures\Story\DefaultBoulderFeedbacksStory;
 use App\DataFixtures\Story\DefaultDepartmentsStory;
 use App\DataFixtures\Story\DefaultHeightBouldersStory;
 use App\DataFixtures\Story\DefaultLineBouldersStory;
@@ -25,5 +26,6 @@ class AppFixtures extends Fixture
         DefaultBoulderAreasStory::load();
         DefaultRocksStory::load();
         DefaultLineBouldersStory::load();
+        DefaultBoulderFeedbacksStory::load();
     }
 }

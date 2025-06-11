@@ -7,6 +7,8 @@ Boulder_areas: Secteurs
 Boulder: Bloc
 Boulder_line: Ligne du bloc
 Boulders: Blocs
+BoulderFeedback: 'Message reçu'
+BoulderFeedbacks: 'Boîte de réception'
 Code: Code
 Configuration: Configuration
 Created_at: Créé le
@@ -29,15 +31,20 @@ ID: ID
 Last_connection: Dernière connexion
 Latitude: Latitude
 Longitude: Longitude
+Mailbox: Messagerie
 Max: Max
+message: Message
 Min: Min
 Municipalities: Communes
 Municipality: Commune
 My_profile: Mon profil
-Parking_location: Emplacement parking
 Name: Nom
+newGrade: Cotation proposée
+newLocation: Localisation proposée
+Parking_location: Emplacement parking
 Pictures: Photos
 Position: Position
+receivedAt: Reçu le
 Rock: Rocher
 Rocks: Rochers
 Roles: Rôles
@@ -45,6 +52,7 @@ ROLE_ADMIN: ROLE_ADMIN
 ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR
 ROLE_USER: ROLE_USER
 ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
+sentBy: Envoyé par
 Updated_at: Mis à jour le
 Updated_by: Mis à jour par
 Urban_boulder: Bloc urbain

@@ -96,9 +96,16 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[Groups(['Boulder:item-get'])]
     private ?HeightBoulder $height = null;
 
+    /**
+     * @var Collection<int, BoulderFeedback>
+     */
+    #[ORM\OneToMany(mappedBy: 'boulder', targetEntity: BoulderFeedback::class, orphanRemoval: true)]
+    private Collection $feedbacks;
+
     public function __construct()
     {
         $this->lineBoulders = new ArrayCollection();
+        $this->feedbacks = new ArrayCollection();
     }
 
     /**
@@ -222,6 +229,36 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     public function setHeight(?HeightBoulder $height): static
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BoulderFeedback>
+     */
+    public function getFeedbacks(): Collection
+    {
+        return $this->feedbacks;
+    }
+
+    public function addFeedback(BoulderFeedback $feedback): static
+    {
+        if (!$this->feedbacks->contains($feedback)) {
+            $this->feedbacks->add($feedback);
+            $feedback->setBoulder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(BoulderFeedback $feedback): static
+    {
+        if ($this->feedbacks->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getBoulder() === $this) {
+                $feedback->setBoulder(null);
+            }
+        }
 
         return $this;
     }

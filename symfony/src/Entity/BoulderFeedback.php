@@ -27,12 +27,15 @@ class BoulderFeedback
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $message = null;
 
-    #[ORM\ManyToOne(inversedBy: 'boulderFeedbacks')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?UserInfo $sentBy = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $receivedAt = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $sentBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'feedbacks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Boulder $boulder = null;
 
     public function getId(): ?int
     {
@@ -75,18 +78,6 @@ class BoulderFeedback
         return $this;
     }
 
-    public function getSentBy(): ?UserInfo
-    {
-        return $this->sentBy;
-    }
-
-    public function setSentBy(?UserInfo $sentBy): static
-    {
-        $this->sentBy = $sentBy;
-
-        return $this;
-    }
-
     public function getReceivedAt(): ?\DateTimeImmutable
     {
         return $this->receivedAt;
@@ -98,4 +89,29 @@ class BoulderFeedback
 
         return $this;
     }
+
+    public function getSentBy(): ?string
+    {
+        return $this->sentBy;
+    }
+
+    public function setSentBy(string $sentBy): static
+    {
+        $this->sentBy = $sentBy;
+
+        return $this;
+    }
+
+    public function getBoulder(): ?Boulder
+    {
+        return $this->boulder;
+    }
+
+    public function setBoulder(?Boulder $boulder): static
+    {
+        $this->boulder = $boulder;
+
+        return $this;
+    }
+
 }
