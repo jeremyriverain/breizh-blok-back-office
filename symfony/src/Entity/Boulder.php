@@ -13,8 +13,9 @@ use ApiPlatform\Serializer\Filter\GroupFilter;
 use App\Filters\Api\BoulderTermFilter;
 use App\Interfaces\IBlameable;
 use App\Interfaces\IContainsMedia;
-use App\Interfaces\ITimestampable;
+use App\Interfaces\IUpdatable;
 use App\Repository\BoulderRepository;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -47,10 +48,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(BoulderTermFilter::class)]
 #[ApiFilter(DateFilter::class, properties: ['createdAt'])]
 #[ApiFilter(GroupFilter::class, arguments: ['overrideDefaultGroups' => true, 'whitelist' => ['Boulder:map', 'Boulder:read', 'read', 'Boulder:item-get']])]
-class Boulder implements IContainsMedia, ITimestampable, IBlameable
+class Boulder implements IContainsMedia, IUpdatable, IBlameable
 {
 
-    use TimestampableTrait;
+    use UpdatableTrait;
     use BlameableTrait;
 
     #[ORM\Id]
@@ -62,7 +63,7 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["Rock:read", 'Boulder:read', 'LineBoulder:read'])]
+    #[Groups(["Rock:read", 'Boulder:read', 'LineBoulder:read', 'BoulderFeedback:read'])]
     private ?string $name;
 
     #[ORM\ManyToOne(targetEntity: Grade::class, inversedBy: "boulders")]
@@ -72,7 +73,7 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[ORM\ManyToOne(targetEntity: Rock::class, inversedBy: "boulders")]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(['Boulder:read', 'Boulder:map'])]
+    #[Groups(['Boulder:read', 'Boulder:map', 'BoulderFeedback:read'])]
     private ?Rock $rock;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
@@ -102,8 +103,12 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
     #[ORM\OneToMany(mappedBy: 'boulder', targetEntity: BoulderFeedback::class, orphanRemoval: true)]
     private Collection $feedbacks;
 
+    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $createdAt;
+
     public function __construct()
     {
+        $this->setCreatedAt(Carbon::now()->toImmutable());
         $this->lineBoulders = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
     }
@@ -260,6 +265,17 @@ class Boulder implements IContainsMedia, ITimestampable, IBlameable
             }
         }
 
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $dateTime): self
+    {
+        $this->createdAt = $dateTime;
         return $this;
     }
 }

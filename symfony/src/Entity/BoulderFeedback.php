@@ -3,13 +3,22 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Repository\BoulderFeedbackRepository;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(security: "is_granted('ROLE_USING_TOKEN')")]
+#[ApiResource(
+    security: "is_granted('ROLE_USING_TOKEN')",
+    normalizationContext: ['groups' => ['BoulderFeedback:read']],
+)]
 #[Post(security: "is_granted('ROLE_USING_TOKEN')")]
+#[GetCollection(security: "is_granted('ROLE_USING_TOKEN')")]
+#[Get(security: "is_granted('ROLE_USING_TOKEN') and object.getSentBy() == user.getUserIdentifier()")]
 #[ORM\Entity(repositoryClass: BoulderFeedbackRepository::class)]
 class BoulderFeedback
 {
@@ -19,23 +28,33 @@ class BoulderFeedback
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(["BoulderFeedback:read"])]
     private ?GeoPoint $newLocation = null;
 
     #[ORM\ManyToOne]
+    #[Groups(["BoulderFeedback:read"])]
     private ?Grade $newGrade = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(["BoulderFeedback:read"])]
     private ?string $message = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $receivedAt = null;
-
     #[ORM\Column(length: 255)]
+    #[Groups(["BoulderFeedback:read"])]
     private ?string $sentBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["BoulderFeedback:read"])]
     private ?Boulder $boulder = null;
+
+    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    #[Groups(["BoulderFeedback:read"])]
+    private ?\DateTimeInterface $createdAt;
+
+    public function __construct() {
+        $this->setCreatedAt(Carbon::now()->toImmutable());
+    }
 
     public function getId(): ?int
     {
@@ -78,18 +97,6 @@ class BoulderFeedback
         return $this;
     }
 
-    public function getReceivedAt(): ?\DateTimeImmutable
-    {
-        return $this->receivedAt;
-    }
-
-    public function setReceivedAt(\DateTimeImmutable $receivedAt): static
-    {
-        $this->receivedAt = $receivedAt;
-
-        return $this;
-    }
-
     public function getSentBy(): ?string
     {
         return $this->sentBy;
@@ -111,6 +118,17 @@ class BoulderFeedback
     {
         $this->boulder = $boulder;
 
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $dateTime): self
+    {
+        $this->createdAt = $dateTime;
         return $this;
     }
 

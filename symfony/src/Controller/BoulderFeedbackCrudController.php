@@ -27,13 +27,13 @@ class BoulderFeedbackCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('BoulderFeedback')
             ->setEntityLabelInPlural('BoulderFeedbacks')
-            ->setDefaultSort(['receivedAt' => 'DESC']);
+            ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            DateTimeField::new('receivedAt', 'receivedAt'),
+            DateTimeField::new('createdAt', 'Created_at'),
             TextField::new('sentBy', 'sentBy'),
             AssociationField::new('boulder'),
             TextareaField::new('message', 'message')->hideOnIndex(),

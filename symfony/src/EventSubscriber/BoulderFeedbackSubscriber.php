@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\BoulderFeedback;
+use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -28,9 +29,5 @@ class BoulderFeedbackSubscriber
         if ($user !== null) {
             $entity->setSentBy($user->getUserIdentifier());
         }
-
-        $entity->setReceivedAt(
-            new \DateTimeImmutable('now', new \DateTimeZone('UTC'))
-        );
     }
 }

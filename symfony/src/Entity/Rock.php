@@ -6,8 +6,9 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Interfaces\IBlameable;
-use App\Interfaces\ITimestampable;
+use App\Interfaces\IUpdatable;
 use App\Repository\RockRepository;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,9 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationClientEnabled: true,
 )]
-class Rock implements ITimestampable, IBlameable
+class Rock implements IUpdatable, IBlameable
 {
-    use TimestampableTrait;
+    use UpdatableTrait;
     use BlameableTrait;
 
     #[ORM\Id]
@@ -43,7 +44,7 @@ class Rock implements ITimestampable, IBlameable
     #[ORM\ManyToOne(targetEntity: BoulderArea::class, inversedBy: "rocks")]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(["Boulder:read"])]
+    #[Groups(["Boulder:read", 'BoulderFeedback:read'])]
     private ?BoulderArea $boulderArea;
 
     /**
@@ -62,8 +63,12 @@ class Rock implements ITimestampable, IBlameable
     #[Groups(["Rock:read"])]
     private Collection $pictures;
 
+    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $createdAt;
+
     public function __construct()
     {
+        $this->setCreatedAt(Carbon::now()->toImmutable());
         $this->location = new GeoPoint();
         $this->boulders = new ArrayCollection();
         $this->pictures = new ArrayCollection();
@@ -160,6 +165,17 @@ class Rock implements ITimestampable, IBlameable
             }
         }
 
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $dateTime): self
+    {
+        $this->createdAt = $dateTime;
         return $this;
     }
 }

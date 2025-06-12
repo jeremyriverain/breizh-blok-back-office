@@ -22,7 +22,6 @@ final class BoulderFeedbackFactory extends PersistentProxyObjectFactory
     {
         return [
             'boulder' => BoulderFactory::new(),
-            'receivedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'sentBy' => self::faker()->text(255),
         ];
     }

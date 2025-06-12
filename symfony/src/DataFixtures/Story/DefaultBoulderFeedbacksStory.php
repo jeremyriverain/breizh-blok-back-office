@@ -33,7 +33,7 @@ final class DefaultBoulderFeedbacksStory extends Story
                 ['name' => '8a']
             ),
             'message' => 'I disagree with the current grade.',
-            'sentBy' => 'foo',
+            'sentBy' => 'bar',
         ]);
     }
 }

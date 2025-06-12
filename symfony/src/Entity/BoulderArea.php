@@ -6,9 +6,10 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Interfaces\IBlameable;
-use App\Interfaces\ITimestampable;
+use App\Interfaces\IUpdatable;
 use App\Interfaces\IZone;
 use App\Repository\BoulderAreaRepository;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,9 +26,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
     ]
 )]
-class BoulderArea implements IZone, ITimestampable, IBlameable
+class BoulderArea implements IZone, IUpdatable, IBlameable
 {
-    use TimestampableTrait;
+    use UpdatableTrait;
     use BlameableTrait;
 
     #[ORM\Id]
@@ -38,7 +39,7 @@ class BoulderArea implements IZone, ITimestampable, IBlameable
     #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["BoulderArea:read", "Boulder:read", "Department:read", "Municipality:read"])]
+    #[Groups(["BoulderArea:read", "Boulder:read", "Department:read", "Municipality:read", 'BoulderFeedback:read'])]
     private ?string $name;
 
     /**
@@ -75,8 +76,12 @@ class BoulderArea implements IZone, ITimestampable, IBlameable
     #[Groups(["Municipality:item-get"])]
     public ?int $numberOfBoulders = null;
 
+    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $createdAt;
+
     public function __construct()
     {
+        $this->setCreatedAt(Carbon::now()->toImmutable());
         $this->rocks = new ArrayCollection();
     }
 
@@ -261,6 +266,17 @@ class BoulderArea implements IZone, ITimestampable, IBlameable
     {
         $this->parkingLocation = $parkingLocation;
 
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $dateTime): self
+    {
+        $this->createdAt = $dateTime;
         return $this;
     }
 }
