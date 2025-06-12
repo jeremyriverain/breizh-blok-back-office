@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BoulderFeedback;
 use App\Field\GeoPointField;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,18 +21,6 @@ class BoulderFeedbackCrudController extends AbstractCrudController
     {
         return BoulderFeedback::class;
     }
-
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
-
 
     public function configureCrud(Crud $crud): Crud
     {
@@ -59,6 +48,11 @@ class BoulderFeedbackCrudController extends AbstractCrudController
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->disable(Action::NEW, Action::EDIT, Action::BATCH_DELETE)
+            ->setPermission(Action::NEW, Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::DELETE, Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::EDIT,  Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::INDEX, Roles::SUPER_ADMIN->value)
+            ->setPermission(Action::DETAIL, Roles::SUPER_ADMIN->value)
             ;
     }
 }

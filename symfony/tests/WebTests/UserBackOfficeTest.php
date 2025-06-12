@@ -24,6 +24,9 @@ class UserBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/user/1');
         $this->assertResponseStatusCodeSame(403);
 
+        $this->client->request('GET', "/admin/fr/user/new");
+        $this->assertResponseStatusCodeSame(403);
+
         $this->client->request('GET', "/admin/fr/user/$ownId/edit");
         $this->assertResponseIsSuccessful();
         $this->assertFormFieldNotExists('roles');
@@ -61,7 +64,7 @@ class UserBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexEntityActionExists(Action::DETAIL, 2); 
     }
 
-     public function testSuperAdminCanDeleteUser () {
+    public function testSuperAdminCanDeleteUser () {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
