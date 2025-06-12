@@ -23,7 +23,6 @@ final class DefaultBoulderFeedbacksStory extends Story
             ),
             'newLocation' => new GeoPoint(latitude: '45', longitude: '54'),
             'sentBy' => 'foo',
-            'receivedAt' => new \DateTime('2025-01-04 09:33:00'),
         ]);
 
         BoulderFeedbackFactory::createOne([
@@ -35,7 +34,6 @@ final class DefaultBoulderFeedbacksStory extends Story
             ),
             'message' => 'I disagree with the current grade.',
             'sentBy' => 'foo',
-            'receivedAt' => new \DateTime('2025-01-05 10:00:00'),
         ]);
     }
 }
