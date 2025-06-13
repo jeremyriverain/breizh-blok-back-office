@@ -66,6 +66,31 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $client->loginUser($user); 
         $client->request('GET', '/boulder_feedbacks/2');
 
-        $this->assertResponseStatusCodeSame(403); 
+        $this->assertResponseStatusCodeSame(404); 
+    }
+
+    public function testAuthenticatedUserCanListItsOwnBoulderFeedbacks() {
+        $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $response = $client->request('GET', '/boulder_feedbacks');
+
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertJsonContains([
+            'hydra:totalItems' => 1,
+        ]);
+
+        $boulderFeedback = $response->toArray()['hydra:member'][0];
+        $this->assertArrayNotHasKey('newGrade', $boulderFeedback);
+        $this->assertArrayNotHasKey('message', $boulderFeedback);
+        $this->assertEquals('Stone', $boulderFeedback['boulder']['name']);
+        $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
+        $this->assertEquals('foo', $boulderFeedback['sentBy']);
+        $this->assertNotNull($boulderFeedback['createdAt']);
+        $this->assertEquals('45', $boulderFeedback['newLocation']['latitude']);
+        $this->assertEquals('54', $boulderFeedback['newLocation']['longitude']);
     }
 }
