@@ -5,6 +5,9 @@ auth0:
     client_secret: "%env(trim:string:AUTH0_CLIENT_SECRET)%"
     cookie_secret: "%kernel.secret%"
 
+    audiences:
+      - "%env(trim:string:AUTH0_API_AUDIENCE)%"
+
     scopes:
       - openid
       - profile
