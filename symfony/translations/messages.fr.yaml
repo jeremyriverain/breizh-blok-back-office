@@ -5,6 +5,9 @@ Back_to_listing: Retour à la liste
 Boulder_area: Secteur
 Boulder_areas: Secteurs
 Boulder: Bloc
+boulderFeedback.email.action: Voir détail
+boulderFeedback.email.subject: Nouveau feedback
+boulderFeedback.email.content: Un utilisateur vient d'envoyer un feedback pour un bloc
 Boulder_line: Ligne du bloc
 Boulders: Blocs
 BoulderFeedback: 'Message reçu'

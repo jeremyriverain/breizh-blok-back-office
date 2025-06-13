@@ -168,4 +168,32 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
             $violations['hydra:description']
         );
     }
+
+    public function testEmailIsSentAfterCreatingBoulderFeedback () {
+         $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $client->request('POST', '/boulder_feedbacks', [
+            'json' => [
+                'boulder' => '/boulders/2',
+                'message' => 'this is a message',
+            ]
+        ]);
+
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $this->assertEmailCount(1);
+
+        /**
+         * @var \Symfony\Bridge\Twig\Mime\NotificationEmail $email
+         */
+        $email = $this->getMailerMessage();
+
+        $this->assertEquals('super-admin@fixture.com', $email->getTo()[0]->getAddress());
+        $this->assertCount(1, $email->getTo());
+        $this->assertEquals('Nouveau feedback', $email->getSubject());
+        $this->assertStringContainsString('/admin/fr/boulder-feedback/', $email->getContext()['action_url']);
+    }
 }

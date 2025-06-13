@@ -5,6 +5,9 @@ Back_to_listing: Back to listing
 Boulder_area: Boulder area
 Boulder_areas: Boulder areas
 Boulder: Boulder
+boulderFeedback.email.action: See details
+boulderFeedback.email.subject: New boulder feedback
+boulderFeedback.email.content: A user has just submitted a feedback for a boulder
 Boulder_line: Boulder line
 Boulders: Boulders
 BoulderFeedback: 'Message received'
