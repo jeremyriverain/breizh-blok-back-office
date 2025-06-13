@@ -93,4 +93,79 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $this->assertEquals('45', $boulderFeedback['newLocation']['latitude']);
         $this->assertEquals('54', $boulderFeedback['newLocation']['longitude']);
     }
+
+    public function testCanCreateBoulderFeedbackWithMessage() {
+        $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $response = $client->request('POST', '/boulder_feedbacks', [
+            'json' => [
+                'boulder' => '/boulders/2',
+                'message' => 'this is a message',
+                'newGrade' => '/grades/1',
+                'newLocation' => [
+                    'latitude' => 20,
+                    'longitude' => 21
+                ]
+            ]
+        ]);
+
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $boulderFeedback = $response->toArray();
+        $this->assertEquals('4', $boulderFeedback['newGrade']['name']);
+        $this->assertEquals('this is a message', $boulderFeedback['message']);
+        $this->assertEquals('Monkey', $boulderFeedback['boulder']['name']);
+        $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
+        $this->assertEquals('foo', $boulderFeedback['sentBy']);
+        $this->assertNotNull($boulderFeedback['createdAt']);
+        $this->assertEquals('20', $boulderFeedback['newLocation']['latitude']);
+        $this->assertEquals('21', $boulderFeedback['newLocation']['longitude']);
+    }
+
+    public function testCannotCreateBoulderFeedbackIfBoulderPropertyIsNotFilled() {
+        $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $response = $client->request('POST', '/boulder_feedbacks', [
+            'json' => [
+                'message' => 'this is a message',
+            ]
+        ]);
+
+
+        $this->assertResponseStatusCodeSame(422);
+
+        $violations = $response->toArray(throw: false);
+
+        $this->assertStringContainsString(
+            "boulder: Cette valeur ne doit pas être vide.",
+            $violations['hydra:description']
+        );
+    }
+
+    public function testCannotCreateBoulderFeedbackIfThereIsNoFeedback() {
+        $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $response = $client->request('POST', '/boulder_feedbacks', [
+            'json' => [
+                'boulder' => '/boulders/1'
+            ]
+        ]);
+
+
+        $this->assertResponseStatusCodeSame(422);
+
+        $violations = $response->toArray(throw: false);
+
+        $this->assertStringContainsString(
+            "message: Au moins un des champs suivants doit être présent (newGrade, newLocation ou message)",
+            $violations['hydra:description']
+        );
+    }
 }

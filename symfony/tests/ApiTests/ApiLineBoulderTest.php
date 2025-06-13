@@ -118,7 +118,7 @@ class ApiLineBoulderTest extends ApiTestCase {
 
         $violations = $response->toArray(throw: false);
         $this->assertStringContainsString(
-            "boulder: This boulder does not match with its rock associated",
+            "boulder: Ce bloc ne correspond pas au bloc associé au rocher.",
             $violations['hydra:description']
         );
 

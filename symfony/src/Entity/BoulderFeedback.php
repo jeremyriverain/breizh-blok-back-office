@@ -11,10 +11,14 @@ use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ApiResource(
     security: "is_granted('ROLE_USING_TOKEN')",
     normalizationContext: ['groups' => ['BoulderFeedback:read']],
+    denormalizationContext: ['groups' => ['BoulderFeedback:write']],
 )]
 #[Post(security: "is_granted('ROLE_USING_TOKEN')")]
 #[GetCollection(security: "is_granted('ROLE_USING_TOKEN')")]
@@ -28,15 +32,16 @@ class BoulderFeedback
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(["BoulderFeedback:read"])]
+    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
+    #[Assert\Valid()]
     private ?GeoPoint $newLocation = null;
 
     #[ORM\ManyToOne]
-    #[Groups(["BoulderFeedback:read"])]
+    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
     private ?Grade $newGrade = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["BoulderFeedback:read"])]
+    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
     private ?string $message = null;
 
     #[ORM\Column(length: 255)]
@@ -45,7 +50,8 @@ class BoulderFeedback
 
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["BoulderFeedback:read"])]
+    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
+    #[Assert\NotBlank()]
     private ?Boulder $boulder = null;
 
     #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
@@ -54,6 +60,24 @@ class BoulderFeedback
 
     public function __construct() {
         $this->setCreatedAt(Carbon::now()->toImmutable());
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addConstraint(new Assert\Callback('validate'));
+    }
+
+    public function validate(ExecutionContextInterface $context): void
+    {   
+        $hasNewGrade = $this->getNewGrade() !== null;
+        $hasNewLocation = $this->getNewLocation() !== null;
+        $hasMessage = !empty(trim($this->getMessage() ?? ''));
+
+        if (!$hasNewGrade && !$hasNewLocation && !$hasMessage) {
+            $context->buildViolation('atLeastOneFeedbackField')
+                    ->atPath('message')
+                    ->addViolation();
+        }
     }
 
     public function getId(): ?int

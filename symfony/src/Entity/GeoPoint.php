@@ -18,13 +18,13 @@ class GeoPoint
     #[ORM\Column(type: "float", precision: 10, scale: 8)]
     #[Assert\NotBlank()]
     #[Assert\Range(min: -90, max: 90)]
-    #[Groups(["read", 'Boulder:map', "BoulderArea:read"])]
+    #[Groups(["read", 'Boulder:map', "BoulderArea:read", 'BoulderFeedback:write'])]
     private ?string $latitude;
 
     #[ORM\Column(type: "float", precision: 10, scale: 7)]
     #[Assert\NotBlank()]
     #[Assert\Range(min: -180, max: 180)]
-    #[Groups(["read", 'Boulder:map', "BoulderArea:read"])]
+    #[Groups(["read", 'Boulder:map', "BoulderArea:read", 'BoulderFeedback:write'])]
     private ?string $longitude;
 
     public function __construct(?string $latitude = null, ?string $longitude = null)

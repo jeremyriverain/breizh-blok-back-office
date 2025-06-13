@@ -1,1 +1,4 @@
+atLeastOneFeedbackField: Au moins un des champs suivants doit être présent (newGrade, newLocation ou message)
+boulderDoesNotMatchWithRockAssociated: Ce bloc ne correspond pas au bloc associé au rocher.
+lineAlreadyExists: Cette ligne de bloc existe déjà
 theCombinationOfMinAndMaxAlreadyExist: La combinaison des propriétés min et max existe déjà

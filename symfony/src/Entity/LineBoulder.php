@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[UniqueEntity(
     fields: ['boulder', 'rockImage'],
     errorPath: 'boulder',
-    message: 'The line of the boulder is already drawn on this rock picture',
+    message: 'lineAlreadyExists',
 )]
 #[ApiResource(
     openapi: false,
@@ -79,7 +79,7 @@ class LineBoulder
         }
 
         if ($this->boulder->getRock() !== $this->rockImage->getRock()) {
-            $context->buildViolation('This boulder does not match with its rock associated')
+            $context->buildViolation('boulderDoesNotMatchWithRockAssociated')
                 ->atPath('boulder')
                 ->addViolation();
         }
