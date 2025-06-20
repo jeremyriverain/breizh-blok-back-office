@@ -39,7 +39,6 @@ class BoulderFeedbackCrudController extends AbstractCrudController
             TextareaField::new('message', 'message')->hideOnIndex(),
             BooleanField::new('message', 'message')->hideOnDetail(),
             GeoPointField::new('newLocation', 'newLocation')->setTemplatePath('common/geo-point.html.twig')->setRequired(false),
-            AssociationField::new('newGrade', 'newGrade'),
         ];
     }
 

@@ -36,10 +36,6 @@ class BoulderFeedback
     #[Assert\Valid()]
     private ?GeoPoint $newLocation = null;
 
-    #[ORM\ManyToOne]
-    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
-    private ?Grade $newGrade = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
     private ?string $message = null;
@@ -69,11 +65,10 @@ class BoulderFeedback
 
     public function validate(ExecutionContextInterface $context): void
     {   
-        $hasNewGrade = $this->getNewGrade() !== null;
         $hasNewLocation = $this->getNewLocation() !== null;
         $hasMessage = !empty(trim($this->getMessage() ?? ''));
 
-        if (!$hasNewGrade && !$hasNewLocation && !$hasMessage) {
+        if (!$hasNewLocation && !$hasMessage) {
             $context->buildViolation('atLeastOneFeedbackField')
                     ->atPath('message')
                     ->addViolation();
@@ -93,18 +88,6 @@ class BoulderFeedback
     public function setNewLocation(?GeoPoint $newLocation): static
     {
         $this->newLocation = $newLocation;
-
-        return $this;
-    }
-
-    public function getNewGrade(): ?Grade
-    {
-        return $this->newGrade;
-    }
-
-    public function setNewGrade(?Grade $newGrade): static
-    {
-        $this->newGrade = $newGrade;
 
         return $this;
     }

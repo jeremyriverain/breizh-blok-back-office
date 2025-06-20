@@ -1,4 +1,4 @@
-atLeastOneFeedbackField: At least one feedback field should be present (newGrade, newLocation or message)
+atLeastOneFeedbackField: At least one feedback field should be present (newLocation or message)
 boulderDoesNotMatchWithRockAssociated: This boulder does not match with its rock associatedvalue
 lineAlreadyExists: The line of the boulder is already drawn on this rock picture
 theCombinationOfMinAndMaxAlreadyExist: The combination of min and max already exist

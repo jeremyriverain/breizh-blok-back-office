@@ -29,7 +29,6 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $this->assertResponseIsSuccessful();
 
         $boulderFeedback = $response->toArray();
-        $this->assertEquals('8a', $boulderFeedback['newGrade']['name']);
         $this->assertEquals('I disagree with the current grade.', $boulderFeedback['message']);
         $this->assertEquals('Monkey', $boulderFeedback['boulder']['name']);
         $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
@@ -49,7 +48,6 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $this->assertResponseIsSuccessful();
 
         $boulderFeedback = $response->toArray();
-        $this->assertArrayNotHasKey('newGrade', $boulderFeedback);
         $this->assertArrayNotHasKey('message', $boulderFeedback);
         $this->assertEquals('Stone', $boulderFeedback['boulder']['name']);
         $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
@@ -84,7 +82,6 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         ]);
 
         $boulderFeedback = $response->toArray()['hydra:member'][0];
-        $this->assertArrayNotHasKey('newGrade', $boulderFeedback);
         $this->assertArrayNotHasKey('message', $boulderFeedback);
         $this->assertEquals('Stone', $boulderFeedback['boulder']['name']);
         $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
@@ -103,7 +100,6 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
             'json' => [
                 'boulder' => '/boulders/2',
                 'message' => 'this is a message',
-                'newGrade' => '/grades/1',
                 'newLocation' => [
                     'latitude' => 20,
                     'longitude' => 21
@@ -115,7 +111,6 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $this->assertResponseStatusCodeSame(201);
 
         $boulderFeedback = $response->toArray();
-        $this->assertEquals('4', $boulderFeedback['newGrade']['name']);
         $this->assertEquals('this is a message', $boulderFeedback['message']);
         $this->assertEquals('Monkey', $boulderFeedback['boulder']['name']);
         $this->assertEquals('Cremiou', $boulderFeedback['boulder']['rock']['boulderArea']['name']);
@@ -164,7 +159,7 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $violations = $response->toArray(throw: false);
 
         $this->assertStringContainsString(
-            "message: Au moins un des champs suivants doit être présent (newGrade, newLocation ou message)",
+            "message: Au moins un des champs suivants doit être présent (newLocation ou message)",
             $violations['hydra:description']
         );
     }
