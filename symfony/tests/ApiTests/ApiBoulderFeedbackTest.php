@@ -191,7 +191,7 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
          */
         $email = $this->getMailerMessage();
 
-        $this->assertEquals('super-admin@fixture.com', $email->getTo()[0]->getAddress());
+        $this->assertEquals('developer@foo.bar', $email->getTo()[0]->getAddress());
         $this->assertCount(1, $email->getTo());
         $this->assertEquals('Nouveau feedback', $email->getSubject());
         $this->assertStringContainsString('/admin/fr/boulder-feedback/', $email->getContext()['action_url']);
