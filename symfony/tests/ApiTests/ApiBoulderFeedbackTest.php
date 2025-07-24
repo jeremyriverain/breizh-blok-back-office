@@ -188,7 +188,7 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
 
         $this->assertEquals('developer@foo.bar', $email->getTo()[0]->getAddress());
         $this->assertCount(1, $email->getTo());
-        $this->assertEquals('Nouveau feedback', $email->getSubject());
+        $this->assertEquals('Nouveau feedback pour le bloc Monkey', $email->getSubject());
         $this->assertStringContainsString('/admin/fr/boulder-feedback/', $email->getContext()['action_url']);
     }
 }

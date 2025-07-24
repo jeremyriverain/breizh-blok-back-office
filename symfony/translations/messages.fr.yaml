@@ -6,8 +6,13 @@ Boulder_area: Secteur
 Boulder_areas: Secteurs
 Boulder: Bloc
 boulderFeedback.email.action: Voir détail
-boulderFeedback.email.subject: Nouveau feedback
-boulderFeedback.email.content: Un utilisateur vient d'envoyer un feedback pour un bloc
+boulderFeedback.email.subject: Nouveau feedback pour le bloc %boulderName%
+boulderFeedback.email.content: |
+  Un utilisateur vient d'envoyer un feedback pour le bloc %boulderName% (secteur %boulderAreaName%).
+
+  Message: %message%
+
+  Emplacement suggéré: %location%
 Boulder_line: Ligne du bloc
 Boulders: Blocs
 BoulderFeedback: 'Message reçu'

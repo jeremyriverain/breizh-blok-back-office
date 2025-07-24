@@ -61,11 +61,20 @@ class BoulderFeedbackSubscriber
                 ->set('_locale', $this->translator->getLocale())
                 ->generateUrl();
 
+        $boulderName = $entity->getBoulder()?->getName();
+
         $email = NotificationEmail::asPublicEmail()
             ->from($_ENV['MAILER_RECIPIENT'])
             ->to($this->developerEmail)
-            ->subject($this->translator->trans('boulderFeedback.email.subject', []))
-            ->content($this->translator->trans('boulderFeedback.email.content', []))
+            ->subject($this->translator->trans('boulderFeedback.email.subject', [
+                '%boulderName%' => $boulderName,
+            ]))
+            ->content($this->translator->trans('boulderFeedback.email.content', [
+                '%boulderName%' => $boulderName,
+                '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),
+                '%message%' => $entity->getMessage(),
+                '%location%' => $entity->getNewLocation()?->__toString(),
+            ]))
             ->action($this->translator->trans('boulderFeedback.email.action', []), $url);
 
         $this->mailer->send($email);
