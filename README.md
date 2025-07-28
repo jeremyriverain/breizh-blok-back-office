@@ -1,5 +1,7 @@
 # Breizh Blok Back-office
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jeremyriverain_breizh-blok-back-office&metric=coverage)](https://sonarcloud.io/summary/new_code?id=jeremyriverain_breizh-blok-back-office) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=jeremyriverain_breizh-blok-back-office&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=jeremyriverain_breizh-blok-back-office) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=jeremyriverain_breizh-blok-back-office&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=jeremyriverain_breizh-blok-back-office)
+
 Back-office application designed to catalog climbing blocks in Brittany.
 
 ## Prerequisites
