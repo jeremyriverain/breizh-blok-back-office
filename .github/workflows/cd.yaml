@@ -1,0 +1,36 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: build
+        run: |
+          docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
+          docker compose up -d
+
+          docker compose exec -T php bash -c "composer install"
+      - name: prepare deploy
+        run: echo $HOSTS | base64 -d > deploy_hosts.php
+        env:
+          HOSTS: ${{secrets.HOSTS}}
+      - name: deploy
+        env:
+          HOSTS: ${{secrets.HOSTS}}
+        uses: deployphp/action@v1
+        with:
+          dep: deploy
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          verbosity: -vvv
+          deployer-version: "6.9.0"

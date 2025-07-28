@@ -1,6 +1,11 @@
-name: main
+name: ci
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   main:
@@ -11,15 +16,12 @@ jobs:
       id-token: "write"
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of sonar analysis
       - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-      - name: prepare
-        id: prepare
-        run: |
-          echo $GITHUB_REF_NAME
-          echo "branch=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
       - uses: "google-github-actions/auth@v2"
         with:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID_TEST }}
@@ -30,7 +32,6 @@ jobs:
           GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
           GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
         run: |
-          echo "${{ steps.prepare.outputs.branch }}"
           docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
           docker compose up -d
 
@@ -57,23 +58,11 @@ jobs:
         env:
           GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
           GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
-        run: docker compose exec -T php bash -c "symfony composer run test-fixtures && symfony composer phpunit"
-      - name: prepare deploy
-        if: steps.prepare.outputs.branch == 'main'
-        run: echo $HOSTS | base64 -d > deploy_hosts.php
+        run: docker compose exec -T php bash -c "symfony composer run test-fixtures && XDEBUG_MODE=coverage symfony composer phpunit -- --coverage-clover=var/coverage/clover.xml --log-junit=var/phpunit/junit.xml"
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          HOSTS: ${{secrets.HOSTS}}
-      - name: deploy
-        env:
-          HOSTS: ${{secrets.HOSTS}}
-        if: steps.prepare.outputs.branch == 'main'
-        uses: deployphp/action@v1
-        with:
-          dep: deploy
-          private-key: ${{ secrets.PRIVATE_KEY }}
-          verbosity: -vvv
-          deployer-version: "6.9.0"
-
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: remove-bucket
         run: docker compose exec -T php bash -c "symfony console app:remove-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
         if: always()
