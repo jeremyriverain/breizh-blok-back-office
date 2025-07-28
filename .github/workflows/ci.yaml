@@ -58,7 +58,7 @@ jobs:
         env:
           GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
           GCLOUD_BUCKET_ID: ${{secrets.GCLOUD_BUCKET_ID_TEST}}
-        run: docker compose exec -T php bash -c "symfony composer run test-fixtures && XDEBUG_MODE=coverage symfony composer phpunit -- --coverage-xml=var/coverage"
+        run: docker compose exec -T php bash -c "symfony composer run test-fixtures && XDEBUG_MODE=coverage symfony composer phpunit -- --coverage-clover=var/coverage/clover.xml --log-junit=var/phpunit/junit.xml"
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
