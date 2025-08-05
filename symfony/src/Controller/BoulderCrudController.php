@@ -56,6 +56,8 @@ class BoulderCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $isSuperAdmin = $this->isGranted(Roles::SUPER_ADMIN->value);
+
         return [
             TextField::new('name', 'Name'),
             BooleanField::new('isUrban')->setLabel('Urban_boulder')->renderAsSwitch(false)->setCssClass('cy-urban-boulder'),
@@ -84,7 +86,9 @@ class BoulderCrudController extends AbstractCrudController
             AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
             DateTimeField::new('updatedAt', 'Updated_at')->hideOnForm()->setCssClass('cy_updated_at'),
             AssociationField::new('updatedBy', 'Updated_by')->setCssClass('cy_updated_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
-            BooleanField::new('isDisabled')->setLabel('Is_disabled')->setPermission(Roles::SUPER_ADMIN->value)->renderAsSwitch(false)->hideOnIndex()->hideOnDetail()->hideWhenCreating(),
+
+            $isSuperAdmin ? 
+            BooleanField::new('isDisabled')->setLabel('Is_disabled')->setPermission(Roles::SUPER_ADMIN->value)->renderAsSwitch(true)->hideWhenCreating() : 
             BooleanField::new('isDisabled')->setLabel('Is_disabled')->renderAsSwitch(false)->hideOnForm(),
         ];
     }
