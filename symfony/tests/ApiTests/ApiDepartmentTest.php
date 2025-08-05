@@ -25,41 +25,10 @@ class ApiDepartmentTest extends ApiTestCase
         $department = $response->toArray()['hydra:member'][0];
         
         $this->assertEquals('Finistère', $department['name']);
-        $this->assertCount(2, $department['municipalities']);
-
-        $municipality = $department['municipalities'][0];
-        $this->assertEquals('Kerlouan', $municipality['name']);
-        $this->assertCount(5, $municipality['boulderAreas']);
-
-        $boulderArea = $municipality['boulderAreas'][0];
-        $this->assertEquals('Bivouac', $boulderArea['name']);
-    }
-
-    #[TestDox(<<<EOD
-    Given I request /departments?exists[municipalities.boulderAreas.rocks.boulders]=true
-    Then it returns only departments, municipalities and boulder areas containing boulders
-    EOD)] 
-    public function testListDepartmentsWithExistingBoulders(): void
-    {
-        $response = static::createClient()->request('GET', "/departments?exists[municipalities.boulderAreas.rocks.boulders]=true");
-
-        $this->assertResponseIsSuccessful();
-
-        $this->assertJsonContains([
-            'hydra:totalItems' => 1,
-        ]);
-
-        $department = $response->toArray()['hydra:member'][0];
-        
-        $this->assertEquals('Finistère', $department['name']);
         $this->assertCount(1, $department['municipalities']);
 
         $municipality = $department['municipalities'][0];
-        $this->assertEquals('Kerlouan', $municipality['name']);
-        $this->assertCount(2, $municipality['boulderAreas']);
-
-        $boulderArea = $municipality['boulderAreas'][0];
-        $this->assertEquals('Cremiou', $boulderArea['name']);
+        $this->assertArrayNotHasKey('boulderAreas', $municipality);
     }
 
     public function testGetDepartment(): void

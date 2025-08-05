@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Department;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,32 +22,15 @@ class DepartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Department::class);
     }
 
-    // /**
-    //  * @return Department[] Returns an array of Department objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public static function findDepartementsWhichHaveAtLeastOneBoulder(QueryBuilder $queryBuilder): QueryBuilder
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $queryBuilder->innerJoin(sprintf('%s.municipalities', $rootAlias), 'municipalities');
+        $queryBuilder->innerJoin('municipalities.boulderAreas', 'boulderAreas');
+        $queryBuilder->innerJoin('boulderAreas.rocks', 'rocks');
+        $queryBuilder->innerJoin('rocks.boulders', 'boulders', conditionType: 'WITH', condition: 'boulders.isDisabled = false');
 
-    /*
-    public function findOneBySomeField($value): ?Department
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $queryBuilder;
     }
-    */
+
 }

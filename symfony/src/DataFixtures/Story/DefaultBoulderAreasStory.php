@@ -13,6 +13,7 @@ final class DefaultBoulderAreasStory extends Story
 {
     public const CREMIOU = 'Cremiou';
     public const MENEZ_HAM = 'Menez Ham';
+    public const LE_PHARE = 'Le phare';
 
     public function build(): void
     {

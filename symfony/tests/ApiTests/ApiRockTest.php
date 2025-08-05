@@ -18,7 +18,7 @@ class ApiRockTest extends ApiTestCase {
         $this->assertResponseIsSuccessful();
 
         $this->assertJsonContains([
-            'hydra:totalItems' => 3,
+            'hydra:totalItems' => 4,
         ]);
 
         $rock = $response->toArray()['hydra:member'][0];
