@@ -9,6 +9,7 @@ use App\Repository\BoulderRepository;
 use App\Repository\HeightBoulderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BoulderBackOfficeTest extends BackOfficeTestCase {
     public function testListRocks () {
@@ -203,6 +204,30 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $crawler = $this->client->click($link);
 
         $this->assertSelectorTextContains('h1','Modifier Bloc');
+
+        $this->assertFormFieldNotExists('isDisabled');
+    }
+
+    public function testAdminCanUpdateAnyBoulder() {
+
+        $userEmail = 'admin@fixture.com';
+        
+
+        $this->visitBackOffice(
+            userEmail: $userEmail,
+        );
+
+        $crawler = $this->client->request(
+            'GET',
+            '/admin/fr/boulder'
+        );
+
+        $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
+        $crawler = $this->client->click($link);
+
+        $this->assertSelectorTextContains('h1','Modifier Bloc');
+
+        $this->assertFormFieldNotExists('isDisabled');
     }
 
     public function testContributorCanUpdateLineOfItsOwnBoulders() {
@@ -416,6 +441,50 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
             'p',
             "Vous ne pouvez pas dessiner la ligne de bloc car aucune photo n'est associée au rocher."
         );
+    }
+
+    #[DataProvider('viewers')]
+    public function testAdminAndContributorCannotDisableBoulder(
+        string $email, 
+        ) {
+        $this->visitBackOffice(
+            userEmail: $email,
+        );
+
+        $this->client->request('GET', '/admin/fr/boulder');
+
+        $this->client->clickLink('Créer Bloc');
+      
+        $this->assertFormFieldNotExists('isDisabled');
+    }
+
+    public static function viewers(): array
+    {
+        return [
+            ['admin@fixture.com'],
+            ['contributor@fixture.com'],
+        ];
+    }
+
+    public function testSuperAdminCanDisableBoulder() {
+
+        $userEmail = 'super-admin@fixture.com';
+        
+        $this->visitBackOffice(
+            userEmail: $userEmail,
+        );
+
+        $crawler = $this->client->request(
+            'GET',
+            '/admin/fr/boulder'
+        );
+
+        $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
+        $crawler = $this->client->click($link);
+
+        $this->assertSelectorTextContains('h1','Modifier Bloc');
+
+        $this->assertFormFieldExists('isDisabled');
     }
 
 }

@@ -36,6 +36,7 @@ heightLessThan: Less than %value% meters
 heightMoreThan: More than %value% meters
 helper_valid_code_department: see https://api.gouv.fr/documentation/api-geo to get a valid code	
 ID: ID
+Is_disabled: Is disabled
 Last_connection: Last connection
 Latitude: Latitude
 Longitude: Longitude

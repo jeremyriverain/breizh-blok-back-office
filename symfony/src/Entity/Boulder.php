@@ -106,6 +106,9 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $createdAt;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $isDisabled = false;
+
     public function __construct()
     {
         $this->setCreatedAt(Carbon::now()->toImmutable());
@@ -276,6 +279,18 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     public function setCreatedAt(\DateTimeInterface $dateTime): self
     {
         $this->createdAt = $dateTime;
+        return $this;
+    }
+
+    public function isDisabled(): ?bool
+    {
+        return $this->isDisabled;
+    }
+
+    public function setIsDisabled(bool $isDisabled): static
+    {
+        $this->isDisabled = $isDisabled;
+
         return $this;
     }
 }

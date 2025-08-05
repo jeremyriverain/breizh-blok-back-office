@@ -17,7 +17,7 @@ class ApiBoulderTest extends ApiTestCase {
         $this->assertResponseIsSuccessful();
 
         $this->assertJsonContains([
-            'hydra:totalItems' => 4,
+            'hydra:totalItems' => 3,
         ]);
 
         $boulder = $response->toArray()['hydra:member'][0];
@@ -69,15 +69,6 @@ class ApiBoulderTest extends ApiTestCase {
                     'location' => [
                         'latitude' => '48.673314470371',
                         'longitude' => '-4.357883461703',
-                    ],
-                ],
-            ],
-            [
-                'id' => 4,
-                'rock' => [
-                    'location' => [
-                        'latitude' => '48.66945913666',
-                        'longitude' => '-4.3719220691165',
                     ],
                 ],
             ],
@@ -134,10 +125,11 @@ class ApiBoulderTest extends ApiTestCase {
 
     public function testCanSearchBouldersByEnteringMunicipalityName() {
         $response = static::createClient()->request('GET', '/boulders?term=ker');
-        $this->assertEquals(4, $response->toArray()['hydra:totalItems']);
+        $total = 3;
+        $this->assertEquals($total, $response->toArray()['hydra:totalItems']);
         $boulders = $response->toArray()['hydra:member'];
 
-        for ($i=0; $i < 4; $i++) { 
+        for ($i=0; $i < $total; $i++) { 
             $this->assertEquals('Kerlouan', $boulders[$i]['rock']['boulderArea']['municipality']['name']);
         }
 

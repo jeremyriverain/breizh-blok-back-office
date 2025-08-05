@@ -84,6 +84,8 @@ class BoulderCrudController extends AbstractCrudController
             AssociationField::new('createdBy', 'Created_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
             DateTimeField::new('updatedAt', 'Updated_at')->hideOnForm()->setCssClass('cy_updated_at'),
             AssociationField::new('updatedBy', 'Updated_by')->setCssClass('cy_updated_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
+            BooleanField::new('isDisabled')->setLabel('Is_disabled')->setPermission(Roles::SUPER_ADMIN->value)->renderAsSwitch(false)->hideOnIndex()->hideOnDetail()->hideWhenCreating(),
+            BooleanField::new('isDisabled')->setLabel('Is_disabled')->renderAsSwitch(false)->hideOnForm(),
         ];
     }
 
@@ -137,7 +139,9 @@ class BoulderCrudController extends AbstractCrudController
                         },
                     )
             )
-            ->add(AdminBoulderAreaFilter::new('boulderArea'));
+            ->add(AdminBoulderAreaFilter::new('boulderArea'))
+            ->add(BooleanFilter::new('isDisabled', 'Is_disabled'))
+            ;
     }
 
 
