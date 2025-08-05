@@ -36,6 +36,7 @@ heightLessThan: Moins de %value%m
 heightMoreThan: Plus de %value%m
 helper_valid_code_department: voir https://api.gouv.fr/documentation/api-geo pour récupérer un code valide	
 ID: ID
+Is_disabled: Désactivé
 Last_connection: Dernière connexion
 Latitude: Latitude
 Longitude: Longitude
