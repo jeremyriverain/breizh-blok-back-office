@@ -91,6 +91,7 @@ final class DefaultRocksStory extends Story
             'grade' => $gradeRepository->findOneBy(['name' => '6a']),
             'rock' => $rock3->_real(),
             'description' => 'Départ assis, remonter l\'arête',
+            'isDisabled' => true,
         ]);
 
         $boulderAreaRepository = repository(BoulderArea::class);
