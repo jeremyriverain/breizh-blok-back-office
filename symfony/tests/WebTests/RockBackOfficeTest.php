@@ -16,7 +16,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/rock');
         $this->assertResponseStatusCodeSame(200);
 
-        $this->assertIndexFullEntityCount(3);
+        $this->assertIndexFullEntityCount(4);
 
         $this->assertIndexColumnExists('id');
         $this->assertIndexColumnExists('boulderArea');
@@ -70,7 +70,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/rock');
         $this->assertResponseStatusCodeSame(200);
 
-        $this->assertIndexFullEntityCount(3);
+        $this->assertIndexFullEntityCount(4);
 
         $this->assertIndexEntityActionExists(Action::DELETE, 1); 
         $this->assertIndexEntityActionExists(Action::EDIT, 1); 
@@ -85,13 +85,13 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/rock');
         $this->assertResponseStatusCodeSame(200);
-        $this->assertIndexPageEntityCount(3);
+        $this->assertIndexPageEntityCount(4);
 
         $this->assertIndexEntityActionExists(Action::DELETE, 1); 
 
         $this->indexDeleteEntity(1);
 
-        $this->assertIndexPageEntityCount(2);
+        $this->assertIndexPageEntityCount(3);
     }
 
     public function testCannotCreateinvalidRock() {
@@ -101,7 +101,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/rock');
 
-        $this->assertIndexPageEntityCount(3);
+        $this->assertIndexPageEntityCount(4);
 
         $this->client->clickLink('Créer Rocher');
 
@@ -137,7 +137,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/rock');
 
-        $this->assertIndexPageEntityCount(3);
+        $this->assertIndexPageEntityCount(4);
 
         $this->client->clickLink('Créer Rocher');
 
@@ -159,7 +159,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('h1', 'Rochers');
 
-        $this->assertIndexPageEntityCount(4);
+        $this->assertIndexPageEntityCount(5);
     }
 
     public function testContributorCannotUpdateOrDeleteRockIfNotCreatedByHim() {
@@ -220,13 +220,13 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/rock');
 
-        $this->assertIndexFullEntityCount(3);
+        $this->assertIndexFullEntityCount(4);
 
         $this->assertIndexEntityActionExists(Action::DELETE, 1);
 
         $this->indexDeleteEntity(id: 1);
 
-        $this->assertIndexFullEntityCount(2);
+        $this->assertIndexFullEntityCount(3);
 
     }
 }

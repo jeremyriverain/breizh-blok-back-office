@@ -94,6 +94,23 @@ final class DefaultRocksStory extends Story
             'isDisabled' => true,
         ]);
 
+        $rock4 = RockFactory::createOne([
+            'location' => GeoPointFactory::createOne([
+                'latitude' => "48",
+                'longitude' => "-4",
+            ]),
+            'boulderArea' => $boulderAreaRepository->findOneBy([
+                'name' => DefaultBoulderAreasStory::LE_PHARE,
+            ]),
+        ]);
+
+        BoulderFactory::createOne([
+            'name' => 'La parabole',
+            'grade' => $gradeRepository->findOneBy(['name' => '6a']),
+            'rock' => $rock4->_real(),
+            'isDisabled' => true,
+        ]);
+
         $boulderAreaRepository = repository(BoulderArea::class);
         $boulderAreaCremiou = $boulderAreaRepository->findOneBy(['name' => DefaultBoulderAreasStory::CREMIOU]);
         $boulderAreaMenezHam = $boulderAreaRepository->findOneBy(['name' => DefaultBoulderAreasStory::MENEZ_HAM]);

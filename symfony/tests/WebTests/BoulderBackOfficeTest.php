@@ -20,7 +20,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/boulder');
         $this->assertResponseStatusCodeSame(200);
 
-        $this->assertIndexFullEntityCount(4);
+        $this->assertIndexFullEntityCount(5);
     }
 
     public function testFilterBouldersByBoulderArea()
@@ -289,13 +289,13 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
-        $this->assertIndexFullEntityCount(4);
+        $this->assertIndexFullEntityCount(5);
 
         $this->assertIndexEntityActionExists(Action::DELETE, $boulder->getId());
 
         $this->indexDeleteEntity(id: $boulder->getId());
 
-        $this->assertIndexFullEntityCount(3);
+        $this->assertIndexFullEntityCount(4);
         $this->assertSelectorTextNotContains('table tbody', $boulder->getName());
 
     }
@@ -370,7 +370,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/boulder');
 
-        $this->assertIndexFullEntityCount(4);
+        $this->assertIndexFullEntityCount(5);
         $this->assertSelectorTextNotContains('table tbody', 'bar');
 
         $this->client->clickLink('Créer Bloc');
@@ -386,7 +386,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/boulder');
 
-        $this->assertIndexFullEntityCount(5);
+        $this->assertIndexFullEntityCount(6);
         $this->assertSelectorTextContains('table tbody', 'bar');
 
     }
@@ -406,13 +406,13 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
-        $this->assertIndexFullEntityCount(4);
+        $this->assertIndexFullEntityCount(5);
 
         $this->assertIndexEntityActionExists(Action::DELETE, $boulder->getId());
 
         $this->indexDeleteEntity(id: $boulder->getId());
 
-        $this->assertIndexFullEntityCount(3);
+        $this->assertIndexFullEntityCount(4);
         $this->assertSelectorTextNotContains('table tbody', $boulder->getName());
 
     }

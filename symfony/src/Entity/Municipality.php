@@ -43,7 +43,7 @@ class Municipality implements IZone
      */
     #[ORM\OneToMany(targetEntity: BoulderArea::class, mappedBy: "municipality", orphanRemoval: true)]
     #[ORM\OrderBy(['name' => 'ASC'])]
-    #[Groups(["Department:read", "Municipality:read"])]
+    #[Groups(["Municipality:read"])]
     private $boulderAreas;
 
     #[ORM\OneToOne(targetEntity: GeoPoint::class, cascade: ['persist', 'remove'])]

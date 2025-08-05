@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationClientEnabled: true,
 )]
-#[ApiFilter(ExistsFilter::class, properties: ['municipalities.boulderAreas.rocks.boulders'])]
 #[ApiFilter(OrderFilter::class, properties: ['name'])]
 class Department
 {

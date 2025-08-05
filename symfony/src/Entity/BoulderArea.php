@@ -39,7 +39,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
     #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["BoulderArea:read", "Boulder:read", "Department:read", "Municipality:read", 'BoulderFeedback:read'])]
+    #[Groups(["BoulderArea:read", "Boulder:read", "Municipality:read", 'BoulderFeedback:read'])]
     private ?string $name;
 
     /**
