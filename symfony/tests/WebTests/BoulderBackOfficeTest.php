@@ -453,6 +453,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('GET', '/admin/fr/boulder');
 
+        $this->assertBooleanFieldIsNotRenderedAsSwitch('isDisabled');
+
         $this->client->clickLink('Créer Bloc');
       
         $this->assertFormFieldNotExists('isDisabled');
@@ -478,6 +480,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
             'GET',
             '/admin/fr/boulder'
         );
+
+        $this->assertBooleanFieldIsRenderedAsSwitch('isDisabled');
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
         $crawler = $this->client->click($link);

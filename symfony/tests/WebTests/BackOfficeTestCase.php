@@ -82,5 +82,17 @@ class BackOfficeTestCase extends WebTestCase {
         $this->assertSelectorExists($selector);
         $this->assertSelectorTextContains($selector, $message);
     }
+
+    private function getIndexSwitchBooleanFieldSelector(string $fieldName): string {
+        return "[data-column=$fieldName].field-boolean.has-switch";
+    }
+
+    public function assertBooleanFieldIsRenderedAsSwitch(string $fieldName) {
+        $this->assertSelectorExists($this->getIndexSwitchBooleanFieldSelector($fieldName));
+    }
+
+    public function assertBooleanFieldIsNotRenderedAsSwitch(string $fieldName) {
+        $this->assertSelectorNotExists($this->getIndexSwitchBooleanFieldSelector($fieldName));
+    }
 }
 
