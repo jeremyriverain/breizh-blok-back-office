@@ -1,0 +1,8 @@
+{
+    "preset": "symfony",
+    "exclude": [
+        "vendor",
+        "var",
+        "node_modules"
+    ]
+}
