@@ -20,7 +20,7 @@ final class DefaultDepartmentsStory extends Story
             'municipalities' => [
                 $municipalityRepository->findOneBy(['name' => DefaultMunicipalitiesStory::LAMPAUL_PLOUARZEL]),
                 $municipalityRepository->findOneBy(['name' => DefaultMunicipalitiesStory::KERLOUAN]),
-            ]
+            ],
         ]);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Utils\AllowContributionExpression;
-use App\Utils\Roles;
 use App\Entity\Rock;
 use App\Field\GeoPointField;
 use App\Form\ImageType;
 use App\Services\CentroidCalculator;
+use App\Utils\AllowContributionExpression;
+use App\Utils\Roles;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -37,7 +37,7 @@ class RockCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->setFormOptions(['attr' => ['novalidate' => true]])
             ->setDefaultSort(['createdAt' => 'DESC'])
-            ->setPageTitle('detail', fn(Rock $rock) => (string) $rock)
+            ->setPageTitle('detail', fn (Rock $rock) => (string) $rock)
             ->addFormTheme('form/theme.html.twig');
     }
 
@@ -93,6 +93,7 @@ class RockCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
         CentroidCalculator::onRockUpdate($entityManager, $entityInstance);
     }
+
     /** @phpstan-ignore-next-line */
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {

@@ -42,24 +42,24 @@ class LineBoulder
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\ManyToOne(targetEntity: Media::class, inversedBy: "lineBoulders")]
+    #[ORM\ManyToOne(targetEntity: Media::class, inversedBy: 'lineBoulders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(["LineBoulder:read", "LineBoulder:collection-post", "Boulder:read"])]
+    #[Groups(['LineBoulder:read', 'LineBoulder:collection-post', 'Boulder:read'])]
     private ?Media $rockImage = null;
 
-    #[ORM\ManyToOne(targetEntity: Boulder::class, inversedBy: "lineBoulders")]
+    #[ORM\ManyToOne(targetEntity: Boulder::class, inversedBy: 'lineBoulders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(["LineBoulder:read", "LineBoulder:collection-post"])]
+    #[Groups(['LineBoulder:read', 'LineBoulder:collection-post'])]
     private ?Boulder $boulder = null;
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: 'text')]
-    #[Groups(["LineBoulder:read", "LineBoulder:write", "Boulder:read"])]
+    #[Groups(['LineBoulder:read', 'LineBoulder:write', 'Boulder:read'])]
     private string $smoothLine;
 
     /**
@@ -68,7 +68,7 @@ class LineBoulder
     #[Assert\Type('array')]
     #[Assert\NotBlank()]
     #[ORM\Column(type: 'json')]
-    #[Groups(["LineBoulder:read", "LineBoulder:write"])]
+    #[Groups(['LineBoulder:read', 'LineBoulder:write'])]
     private array $arrArrPoints;
 
     #[Assert\Callback()]

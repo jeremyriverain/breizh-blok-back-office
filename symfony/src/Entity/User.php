@@ -4,9 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('email')]
@@ -14,10 +14,10 @@ class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email()]
     #[Assert\Length(max: 180)]
     #[Assert\NotBlank()]
@@ -26,15 +26,15 @@ class User implements UserInterface
     /**
      * @var array<string> $roles
      */
-    #[ORM\Column(type: "json")]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $lastAuthenticatedAt;
 
     public function __toString()
     {
-        return $this->email ?? 'User #' . $this->id;
+        return $this->email ?? 'User #'.$this->id;
     }
 
     public function getId(): ?int
@@ -56,13 +56,16 @@ class User implements UserInterface
 
     /**
      * A visual identifier that represents this user.
-     * @return string
      *
      * @see UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        if (empty($this->email)) {
+            throw new \LogicException('User identifier (email) cannot be empty.');
+        }
+
+        return $this->email;
     }
 
     /**

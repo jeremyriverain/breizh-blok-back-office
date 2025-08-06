@@ -61,12 +61,11 @@ final class ResolveIContainsMediaSubscriber implements EventSubscriberInterface
     private function resolve(IContainsMedia $nestedMedia): void
     {
         foreach ($nestedMedia->getMediaAttributes() as $mediaProperty) {
-
             $v = $this->propertyAccessor->getValue($nestedMedia, $mediaProperty);
             if (!empty($v)) {
                 if ($v instanceof Media) {
                     $this->setContentUrl($v);
-                } else if (is_array($v)) {
+                } elseif (is_array($v)) {
                     foreach ($v as $media) {
                         $this->resolve($media);
                     }
@@ -79,6 +78,6 @@ final class ResolveIContainsMediaSubscriber implements EventSubscriberInterface
     {
         $mediaObject->contentUrl = $this->storage->resolveUri($mediaObject, 'file');
 
-        $mediaObject->filterUrl = '/media/cache/resolve/%filter%' . $this->storage->resolveUri($mediaObject, 'file');
+        $mediaObject->filterUrl = '/media/cache/resolve/%filter%'.$this->storage->resolveUri($mediaObject, 'file');
     }
 }

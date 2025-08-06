@@ -12,9 +12,9 @@ use App\Repository\GradeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GradeRepository::class)]
 #[UniqueEntity('name')]
@@ -32,10 +32,10 @@ class Grade
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 10)]
+    #[ORM\Column(type: 'string', length: 10)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 10)]
     #[Groups(['read'])]
@@ -44,7 +44,7 @@ class Grade
     /**
      * @var Collection<int, Boulder>|Boulder[]
      */
-    #[ORM\OneToMany(targetEntity: Boulder::class, mappedBy: "grade")]
+    #[ORM\OneToMany(targetEntity: Boulder::class, mappedBy: 'grade')]
     private Collection $boulders;
 
     public function __toString()

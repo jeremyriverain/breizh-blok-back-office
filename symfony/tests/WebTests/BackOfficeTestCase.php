@@ -15,8 +15,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class BackOfficeTestCase extends WebTestCase {
-
+class BackOfficeTestCase extends WebTestCase
+{
     use CrudTestActions;
     use CrudTestFormAsserts;
     use CrudTestIndexAsserts;
@@ -32,8 +32,8 @@ class BackOfficeTestCase extends WebTestCase {
         $this->adminUrlGenerator = $container->get(AdminUrlGenerator::class);
     }
 
-    public function visitBackOffice(string $userEmail, ?string $locale = 'fr'): Crawler {
-
+    public function visitBackOffice(string $userEmail, ?string $locale = 'fr'): Crawler
+    {
         $this->client->disableReboot();
 
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -41,18 +41,22 @@ class BackOfficeTestCase extends WebTestCase {
         $testUser = $userRepository->findOneByEmail($userEmail);
 
         $this->client->loginUser($testUser);
-        
+
         $this->client->followRedirects();
+
         return $this->client->request('GET', "/admin/$locale");
     }
 
-    public function indexSearch (string $query): Crawler {
+    public function indexSearch(string $query): Crawler
+    {
         $form = $this->client->getCrawler()->filter('.form-action-search')->form();
         $form['query'] = $query;
+
         return $this->client->submit($form);
     }
 
-    public function indexDeleteEntity(int $id) {
+    public function indexDeleteEntity(int $id)
+    {
         $crawler = $this->client->getCrawler();
         $uri = $crawler->getUri();
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DELETE, $id))->link();
@@ -60,39 +64,45 @@ class BackOfficeTestCase extends WebTestCase {
         $form = $crawler->filter('#delete-form')->form();
         $form->getNode()->setAttribute(
             'action',
-           $link->getUri() 
+            $link->getUri()
         );
         $this->client->submit($form);
         $this->client->request('GET', $uri);
     }
 
-    public function findUser(string $email): User {
+    public function findUser(string $email): User
+    {
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(['email' => $email]);
         $this->assertNotNull($user);
+
         return $user;
     }
 
-    public function assertFieldIsInvalid(string $fieldName) {
+    public function assertFieldIsInvalid(string $fieldName)
+    {
         $this->assertSelectorExists($this->getFormFieldSelector($fieldName).'.is-invalid');
     }
 
-    public function assertInvalidFeedback(string $fieldName, string $message) {
-        $selector = $this->getFormFieldSelector($fieldName). ' + .invalid-feedback';
+    public function assertInvalidFeedback(string $fieldName, string $message)
+    {
+        $selector = $this->getFormFieldSelector($fieldName).' + .invalid-feedback';
         $this->assertSelectorExists($selector);
         $this->assertSelectorTextContains($selector, $message);
     }
 
-    private function getIndexSwitchBooleanFieldSelector(string $fieldName): string {
+    private function getIndexSwitchBooleanFieldSelector(string $fieldName): string
+    {
         return "[data-column=$fieldName].field-boolean.has-switch";
     }
 
-    public function assertBooleanFieldIsRenderedAsSwitch(string $fieldName) {
+    public function assertBooleanFieldIsRenderedAsSwitch(string $fieldName)
+    {
         $this->assertSelectorExists($this->getIndexSwitchBooleanFieldSelector($fieldName));
     }
 
-    public function assertBooleanFieldIsNotRenderedAsSwitch(string $fieldName) {
+    public function assertBooleanFieldIsNotRenderedAsSwitch(string $fieldName)
+    {
         $this->assertSelectorNotExists($this->getIndexSwitchBooleanFieldSelector($fieldName));
     }
 }
-

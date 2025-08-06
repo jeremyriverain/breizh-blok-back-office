@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Rock|null findOneBy(array $criteria, array $orderBy = null)
  * @method Rock[]    findAll()
  * @method Rock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Rock>
  */
 class RockRepository extends ServiceEntityRepository

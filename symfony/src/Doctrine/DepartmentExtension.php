@@ -27,7 +27,7 @@ final readonly class DepartmentExtension implements QueryCollectionExtensionInte
         if (Department::class !== $resourceClass) {
             return;
         }
-        
+
         $queryBuilder = DepartmentRepository::findDepartementsWhichHaveAtLeastOneBoulder($queryBuilder);
     }
 }

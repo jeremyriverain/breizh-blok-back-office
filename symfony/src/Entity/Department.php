@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -35,7 +34,7 @@ class Department
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["Department:read"])]
+    #[Groups(['Department:read'])]
     private ?string $name;
 
     /**
@@ -43,7 +42,7 @@ class Department
      */
     #[ORM\OneToMany(mappedBy: 'department', targetEntity: Municipality::class)]
     #[ORM\OrderBy(['name' => 'ASC'])]
-    #[Groups(["Department:read"])]
+    #[Groups(['Department:read'])]
     private $municipalities;
 
     public function __toString()

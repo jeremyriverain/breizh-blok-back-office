@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method GeoPoint|null findOneBy(array $criteria, array $orderBy = null)
  * @method GeoPoint[]    findAll()
  * @method GeoPoint[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\GeoPoint>
  */
 class GeoPointRepository extends ServiceEntityRepository

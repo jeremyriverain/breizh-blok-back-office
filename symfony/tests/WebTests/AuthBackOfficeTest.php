@@ -4,8 +4,10 @@ namespace App\Tests\WebTests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class AuthBackOfficeTest extends BackOfficeTestCase {
-    public function testUserIsRedirectedToLoginPageIfNotAuthenticated() {
+class AuthBackOfficeTest extends BackOfficeTestCase
+{
+    public function testUserIsRedirectedToLoginPageIfNotAuthenticated()
+    {
         $this->client->request('GET', '/admin/fr');
         $this->assertResponseRedirects(
             expectedLocation: '/admin/login/fr',
@@ -13,9 +15,9 @@ class AuthBackOfficeTest extends BackOfficeTestCase {
         );
     }
 
-    
     #[DataProvider('authorizedEmails')]
-    public function testAuthorizedUserCanAccessBackOffice(string $emailUser) {
+    public function testAuthorizedUserCanAccessBackOffice(string $emailUser)
+    {
         $this->client->disableReboot();
         $this->client->request('GET', '/admin/login/fr');
 
@@ -38,7 +40,8 @@ class AuthBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('h1', 'Secteurs');
     }
 
-    public function testUserCanAuthAsEnglishSpeaker() {
+    public function testUserCanAuthAsEnglishSpeaker()
+    {
         $this->client->disableReboot();
         $this->client->request('GET', '/admin/login/en');
 
@@ -66,7 +69,8 @@ class AuthBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-     public function testUserCannotAccessBackOffice() {
+    public function testUserCannotAccessBackOffice()
+    {
         $this->client->disableReboot();
         $this->client->request('GET', '/admin/login/fr');
 
@@ -86,7 +90,8 @@ class AuthBackOfficeTest extends BackOfficeTestCase {
     }
 
     #[DataProvider('logoutParams')]
-    public function testLogout(string $locale, string $expectedText) {
+    public function testLogout(string $locale, string $expectedText)
+    {
         $this->client->disableReboot();
         $this->visitBackOffice(userEmail: 'contributor@fixture.com');
         $this->client->followRedirects();
@@ -101,6 +106,4 @@ class AuthBackOfficeTest extends BackOfficeTestCase {
             ['en', 'Send link'],
         ];
     }
-
-
 }

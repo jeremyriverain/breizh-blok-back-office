@@ -35,7 +35,6 @@ class CopyAssetsCommand extends Command
         $destination = $input->getOption('to');
 
         try {
-
             $listing = $this->$source->listContents('/', true);
 
             /** @var \League\Flysystem\StorageAttributes $item */
@@ -50,6 +49,7 @@ class CopyAssetsCommand extends Command
             return Command::SUCCESS;
         } catch (\Throwable $th) {
             $io->error($th);
+
             return Command::FAILURE;
         }
     }

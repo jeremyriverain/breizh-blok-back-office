@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Tests\ApiTests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use PHPUnit\Framework\Attributes\TestDox;
 
 class ApiDepartmentTest extends ApiTestCase
 {
@@ -23,7 +23,7 @@ class ApiDepartmentTest extends ApiTestCase
         ]);
 
         $department = $response->toArray()['hydra:member'][0];
-        
+
         $this->assertEquals('Finistère', $department['name']);
         $this->assertCount(1, $department['municipalities']);
 
@@ -38,20 +38,19 @@ class ApiDepartmentTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
 
         $this->assertEquals('Finistère', $response->toArray()['name']);
-
     }
 
     public function testCannotDeleteDepartment(): void
     {
-        static::createClient()->request('DELETE', "/departments/1");
+        static::createClient()->request('DELETE', '/departments/1');
 
         $this->assertResponseStatusCodeSame(405);
     }
-    
+
     public function testCannotCreateDepartment(): void
     {
-        static::createClient()->request('POST', "/departments", [
-            'json' => []
+        static::createClient()->request('POST', '/departments', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
@@ -59,17 +58,16 @@ class ApiDepartmentTest extends ApiTestCase
 
     public function testCannotEditDepartment(): void
     {
-        static::createClient()->request('PUT', "/departments/1", [
-            'json' => []
+        static::createClient()->request('PUT', '/departments/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
 
-        static::createClient()->request('PATCH', "/departments/1", [
-            'json' => []
+        static::createClient()->request('PATCH', '/departments/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
     }
-
 }

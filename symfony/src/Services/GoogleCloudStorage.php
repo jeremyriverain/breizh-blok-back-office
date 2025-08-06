@@ -9,7 +9,7 @@ class GoogleCloudStorage extends StorageClient
     public function __construct()
     {
         if (array_key_exists('GOOGLE_APPLICATION_CREDENTIALS', $_ENV)) {
-            putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
+            putenv('GOOGLE_APPLICATION_CREDENTIALS='.$_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
         }
 
         parent::__construct([

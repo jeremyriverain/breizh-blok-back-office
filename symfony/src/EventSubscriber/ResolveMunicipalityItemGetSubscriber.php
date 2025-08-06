@@ -5,23 +5,21 @@ namespace App\EventSubscriber;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\State\Util\RequestAttributesExtractor;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 use App\Entity\Boulder;
 use App\Entity\Municipality;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ResolveMunicipalityItemGetSubscriber implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['onPreSerialize', EventPriorities::PRE_SERIALIZE],
         ];
     }
-
 
     public function onPreSerialize(ViewEvent $event): void
     {
@@ -53,8 +51,8 @@ final class ResolveMunicipalityItemGetSubscriber implements EventSubscriberInter
             $boulderArea->numberOfBoulders = $numberOfBoulders;
             if ($numberOfBoulders > 0) {
                 $boulderArea->lowestGrade = $bouldersSortedByGrade[0]->getGrade();
-                $bouldersWithoutNullGrade = array_filter($bouldersSortedByGrade,  fn (Boulder $value) => $value->getGrade() !== null);
-                $potentialHighestGrade = count($bouldersWithoutNullGrade) === 0 ? null : $bouldersWithoutNullGrade[count($bouldersWithoutNullGrade) - 1];
+                $bouldersWithoutNullGrade = array_filter($bouldersSortedByGrade, fn (Boulder $value) => null !== $value->getGrade());
+                $potentialHighestGrade = 0 === count($bouldersWithoutNullGrade) ? null : $bouldersWithoutNullGrade[count($bouldersWithoutNullGrade) - 1];
                 $boulderArea->highestGrade = $potentialHighestGrade ? $potentialHighestGrade->getGrade() : null;
             }
         }

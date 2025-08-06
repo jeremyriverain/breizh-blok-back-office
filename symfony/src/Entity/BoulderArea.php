@@ -33,50 +33,50 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
 
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["BoulderArea:read", "Boulder:read", "Municipality:read", 'BoulderFeedback:read'])]
+    #[Groups(['BoulderArea:read', 'Boulder:read', 'Municipality:read', 'BoulderFeedback:read'])]
     private ?string $name;
 
     /**
      * @var Collection<int, Rock>|Rock[]
      */
-    #[ORM\OneToMany(targetEntity: Rock::class, mappedBy: "boulderArea", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Rock::class, mappedBy: 'boulderArea', orphanRemoval: true)]
     private $rocks;
 
-    #[ORM\Column(type: "text", nullable: true)]
-    #[Groups(["BoulderArea:read"])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['BoulderArea:read'])]
     private ?string $description;
 
-    #[ORM\ManyToOne(targetEntity: Municipality::class, inversedBy: "boulderAreas")]
+    #[ORM\ManyToOne(targetEntity: Municipality::class, inversedBy: 'boulderAreas')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(["Boulder:read", "BoulderArea:read"])]
+    #[Groups(['Boulder:read', 'BoulderArea:read'])]
     private ?Municipality $municipality;
 
     #[ORM\OneToOne(targetEntity: GeoPoint::class, cascade: ['persist', 'remove'])]
     #[Assert\Valid()]
-    #[Groups(["BoulderArea:item-get", "Municipality:item-get"])]
+    #[Groups(['BoulderArea:item-get', 'Municipality:item-get'])]
     private ?GeoPoint $centroid = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(["BoulderArea:item-get"])]
+    #[Groups(['BoulderArea:item-get'])]
     private ?GeoPoint $parkingLocation = null;
 
-    #[Groups(["Municipality:item-get"])]
+    #[Groups(['Municipality:item-get'])]
     public ?Grade $lowestGrade = null;
 
-    #[Groups(["Municipality:item-get"])]
+    #[Groups(['Municipality:item-get'])]
     public ?Grade $highestGrade = null;
 
-    #[Groups(["Municipality:item-get"])]
+    #[Groups(['Municipality:item-get'])]
     public ?int $numberOfBoulders = null;
 
-    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt;
 
     public function __construct()
@@ -87,7 +87,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
 
     public function __toString()
     {
-        return $this->name ?? "";
+        return $this->name ?? '';
     }
 
     /**
@@ -96,7 +96,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
     public function getBoulders(): array
     {
         return array_reduce($this->rocks->toArray(), function ($previous, $current) {
-            /**
+            /*
              * @var \App\Entity\Boulder[] $previous
              * @var \App\Entity\Rock $current
              */
@@ -111,6 +111,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
     {
         $boulders = $this->getBoulders();
         sort($boulders, SORT_STRING);
+
         return $boulders;
     }
 
@@ -124,24 +125,26 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
         usort($boulders, function (Boulder $a, Boulder $b): int {
             $aGrade = $a->getGrade();
             $bGrade = $b->getGrade();
-            if ($aGrade === null && $bGrade === null) {
+            if (null === $aGrade && null === $bGrade) {
                 return 0;
             }
-            if ($aGrade === null) {
+            if (null === $aGrade) {
                 return 1;
             }
-            if ($bGrade == null) {
+            if (null == $bGrade) {
                 return -1;
             }
+
             return strcasecmp($aGrade->getName() ?? '', $bGrade->getName() ?? '');
         });
+
         return $boulders;
     }
 
     /**
      * @return array<string, int>
      */
-    #[Groups(["BoulderArea:item-get"])]
+    #[Groups(['BoulderArea:item-get'])]
     public function getNumberOfBouldersGroupedByGrade(): array
     {
         return array_reduce($this->getBouldersSortedByGrade(), function (array $carry, Boulder $item) {
@@ -155,6 +158,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
             }
 
             $carry[$grade->getName()] = $carry[$grade->getName()] + 1;
+
             return $carry;
         }, []);
     }
@@ -248,7 +252,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
          * @var array<int, GeoPoint> $geoPoints
          */
         $geoPoints = array_map(function ($rock) {
-            /**
+            /*
              * @var Rock $rock
              */
             return $rock->getLocation();
@@ -277,6 +281,7 @@ class BoulderArea implements IZone, IUpdatable, IBlameable
     public function setCreatedAt(\DateTimeInterface $dateTime): self
     {
         $this->createdAt = $dateTime;
+
         return $this;
     }
 }

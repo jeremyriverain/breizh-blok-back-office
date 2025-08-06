@@ -13,11 +13,11 @@ final class DefaultMunicipalitiesStory extends Story
     public function build(): void
     {
         MunicipalityFactory::createOne([
-            'name' => self::LAMPAUL_PLOUARZEL, 
+            'name' => self::LAMPAUL_PLOUARZEL,
         ]);
 
         MunicipalityFactory::createOne([
-            'name' => self::KERLOUAN, 
+            'name' => self::KERLOUAN,
         ]);
     }
 }

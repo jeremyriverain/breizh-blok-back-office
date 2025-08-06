@@ -6,10 +6,11 @@ use App\Repository\MunicipalityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class MunicipalityBackOfficeTest extends BackOfficeTestCase {
-    
+class MunicipalityBackOfficeTest extends BackOfficeTestCase
+{
     #[DataProvider('viewers')]
-    public function testAdminAndContributorCanOnlyViewMunicipality ($email) {
+    public function testAdminAndContributorCanOnlyViewMunicipality($email)
+    {
         $this->visitBackOffice(
             userEmail: $email,
         );
@@ -23,11 +24,10 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('table tbody', $municipality->getName());
         $this->assertIndexFullEntityCount(2);
 
-        $this->assertIndexEntityActionNotExists(Action::DELETE, $municipality->getId()); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, $municipality->getId()); 
-        $this->assertGlobalActionNotExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, $municipality->getId()); 
-
+        $this->assertIndexEntityActionNotExists(Action::DELETE, $municipality->getId());
+        $this->assertIndexEntityActionNotExists(Action::EDIT, $municipality->getId());
+        $this->assertGlobalActionNotExists(Action::NEW);
+        $this->assertIndexEntityActionExists(Action::DETAIL, $municipality->getId());
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, $municipality->getId()))->link();
         $this->client->click($link);
@@ -43,7 +43,8 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-    public function testSuperAdminCanEntirelyManageMunicipality () {
+    public function testSuperAdminCanEntirelyManageMunicipality()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -53,13 +54,14 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(2);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionExists(Action::EDIT, 1); 
-        $this->assertGlobalActionExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionExists(Action::EDIT, 1);
+        $this->assertGlobalActionExists(Action::NEW);
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
     }
 
-    public function testSuperAdminCanDeleteMunicipality () {
+    public function testSuperAdminCanDeleteMunicipality()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -69,14 +71,15 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexPageEntityCount(2);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
 
         $this->indexDeleteEntity(1);
 
         $this->assertIndexPageEntityCount(1);
     }
 
-    public function testCannotCreateInvalidMunicipality() {
+    public function testCannotCreateInvalidMunicipality()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -85,8 +88,8 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Commune');
 
-        $this->assertSelectorTextContains('h1','Créer "Commune"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Commune"');
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -103,7 +106,8 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
         $this->assertInvalidFeedback(fieldName: 'name', message: 'Cette valeur est déjà utilisée');
     }
 
-    public function testCanCreateMunicipality() {
+    public function testCanCreateMunicipality()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -115,8 +119,8 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Commune');
 
-        $this->assertSelectorTextContains('h1','Créer "Commune"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Commune"');
+
         $this->client->submitForm('Créer', [
             'Municipality[name]' => 'foo',
         ]);
@@ -128,14 +132,15 @@ class MunicipalityBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('table tbody', 'foo');
     }
 
-    public function testCanShowDetailsAboutMunicipality() {
+    public function testCanShowDetailsAboutMunicipality()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
 
         $this->client->request('GET', '/admin/fr/municipality/2');
 
-        $this->assertSelectorTextContains('h1','Kerlouan');
+        $this->assertSelectorTextContains('h1', 'Kerlouan');
 
         $this->assertSelectorCount(5, '.cy-boulderAreas tbody tr');
         $this->assertSelectorTextContains('.cy-boulderAreas tbody tr:nth-child(1)', 'Bivouac');

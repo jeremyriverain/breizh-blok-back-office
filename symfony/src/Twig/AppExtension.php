@@ -7,15 +7,14 @@ use App\Entity\LineBoulder;
 use App\Entity\Media;
 use App\Vite\TagRenderer;
 use Doctrine\Common\Collections\Collection;
-use Twig\TwigFilter;
-use Twig\Extension\AbstractExtension;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 class AppExtension extends AbstractExtension
 {
-
     public function __construct(
         private CacheManager $cacheManager,
         private StorageInterface $storage,
@@ -39,8 +38,8 @@ class AppExtension extends AbstractExtension
         }
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        if ($ext === "svg") {
-            return "/" . $path;
+        if ('svg' === $ext) {
+            return '/'.$path;
         } else {
             return $this->cacheManager->getBrowserPath($path, $filter, [], null);
         }
@@ -52,13 +51,14 @@ class AppExtension extends AbstractExtension
     public function lineBoulderFilter(Collection $lineBoulders, Boulder $boulder): ?LineBoulder
     {
         $lineBoulders = $lineBoulders->filter(function ($lineBoulder) use ($boulder) {
-            /** @var LineBoulder $lineBoulder */
+            /* @var LineBoulder $lineBoulder */
             return $boulder === $lineBoulder->getBoulder();
         });
+
         return $lineBoulders->first() ? $lineBoulders->first() : null;
     }
 
-    public function decodeBase64(?Media $media): string | null
+    public function decodeBase64(?Media $media): ?string
     {
         if (!$media) {
             return null;
@@ -73,11 +73,11 @@ class AppExtension extends AbstractExtension
         try {
             $image = file_get_contents($imageAbsolutePath);
 
-            if ($image === false) {
+            if (false === $image) {
                 return null;
             }
 
-            return 'data:image/png;base64,' . base64_encode($image);
+            return 'data:image/png;base64,'.base64_encode($image);
         } catch (\Throwable $th) {
             return null;
         }

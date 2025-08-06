@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Media[]    findAll()
  * @method Media[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Media[]    findByRockAndBoulder(Rock $rock, Boulder $boulder)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Media>
  */
 class MediaRepository extends ServiceEntityRepository

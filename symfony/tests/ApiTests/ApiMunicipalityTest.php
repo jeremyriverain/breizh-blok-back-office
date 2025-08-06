@@ -4,7 +4,8 @@ namespace App\Tests\ApiTests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
-class ApiMunicipalityTest extends ApiTestCase {
+class ApiMunicipalityTest extends ApiTestCase
+{
     public function setUp(): void
     {
         self::$alwaysBootKernel = false;
@@ -20,7 +21,6 @@ class ApiMunicipalityTest extends ApiTestCase {
         $this->assertJsonContains([
             'hydra:totalItems' => 2,
         ]);
-
     }
 
     public function testGetMunicipality(): void
@@ -49,20 +49,19 @@ class ApiMunicipalityTest extends ApiTestCase {
         $this->assertEquals(3, $cremiou['numberOfBoulders']);
         $this->assertEquals('5', $cremiou['lowestGrade']['name']);
         $this->assertEquals('6c', $cremiou['highestGrade']['name']);
-
     }
 
     public function testCannotDeleteMunicipality(): void
     {
-        static::createClient()->request('DELETE', "/municipalities/1");
+        static::createClient()->request('DELETE', '/municipalities/1');
 
         $this->assertResponseStatusCodeSame(405);
     }
-    
+
     public function testCannotCreateMunicipality(): void
     {
-        static::createClient()->request('POST', "/municipalities", [
-            'json' => []
+        static::createClient()->request('POST', '/municipalities', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
@@ -70,14 +69,14 @@ class ApiMunicipalityTest extends ApiTestCase {
 
     public function testCannotEditMunicipality(): void
     {
-        static::createClient()->request('PUT', "/municipalities/1", [
-            'json' => []
+        static::createClient()->request('PUT', '/municipalities/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
 
-        static::createClient()->request('PATCH', "/municipalities/1", [
-            'json' => []
+        static::createClient()->request('PATCH', '/municipalities/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);

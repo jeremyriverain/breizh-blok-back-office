@@ -31,39 +31,39 @@ class Rock implements IUpdatable, IBlameable
 
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
     #[ORM\OneToOne(targetEntity: GeoPoint::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
     #[Assert\Valid()]
-    #[Groups(["Rock:read", "Boulder:read", 'Boulder:map'])]
+    #[Groups(['Rock:read', 'Boulder:read', 'Boulder:map'])]
     private ?GeoPoint $location;
 
-    #[ORM\ManyToOne(targetEntity: BoulderArea::class, inversedBy: "rocks")]
+    #[ORM\ManyToOne(targetEntity: BoulderArea::class, inversedBy: 'rocks')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
-    #[Groups(["Boulder:read", 'BoulderFeedback:read'])]
+    #[Groups(['Boulder:read', 'BoulderFeedback:read'])]
     private ?BoulderArea $boulderArea;
 
     /**
      * @var Collection<int, Boulder>|Boulder[]
      */
-    #[ORM\OneToMany(targetEntity: Boulder::class, mappedBy: "rock", orphanRemoval: true)]
-    #[Groups(["Rock:read"])]
+    #[ORM\OneToMany(targetEntity: Boulder::class, mappedBy: 'rock', orphanRemoval: true)]
+    #[Groups(['Rock:read'])]
     #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $boulders;
 
     /**
      * @var Collection<int, Media>|Media[]
      */
-    #[ORM\OneToMany(targetEntity: Media::class, mappedBy: "rock", cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'rock', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Assert\Valid()]
-    #[Groups(["Rock:read"])]
+    #[Groups(['Rock:read'])]
     private Collection $pictures;
 
-    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt;
 
     public function __construct()
@@ -76,7 +76,7 @@ class Rock implements IUpdatable, IBlameable
 
     public function __toString()
     {
-        return $this->boulderArea . ' #' . $this->id;
+        return $this->boulderArea.' #'.$this->id;
     }
 
     public function getId(): ?int
@@ -176,6 +176,7 @@ class Rock implements IUpdatable, IBlameable
     public function setCreatedAt(\DateTimeInterface $dateTime): self
     {
         $this->createdAt = $dateTime;
+
         return $this;
     }
 }

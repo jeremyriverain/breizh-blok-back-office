@@ -48,6 +48,9 @@ jobs:
           docker compose exec -T php bash -c "symfony console app:create-bucket ${{github.run_id}}--$GCLOUD_BUCKET_ID"
           docker compose exec -T php bash -c "npm install"
           docker compose exec -T php bash -c "npm run build"
+      - name: format
+        run: |
+          docker compose exec -T php bash -c "./vendor/bin/pint --test"
       - name: lint
         run: |
           echo "lint with phpstan"

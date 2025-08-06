@@ -23,6 +23,7 @@ class LoginController extends AbstractController
 
             if (!$user || !$user->getEmail()) {
                 $this->addFlash('info', $translator->trans('submit_message', [], 'login'));
+
                 return $this->redirectToRoute('login');
             }
 
@@ -51,7 +52,6 @@ class LoginController extends AbstractController
     {
         return $this->redirectToRoute('login', ['_locale' => $request->getPreferredLanguage(['fr', 'en'])]);
     }
-
 
     #[Route('/admin/logout/{_locale<en|fr>}', name: 'app_logout')]
     public function logout(): void

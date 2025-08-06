@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Tests\WebTests;
 
@@ -6,8 +6,10 @@ use App\Repository\BoulderAreaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
-class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
-    public function testListBoulderAreas () {
+class BoulderAreaBackOfficeTest extends BackOfficeTestCase
+{
+    public function testListBoulderAreas()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -15,7 +17,8 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexFullEntityCount(6);
     }
 
-    public function testSearchBoulderAreas () {
+    public function testSearchBoulderAreas()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -25,7 +28,8 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexFullEntityCount(1);
     }
 
-    public function testShowDetails () {
+    public function testShowDetails()
+    {
         $crawler = $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -47,7 +51,8 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('.cy-boulders tbody tr:nth-child(3)', 'Stone');
     }
 
-    public function testAdminCanDeleteBoulderArea() {
+    public function testAdminCanDeleteBoulderArea()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -56,7 +61,7 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $boulderArea = $boulderAreaRepository->find(1);
 
-        $this->assertNotNull($boulderArea); 
+        $this->assertNotNull($boulderArea);
 
         $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
 
@@ -68,10 +73,10 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(5);
         $this->assertSelectorTextNotContains('table tbody', $boulderArea->getName());
-
     }
 
-    public function testContributorCannotUpdateOrDeleteBoulderAreaIfNotCreatedByHim() {
+    public function testContributorCannotUpdateOrDeleteBoulderAreaIfNotCreatedByHim()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -80,16 +85,16 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $boulderArea = $boulderAreaRepository->find(1);
 
-        $this->assertNotNull($boulderArea); 
+        $this->assertNotNull($boulderArea);
 
         $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
 
-        $this->assertIndexEntityActionNotExists(Action::DELETE, $boulderArea->getId()); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, $boulderArea->getId()); 
+        $this->assertIndexEntityActionNotExists(Action::DELETE, $boulderArea->getId());
+        $this->assertIndexEntityActionNotExists(Action::EDIT, $boulderArea->getId());
     }
 
-    public function testContributorCanUpdateBoulderAreaCreatedByHim() {
-
+    public function testContributorCanUpdateBoulderAreaCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -99,7 +104,7 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $boulderArea->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $crawler = $this->visitBackOffice(
             userEmail: $userEmail,
@@ -107,19 +112,19 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', $boulderArea->getName());
 
-        $this->assertIndexEntityActionExists(Action::EDIT, $boulderArea->getId()); 
+        $this->assertIndexEntityActionExists(Action::EDIT, $boulderArea->getId());
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, $boulderArea->getId()))->link();
         $crawler = $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Modifier Secteur');
+        $this->assertSelectorTextContains('h1', 'Modifier Secteur');
 
-        $nameInput = $crawler->filter("#".$this->getFormFieldIdValue('name'));
+        $nameInput = $crawler->filter('#'.$this->getFormFieldIdValue('name'));
         $this->assertEquals($boulderArea->getName(), $nameInput->attr('value'));
     }
 
-    public function testContributorCanDeleteBoulderAreaCreatedByHim() {
-
+    public function testContributorCanDeleteBoulderAreaCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -129,7 +134,7 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $boulderArea->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -145,10 +150,10 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(5);
         $this->assertSelectorTextNotContains('table tbody', $boulderArea->getName());
-
     }
 
-    public function testCannotCreateInvalidBoulderArea() {
+    public function testCannotCreateInvalidBoulderArea()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -157,8 +162,8 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Secteur');
 
-        $this->assertSelectorTextContains('h1','Créer "Secteur"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Secteur"');
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -166,7 +171,8 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
         $this->assertFieldIsInvalid(fieldName: 'name');
     }
 
-    public function testContributorCanCreateDepartment() {
+    public function testContributorCanCreateDepartment()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -177,11 +183,11 @@ class BoulderAreaBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Secteur');
 
-        $this->assertSelectorTextContains('h1','Créer "Secteur"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Secteur"');
+
         $this->client->submitForm('Créer', fieldValues: [
             'BoulderArea[name]' => 'foo',
-            'BoulderArea[municipality]' => 1
+            'BoulderArea[municipality]' => 1,
         ]);
 
         $this->assertResponseIsSuccessful();

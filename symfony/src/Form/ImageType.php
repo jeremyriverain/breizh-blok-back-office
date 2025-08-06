@@ -9,8 +9,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 class ImageType extends AbstractType
@@ -21,10 +21,9 @@ class ImageType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /**
-             * @var Media | null
+             * @var Media|null
              */
             $media = $event->getData();
             $form = $event->getForm();
@@ -45,16 +44,16 @@ class ImageType extends AbstractType
                             new Assert\NotNull(),
                         ],
                         'attr' => [
-                            'class' => 'cy-picture-input'
-                        ]
+                            'class' => 'cy-picture-input',
+                        ],
                     ]);
             } else {
                 $form->add('hidden_vich', HiddenType::class, [
                     'mapped' => false,
                     'attr' => [
                         'image' => $this->storage->resolvePath($media, 'file', null, true),
-                        'class' => 'js-hidden-vich'
-                    ]
+                        'class' => 'js-hidden-vich',
+                    ],
                 ]);
             }
         });

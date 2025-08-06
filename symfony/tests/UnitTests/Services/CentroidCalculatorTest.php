@@ -15,7 +15,7 @@ final class CentroidCalculatorTest extends TestCase
         $centroid = CentroidCalculator::getCentroid([
             new GeoPoint(strval(20), strval(-10)),
             new GeoPoint(strval(40), strval(20)),
-            new GeoPoint(strval(60), strval(20))
+            new GeoPoint(strval(60), strval(20)),
         ]);
         $this->assertEquals(40, $centroid?->getLatitude());
         $this->assertEquals(10, $centroid?->getLongitude());

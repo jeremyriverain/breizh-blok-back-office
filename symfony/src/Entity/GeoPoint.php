@@ -12,19 +12,19 @@ class GeoPoint
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: "float", precision: 10, scale: 8)]
+    #[ORM\Column(type: 'float', precision: 10, scale: 8)]
     #[Assert\NotBlank()]
     #[Assert\Range(min: -90, max: 90)]
-    #[Groups(["read", 'Boulder:map', "BoulderArea:read", 'BoulderFeedback:write'])]
+    #[Groups(['read', 'Boulder:map', 'BoulderArea:read', 'BoulderFeedback:write'])]
     private ?string $latitude;
 
-    #[ORM\Column(type: "float", precision: 10, scale: 7)]
+    #[ORM\Column(type: 'float', precision: 10, scale: 7)]
     #[Assert\NotBlank()]
     #[Assert\Range(min: -180, max: 180)]
-    #[Groups(["read", 'Boulder:map', "BoulderArea:read", 'BoulderFeedback:write'])]
+    #[Groups(['read', 'Boulder:map', 'BoulderArea:read', 'BoulderFeedback:write'])]
     private ?string $longitude;
 
     public function __construct(?string $latitude = null, ?string $longitude = null)
@@ -33,9 +33,9 @@ class GeoPoint
         $this->longitude = $longitude;
     }
 
-    public function  __toString()
+    public function __toString()
     {
-        return $this->latitude . ", " . $this->longitude;
+        return $this->latitude.', '.$this->longitude;
     }
 
     public function getId(): ?int

@@ -7,13 +7,12 @@ namespace App\Tests\UnitTests\Entity;
 use App\Entity\Boulder;
 use App\Entity\BoulderArea;
 use App\Entity\GeoPoint;
-use App\Entity\Rock;
 use App\Entity\Grade;
+use App\Entity\Rock;
 use PHPUnit\Framework\TestCase;
 
 final class BoulderAreaTest extends TestCase
 {
-
     public function testGetBoundaries(): void
     {
         $rock1 = new Rock();

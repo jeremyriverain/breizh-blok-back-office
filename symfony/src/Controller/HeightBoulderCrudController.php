@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Utils\Roles;
 use App\Entity\HeightBoulder;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

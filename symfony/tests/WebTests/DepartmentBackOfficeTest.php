@@ -1,14 +1,15 @@
-<?php 
+<?php
 
 namespace App\Tests\WebTests;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class DepartmentBackOfficeTest extends BackOfficeTestCase {
-
+class DepartmentBackOfficeTest extends BackOfficeTestCase
+{
     #[DataProvider('viewers')]
-    public function testAdminAndContributorCanOnlyViewDepartment ($email) {
+    public function testAdminAndContributorCanOnlyViewDepartment($email)
+    {
         $this->visitBackOffice(
             userEmail: $email,
         );
@@ -19,11 +20,10 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('table tbody', 'Finistère');
         $this->assertIndexFullEntityCount(1);
 
-        $this->assertIndexEntityActionNotExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, 1); 
-        $this->assertGlobalActionNotExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
-
+        $this->assertIndexEntityActionNotExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionNotExists(Action::EDIT, 1);
+        $this->assertGlobalActionNotExists(Action::NEW);
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, 1))->link();
         $this->client->click($link);
@@ -39,7 +39,8 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-    public function testSuperAdminCanViewDepartment () {
+    public function testSuperAdminCanViewDepartment()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -50,7 +51,7 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('table tbody', 'Finistère');
         $this->assertIndexFullEntityCount(1);
 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, 1))->link();
         $this->client->click($link);
@@ -58,7 +59,8 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('h1', 'Finistère');
     }
 
-    public function testSuperAdminCanDeleteDepartment () {
+    public function testSuperAdminCanDeleteDepartment()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -68,14 +70,15 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexPageEntityCount(1);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
 
         $this->indexDeleteEntity(1);
 
         $this->assertIndexPageEntityCount(0);
     }
 
-    public function testCannotCreateInvalidDepartment() {
+    public function testCannotCreateInvalidDepartment()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -84,8 +87,8 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Département');
 
-        $this->assertSelectorTextContains('h1','Créer "Département"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Département"');
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -93,7 +96,8 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
         $this->assertFieldIsInvalid(fieldName: 'name');
     }
 
-    public function testCanCreateDepartment() {
+    public function testCanCreateDepartment()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -104,10 +108,10 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Département');
 
-        $this->assertSelectorTextContains('h1','Créer "Département"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Département"');
+
         $this->client->submitForm('Créer', fieldValues: [
-            'Department[name]' => 'foo'
+            'Department[name]' => 'foo',
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -116,5 +120,4 @@ class DepartmentBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', 'foo');
     }
-
 }

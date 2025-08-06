@@ -37,31 +37,32 @@ final class MediaFactory extends PersistentProxyObjectFactory
         return $this
           // @phpstan-ignore-next-line
           ->instantiateWith(function (array $attributes) {
-            $filePath = $attributes['filePath'];
-            $targetPath = $this->parameterBag->get('kernel.project_dir') . "/src/DataFixtures/assets/" . $filePath;
+              $filePath = $attributes['filePath'];
+              $targetPath = $this->parameterBag->get('kernel.project_dir').'/src/DataFixtures/assets/'.$filePath;
 
-            if (!file_exists($targetPath)) {
-                throw new FileNotFoundException("File not found");
-            }
+              if (!file_exists($targetPath)) {
+                  throw new FileNotFoundException('File not found');
+              }
 
-            $media = new Media();
-            $tmpDir = sys_get_temp_dir();
+              $media = new Media();
+              $tmpDir = sys_get_temp_dir();
 
-            $absoluteTmpFile = $tmpDir . "/" . uniqid() . "." . pathinfo($targetPath, PATHINFO_EXTENSION);
+              $absoluteTmpFile = $tmpDir.'/'.uniqid().'.'.pathinfo($targetPath, PATHINFO_EXTENSION);
 
-            copy($targetPath, $absoluteTmpFile);
+              copy($targetPath, $absoluteTmpFile);
 
-            $mimeType = mime_content_type($absoluteTmpFile);
+              $mimeType = mime_content_type($absoluteTmpFile);
 
-            if (!$mimeType) {
-                throw new \Exception("mime type has not been found");
-            }
+              if (!$mimeType) {
+                  throw new \Exception('mime type has not been found');
+              }
 
-            $file = new UploadedFile($absoluteTmpFile, pathinfo($absoluteTmpFile, PATHINFO_BASENAME), $mimeType, null, true);
+              $file = new UploadedFile($absoluteTmpFile, pathinfo($absoluteTmpFile, PATHINFO_BASENAME), $mimeType, null, true);
 
-            $media->setFile($file);
-            return $media;
+              $media->setFile($file);
+
+              return $media;
           })
-       ;
+        ;
     }
 }

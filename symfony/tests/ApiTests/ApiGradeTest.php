@@ -1,19 +1,20 @@
-<?php 
+<?php
 
 namespace App\Tests\ApiTests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 
-class ApiGradeTest extends ApiTestCase {
-
+class ApiGradeTest extends ApiTestCase
+{
     public function setUp(): void
     {
         self::$alwaysBootKernel = false;
         self::bootKernel();
     }
 
-    public function testListGrades () {
+    public function testListGrades()
+    {
         $response = static::createClient()->request('GET', '/grades');
 
         $this->assertResponseIsSuccessful();
@@ -30,7 +31,8 @@ class ApiGradeTest extends ApiTestCase {
     Given I request /grades?pagination=false&order[name]=asc&exists[boulders]=true
     Then it returns grades containing boulders
     EOD)]
-    public function testListGradesContainingBoulders() {
+    public function testListGradesContainingBoulders()
+    {
         $response = static::createClient()->request('GET', '/grades?pagination=false&order[name]=asc&exists[boulders]=true');
 
         $this->assertJsonContains([
@@ -43,22 +45,23 @@ class ApiGradeTest extends ApiTestCase {
         $this->assertEquals('6c', $grades[2]['name']);
     }
 
-    public function testGetGrade() {
+    public function testGetGrade()
+    {
         $response = static::createClient()->request('GET', '/grades/1');
         $this->assertEquals('4', $response->toArray()['name']);
     }
 
     public function testCannotDeleteGrade(): void
     {
-        static::createClient()->request('DELETE', "/grades/1");
+        static::createClient()->request('DELETE', '/grades/1');
 
         $this->assertResponseStatusCodeSame(405);
     }
-    
+
     public function testCannotCreateGrade(): void
     {
-        static::createClient()->request('POST', "/grades", [
-            'json' => []
+        static::createClient()->request('POST', '/grades', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
@@ -66,14 +69,14 @@ class ApiGradeTest extends ApiTestCase {
 
     public function testCannotEditGrade(): void
     {
-        static::createClient()->request('PUT', "/departments/1", [
-            'json' => []
+        static::createClient()->request('PUT', '/departments/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
 
-        static::createClient()->request('PATCH', "/departments/1", [
-            'json' => []
+        static::createClient()->request('PATCH', '/departments/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);

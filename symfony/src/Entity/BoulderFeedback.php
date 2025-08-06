@@ -32,29 +32,30 @@ class BoulderFeedback
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
+    #[Groups(['BoulderFeedback:read', 'BoulderFeedback:write'])]
     #[Assert\Valid()]
     private ?GeoPoint $newLocation = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
+    #[Groups(['BoulderFeedback:read', 'BoulderFeedback:write'])]
     private ?string $message = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["BoulderFeedback:read"])]
+    #[Groups(['BoulderFeedback:read'])]
     private ?string $sentBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["BoulderFeedback:read", "BoulderFeedback:write"])]
+    #[Groups(['BoulderFeedback:read', 'BoulderFeedback:write'])]
     #[Assert\NotBlank()]
     private ?Boulder $boulder = null;
 
-    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
-    #[Groups(["BoulderFeedback:read"])]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups(['BoulderFeedback:read'])]
     private ?\DateTimeInterface $createdAt;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setCreatedAt(Carbon::now()->toImmutable());
     }
 
@@ -64,8 +65,8 @@ class BoulderFeedback
     }
 
     public function validate(ExecutionContextInterface $context): void
-    {   
-        $hasNewLocation = $this->getNewLocation() !== null;
+    {
+        $hasNewLocation = null !== $this->getNewLocation();
         $hasMessage = !empty(trim($this->getMessage() ?? ''));
 
         if (!$hasNewLocation && !$hasMessage) {
@@ -136,7 +137,7 @@ class BoulderFeedback
     public function setCreatedAt(\DateTimeInterface $dateTime): self
     {
         $this->createdAt = $dateTime;
+
         return $this;
     }
-
 }

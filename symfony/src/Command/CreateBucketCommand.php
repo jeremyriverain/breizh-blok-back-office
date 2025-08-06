@@ -43,25 +43,26 @@ class CreateBucketCommand extends Command
                 'location' => 'EUROPE-WEST9',
                 'iamConfiguration' => [
                     'uniformBucketLevelAccess' => [
-                        'enabled' => true
-                    ]
+                        'enabled' => true,
+                    ],
                 ],
                 'softDeletePolicy' => [
-                    'retentionDurationSeconds' => 0
-                ]
+                    'retentionDurationSeconds' => 0,
+                ],
             ]);
 
             $policy = $bucket->iam()->policy();
 
             $policy['bindings'][] = [
                 'role' => 'roles/storage.objectViewer',
-                'members' => ['allUsers']
+                'members' => ['allUsers'],
             ];
 
             // Update the bucket's IAM policy
             $bucket->iam()->setPolicy($policy);
 
             $io->success("Le bucket $bucketName a été créé.");
+
             return Command::SUCCESS;
         } catch (\Throwable $th) {
             throw $th;

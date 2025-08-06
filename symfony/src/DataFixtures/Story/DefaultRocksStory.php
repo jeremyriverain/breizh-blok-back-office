@@ -24,20 +24,19 @@ final class DefaultRocksStory extends Story
         $gradeRepository = repository(Grade::class);
         $heightBoulderRepository = repository(HeightBoulder::class);
 
-         
         $rock1 = RockFactory::createOne([
             'location' => GeoPointFactory::createOne([
-                'latitude' => "48.67314974843626",
-                'longitude' => "-4.358081945162471",
+                'latitude' => '48.67314974843626',
+                'longitude' => '-4.358081945162471',
             ]),
             'boulderArea' => $boulderAreaRepository->findOneBy([
                 'name' => DefaultBoulderAreasStory::CREMIOU,
             ]),
-            'pictures' => [ 
+            'pictures' => [
                 MediaFactory::createOne([
-                'filePath' => 'boulder1.jpg'
+                    'filePath' => 'boulder1.jpg',
                 ]
-                )
+                ),
             ],
         ],
         );
@@ -59,14 +58,12 @@ final class DefaultRocksStory extends Story
 
         $rock2 = RockFactory::createOne([
             'location' => GeoPointFactory::createOne([
-                'latitude' => "48.67331447037122",
-                'longitude' => "-4.357883461703047",
+                'latitude' => '48.67331447037122',
+                'longitude' => '-4.357883461703047',
             ]),
             'boulderArea' => $boulderAreaRepository->findOneBy([
                 'name' => DefaultBoulderAreasStory::CREMIOU,
             ]),
-            
-            
         ]);
 
         BoulderFactory::createOne([
@@ -78,8 +75,8 @@ final class DefaultRocksStory extends Story
 
         $rock3 = RockFactory::createOne([
             'location' => GeoPointFactory::createOne([
-                'latitude' => "48.6694591366599",
-                'longitude' => "-4.371922069116468",
+                'latitude' => '48.6694591366599',
+                'longitude' => '-4.371922069116468',
             ]),
             'boulderArea' => $boulderAreaRepository->findOneBy([
                 'name' => DefaultBoulderAreasStory::MENEZ_HAM,
@@ -96,8 +93,8 @@ final class DefaultRocksStory extends Story
 
         $rock4 = RockFactory::createOne([
             'location' => GeoPointFactory::createOne([
-                'latitude' => "48",
-                'longitude' => "-4",
+                'latitude' => '48',
+                'longitude' => '-4',
             ]),
             'boulderArea' => $boulderAreaRepository->findOneBy([
                 'name' => DefaultBoulderAreasStory::LE_PHARE,
@@ -119,14 +116,14 @@ final class DefaultRocksStory extends Story
         $lampaulPlouarzel = $municipalityRepository->findOneBy(['name' => DefaultMunicipalitiesStory::LAMPAUL_PLOUARZEL]);
         $kerlouan = $municipalityRepository->findOneBy(['name' => DefaultMunicipalitiesStory::KERLOUAN]);
 
-        if ($boulderAreaCremiou === null || 
-            $boulderAreaMenezHam === null || 
-            $lampaulPlouarzel === null || 
-            $kerlouan === null
+        if (null === $boulderAreaCremiou
+            || null === $boulderAreaMenezHam
+            || null === $lampaulPlouarzel
+            || null === $kerlouan
         ) {
             throw new \Exception('there is at least 1 object that is not found');
         }
-        
+
         $boulderAreaCremiou->setCentroid(CentroidCalculator::getCentroid($boulderAreaCremiou->getBoundaries()));
         $boulderAreaMenezHam->setCentroid(CentroidCalculator::getCentroid($boulderAreaMenezHam->getBoundaries()));
 

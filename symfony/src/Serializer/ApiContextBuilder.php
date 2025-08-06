@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ApiContextBuilder implements SerializerContextBuilderInterface
 {
-    public function __construct(private SerializerContextBuilderInterface $decorated) {}
+    public function __construct(private SerializerContextBuilderInterface $decorated)
+    {
+    }
 
     /**
      * @phpstan-ignore-next-line
@@ -29,7 +31,7 @@ final class ApiContextBuilder implements SerializerContextBuilderInterface
             $context['groups'] = [];
         }
 
-        /**
+        /*
          * @phpstan-ignore-next-line
          */
         $context['groups'] = array_merge($this->getCommonContextGroups($className, $normalization), $context['groups']);
@@ -43,8 +45,9 @@ final class ApiContextBuilder implements SerializerContextBuilderInterface
     private function getCommonContextGroups(string $className, bool $normalization): array
     {
         if (!$normalization) {
-            return ["$className:write", "write"];
+            return ["$className:write", 'write'];
         }
-        return ["$className:read", "read"];
+
+        return ["$className:read", 'read'];
     }
 }

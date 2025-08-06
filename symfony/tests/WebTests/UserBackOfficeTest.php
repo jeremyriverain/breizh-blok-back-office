@@ -7,13 +7,13 @@ use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class UserBackOfficeTest extends BackOfficeTestCase {
-
-   #[DataProvider('viewers')]
+class UserBackOfficeTest extends BackOfficeTestCase
+{
+    #[DataProvider('viewers')]
     public function testAdminAndContributorCannotAccessUserSection(
-        string $email, 
+        string $email,
         int $ownId,
-        ) {
+    ) {
         $this->visitBackOffice(
             userEmail: $email,
         );
@@ -24,7 +24,7 @@ class UserBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/user/1');
         $this->assertResponseStatusCodeSame(403);
 
-        $this->client->request('GET', "/admin/fr/user/new");
+        $this->client->request('GET', '/admin/fr/user/new');
         $this->assertResponseStatusCodeSame(403);
 
         $this->client->request('GET', "/admin/fr/user/$ownId/edit");
@@ -37,7 +37,6 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->request('POST', '/admin/fr/user/1/delete');
         $this->assertResponseStatusCodeSame(403);
-
     }
 
     public static function viewers(): array
@@ -48,7 +47,8 @@ class UserBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-    public function testSuperAdminCanEntirelyManageUsers () {
+    public function testSuperAdminCanEntirelyManageUsers()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -58,13 +58,14 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(4);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 2); 
-        $this->assertIndexEntityActionExists(Action::EDIT, 2); 
-        $this->assertGlobalActionExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 2); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 2);
+        $this->assertIndexEntityActionExists(Action::EDIT, 2);
+        $this->assertGlobalActionExists(Action::NEW);
+        $this->assertIndexEntityActionExists(Action::DETAIL, 2);
     }
 
-    public function testSuperAdminCanDeleteUser () {
+    public function testSuperAdminCanDeleteUser()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -74,14 +75,15 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexPageEntityCount(4);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 2); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 2);
 
         $this->indexDeleteEntity(2);
 
         $this->assertIndexPageEntityCount(3);
     }
 
-    public function testCannotCreateInvalidUser() {
+    public function testCannotCreateInvalidUser()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -90,8 +92,8 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Utilisateur');
 
-        $this->assertSelectorTextContains('h1','Créer "Utilisateur"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Utilisateur"');
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -99,8 +101,8 @@ class UserBackOfficeTest extends BackOfficeTestCase {
         $this->assertFieldIsInvalid(fieldName: 'email');
     }
 
-    public function testCanCreateUser() {
-
+    public function testCanCreateUser()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -109,7 +111,7 @@ class UserBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Utilisateur');
 
-        $this->assertSelectorTextContains('h1','Créer "Utilisateur"');
+        $this->assertSelectorTextContains('h1', 'Créer "Utilisateur"');
 
         $this->assertFormFieldExists('email');
 

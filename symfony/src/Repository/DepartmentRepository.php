@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Department|null findOneBy(array $criteria, array $orderBy = null)
  * @method Department[]    findAll()
  * @method Department[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Municipality>
  */
 class DepartmentRepository extends ServiceEntityRepository
@@ -32,5 +32,4 @@ class DepartmentRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
-
 }
