@@ -42,7 +42,7 @@ class BoulderFeedbackSubscriber
         if ($user === null) {
             return;
         }
-        
+
         $entity->setSentBy($user->getUserIdentifier());
     }
 
@@ -53,15 +53,34 @@ class BoulderFeedbackSubscriber
         if (!$entity instanceof BoulderFeedback) {
             return;
         }
-       
+
         $url = $this->adminUrlGenerator
-                ->setAction(Action::DETAIL)
-                ->setEntityId($entity->getId())
-                ->setController(BoulderFeedbackCrudController::class)
-                ->set('_locale', $this->translator->getLocale())
-                ->generateUrl();
+            ->setAction(Action::DETAIL)
+            ->setEntityId($entity->getId())
+            ->setController(BoulderFeedbackCrudController::class)
+            ->set('_locale', $this->translator->getLocale())
+            ->generateUrl();
 
         $boulderName = $entity->getBoulder()?->getName();
+
+        $content = '';
+
+        if (
+            $entity->getMessage() !== null
+        ) {
+            $content .=  $this->translator->trans('boulderFeedback.email.content.ifMessage', [
+                '%boulderName%' => $boulderName,
+                '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),
+                '%message%' => $entity->getMessage(),
+            ]);
+        } elseif ($entity->getNewLocation() !== null) {
+            $content .= $this->translator->trans('boulderFeedback.email.content.ifNewLocation', [
+                '%boulderName%' => $boulderName,
+                '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),
+                '%latitude%' => $entity->getNewLocation()->getLatitude(),
+                '%longitude%' => $entity->getNewLocation()->getLongitude(),
+            ]);
+        }
 
         $email = NotificationEmail::asPublicEmail()
             ->from($_ENV['MAILER_RECIPIENT'])
@@ -69,12 +88,7 @@ class BoulderFeedbackSubscriber
             ->subject($this->translator->trans('boulderFeedback.email.subject', [
                 '%boulderName%' => $boulderName,
             ]))
-            ->content($this->translator->trans('boulderFeedback.email.content', [
-                '%boulderName%' => $boulderName,
-                '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),
-                '%message%' => $entity->getMessage(),
-                '%location%' => $entity->getNewLocation()?->__toString(),
-            ]))
+            ->content($content)
             ->action($this->translator->trans('boulderFeedback.email.action', []), $url);
 
         $this->mailer->send($email);

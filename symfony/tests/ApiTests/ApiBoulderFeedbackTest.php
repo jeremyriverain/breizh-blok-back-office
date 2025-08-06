@@ -164,7 +164,7 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         );
     }
 
-    public function testEmailIsSentAfterCreatingBoulderFeedback () {
+    public function testEmailIsSentAfterCreatingBoulderFeedbackWithMessage () {
          $user = new User(data: ['user_id' => 'foo']);
 
         $client = static::createClient();
@@ -189,6 +189,42 @@ class ApiBoulderFeedbackTest extends ApiTestCase {
         $this->assertEquals('developer@foo.bar', $email->getTo()[0]->getAddress());
         $this->assertCount(1, $email->getTo());
         $this->assertEquals('Nouveau feedback pour le bloc Monkey', $email->getSubject());
+        $this->assertStringContainsString("Un utilisateur vient d'envoyer un message concernant le bloc Monkey (secteur Cremiou).", $email->getTextBody());
+        $this->assertStringContainsString("Message:\nthis is a message", $email->getTextBody());
+        $this->assertStringContainsString('/admin/fr/boulder-feedback/', $email->getContext()['action_url']);
+    }
+
+     public function testEmailIsSentAfterCreatingBoulderFeedbackWithLocation () {
+         $user = new User(data: ['user_id' => 'foo']);
+
+        $client = static::createClient();
+        $client->loginUser($user); 
+        $client->request('POST', '/boulder_feedbacks', [
+            'json' => [
+                'boulder' => '/boulders/2',
+                'newLocation' => [
+                    'latitude' => 1,
+                    'longitude' => 2
+                ],
+            ]
+        ]);
+
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $this->assertEmailCount(1);
+
+        /**
+         * @var \Symfony\Bridge\Twig\Mime\NotificationEmail $email
+         */
+        $email = $this->getMailerMessage();
+
+        $this->assertEquals('developer@foo.bar', $email->getTo()[0]->getAddress());
+        $this->assertCount(1, $email->getTo());
+        $this->assertEquals('Nouveau feedback pour le bloc Monkey', $email->getSubject());
+        $this->assertStringContainsString("Un utilisateur propose d'affiner l'emplacement du bloc Monkey (secteur Cremiou).", $email->getTextBody());
+        $this->assertStringContainsString("Latitude: 1", $email->getTextBody());
+        $this->assertStringContainsString("Longitude: 2", $email->getTextBody());
         $this->assertStringContainsString('/admin/fr/boulder-feedback/', $email->getContext()['action_url']);
     }
 }

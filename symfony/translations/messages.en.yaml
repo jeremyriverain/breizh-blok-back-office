@@ -7,12 +7,16 @@ Boulder_areas: Boulder areas
 Boulder: Boulder
 boulderFeedback.email.action: See details
 boulderFeedback.email.subject: New feedback for the boulder %boulderName%
-boulderFeedback.email.content: |
-  A user has just submitted a feedback for the boulder %boulderName% (%boulderAreaName%).
+boulderFeedback.email.content.ifMessage: |
+  A user has just sent a message for the boulder %boulderName% (%boulderAreaName%).
 
-  Message: %message%
+  Message:
+  %message%
+boulderFeedback.email.content.ifNewLocation: |
+  A user suggests a new location for the boulder bloc %boulderName% (secteur %boulderAreaName%).
 
-  Suggested location: %location%
+  Latitude: %latitude%
+  Longitude: %longitude%
 Boulder_line: Boulder line
 Boulders: Boulders
 BoulderFeedback: 'Boulder Feedback'
