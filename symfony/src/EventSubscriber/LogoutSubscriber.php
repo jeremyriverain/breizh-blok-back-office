@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
 class LogoutSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -20,7 +21,6 @@ class LogoutSubscriber implements EventSubscriberInterface
 
     public function onLogout(LogoutEvent $event): void
     {
-       
         $request = $event->getRequest();
 
         // get the current response, if it is already set by another listener

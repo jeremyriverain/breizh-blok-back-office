@@ -57,15 +57,16 @@ class RemoveBucketCommand extends Command
     }
 
     /**
-     * @param \Google\Cloud\Core\Iterator\ItemIterator&iterable<\Google\Cloud\Storage\Bucket> $buckets
+     * @param \Google\Cloud\Core\Iterator\ItemIterator&iterable<Bucket> $buckets
      */
-    function findBucketByName($buckets, string $bucketName): null | Bucket
+    public function findBucketByName($buckets, string $bucketName): ?Bucket
     {
         foreach ($buckets as $bucket) {
             if ($bucket->name() === $bucketName) {
                 return $bucket;
             }
         }
+
         return null;
     }
 }

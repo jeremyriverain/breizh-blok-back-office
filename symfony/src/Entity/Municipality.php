@@ -10,9 +10,9 @@ use App\Repository\MunicipalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MunicipalityRepository::class)]
 #[ApiResource(
@@ -29,30 +29,30 @@ class Municipality implements IZone
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 150)]
+    #[ORM\Column(type: 'string', length: 150)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 150)]
-    #[Groups(["Boulder:read", "Department:read", "BoulderArea:read", "Municipality:read"])]
+    #[Groups(['Boulder:read', 'Department:read', 'BoulderArea:read', 'Municipality:read'])]
     private ?string $name;
 
     /**
      * @var Collection<int, BoulderArea>|BoulderArea[]
      */
-    #[ORM\OneToMany(targetEntity: BoulderArea::class, mappedBy: "municipality", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BoulderArea::class, mappedBy: 'municipality', orphanRemoval: true)]
     #[ORM\OrderBy(['name' => 'ASC'])]
-    #[Groups(["Municipality:read"])]
+    #[Groups(['Municipality:read'])]
     private $boulderAreas;
 
     #[ORM\OneToOne(targetEntity: GeoPoint::class, cascade: ['persist', 'remove'])]
     #[Assert\Valid()]
-    #[Groups(["Municipality:item-get"])]
+    #[Groups(['Municipality:item-get'])]
     private ?GeoPoint $centroid = null;
 
     #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'municipalities')]
-    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Department $department;
 
     public function __construct()
@@ -130,16 +130,16 @@ class Municipality implements IZone
          * @var array<int, GeoPoint> $geoPoints
          */
         $geoPoints = array_map(function ($boulderArea) {
-            /**
+            /*
              * @var BoulderArea $boulderArea
              */
             return $boulderArea->getCentroid();
         }, $this->boulderAreas->filter(
             function ($b) {
-                /**
+                /*
                  * @var BoulderArea $b
                  */
-                return $b->getCentroid() !== null;
+                return null !== $b->getCentroid();
             }
         )->toArray());
 
@@ -154,7 +154,7 @@ class Municipality implements IZone
         return array_reduce(
             $this->boulderAreas->toArray(),
             function ($rocks, $boulderArea) {
-                /**
+                /*
                  * @var \App\Entity\BoulderArea $boulderArea
                  * @var \App\Entity\Rock[] $rocks
                  */

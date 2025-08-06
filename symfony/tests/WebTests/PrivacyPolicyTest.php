@@ -4,11 +4,12 @@ namespace App\Tests\WebTests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class PrivacyPolicyTest extends WebTestCase {
-    public function testPrivacyPolicyIsAccessible () {
-        
+class PrivacyPolicyTest extends WebTestCase
+{
+    public function testPrivacyPolicyIsAccessible()
+    {
         static::createClient()->request('GET', '/privacy-policy');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','POLITIQUE DE CONFIDENTIALITÉ DE BREIZH BLOK');
+        $this->assertSelectorTextContains('h1', 'POLITIQUE DE CONFIDENTIALITÉ DE BREIZH BLOK');
     }
 }

@@ -11,8 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class BoulderBackOfficeTest extends BackOfficeTestCase {
-    public function testListRocks () {
+class BoulderBackOfficeTest extends BackOfficeTestCase
+{
+    public function testListRocks()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -25,8 +27,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
     public function testFilterBouldersByBoulderArea()
     {
-
-         $this->visitBackOffice(
+        $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
 
@@ -47,8 +48,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
     public function testFilterUrbanBoulders()
     {
-
-         $this->visitBackOffice(
+        $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
 
@@ -68,11 +68,10 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
             $urbanBoulders[0]->getName()
         );
     }
-    
+
     public function testFilterHeightBoulder()
     {
-
-         $this->visitBackOffice(
+        $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
 
@@ -81,7 +80,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $this->assertNotNull($heightBoulder);
 
         $crawler = $this->client->request(
-            'GET', 
+            'GET',
             $this->generateFilterRenderUrl(
                 dashboardFqcn: DashboardController::class,
                 controllerFqcn: BoulderCrudController::class
@@ -94,7 +93,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
             'height' => [
                 'comparison' => '=',
                 'value' => $heightBoulder->getId(),
-            ]
+            ],
         ];
 
         $this->client->submit($form);
@@ -107,7 +106,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         );
     }
 
-    public function testSearchBoulders () {
+    public function testSearchBoulders()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -127,7 +127,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         );
     }
 
-    public function testShowDetails () {
+    public function testShowDetails()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -151,7 +152,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('.cy-height .field-value', 'Moins de 3m');
     }
 
-    public function testContributorCannotUpdateOrDeleteBoulderIfNotCreatedByHim() {
+    public function testContributorCannotUpdateOrDeleteBoulderIfNotCreatedByHim()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -165,17 +167,17 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $boulder = $boulderRepository->find(1);
 
-        $this->assertNotNull($boulder); 
+        $this->assertNotNull($boulder);
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
-        $this->assertGlobalActionExists(Action::NEW); 
-        $this->assertIndexEntityActionNotExists(Action::DELETE, $boulder->getId()); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, $boulder->getId()); 
+        $this->assertGlobalActionExists(Action::NEW);
+        $this->assertIndexEntityActionNotExists(Action::DELETE, $boulder->getId());
+        $this->assertIndexEntityActionNotExists(Action::EDIT, $boulder->getId());
     }
 
-    public function testContributorCanUpdateBoulderCreatedByHim() {
-
+    public function testContributorCanUpdateBoulderCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -185,7 +187,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $boulder->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -198,20 +200,19 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
-        $this->assertIndexEntityActionExists(Action::EDIT, $boulder->getId()); 
+        $this->assertIndexEntityActionExists(Action::EDIT, $boulder->getId());
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, $boulder->getId()))->link();
         $crawler = $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Modifier Bloc');
+        $this->assertSelectorTextContains('h1', 'Modifier Bloc');
 
         $this->assertFormFieldNotExists('isDisabled');
     }
 
-    public function testAdminCanUpdateAnyBoulder() {
-
+    public function testAdminCanUpdateAnyBoulder()
+    {
         $userEmail = 'admin@fixture.com';
-        
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -225,13 +226,13 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
         $crawler = $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Modifier Bloc');
+        $this->assertSelectorTextContains('h1', 'Modifier Bloc');
 
         $this->assertFormFieldNotExists('isDisabled');
     }
 
-    public function testContributorCanUpdateLineOfItsOwnBoulders() {
-
+    public function testContributorCanUpdateLineOfItsOwnBoulders()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -244,7 +245,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $boulder->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -257,16 +258,16 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
-        $this->assertIndexEntityActionExists('drawLine', $boulder->getId()); 
+        $this->assertIndexEntityActionExists('drawLine', $boulder->getId());
 
         $link = $crawler->filter($this->getIndexEntityActionSelector('drawLine', $boulder->getId()))->link();
         $crawler = $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Ligne du bloc');
+        $this->assertSelectorTextContains('h1', 'Ligne du bloc');
     }
 
-    public function testContributorCanDeleteBoulderCreatedByHim() {
-
+    public function testContributorCanDeleteBoulderCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -276,7 +277,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $boulder->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -297,10 +298,10 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(4);
         $this->assertSelectorTextNotContains('table tbody', $boulder->getName());
-
     }
 
-    public function testUpdatedFieldIsFilledIfBoulderIsModified() {
+    public function testUpdatedFieldIsFilledIfBoulderIsModified()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -312,17 +313,17 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, 1))->link();
         $crawler = $this->client->click($link);
-        
+
         $this->assertSelectorTextContains('h1', 'Stone');
 
         $this->assertSelectorTextContains('.cy_updated_by .field-label', 'Mis à jour par');
         $this->assertSelectorTextContains('.cy_updated_by .field-value', 'Aucun');
 
         $this->client->clickLink('Modifier');
-        
+
         $this->assertSelectorTextContains('h1', 'Modifier Bloc');
 
-        $this->client->submitForm('Sauvegarder les modifications', 
+        $this->client->submitForm('Sauvegarder les modifications',
             fieldValues: ['Boulder[name]' => 'foo']
         );
 
@@ -335,14 +336,15 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::DETAIL, 1))->link();
         $crawler = $this->client->click($link);
-        
+
         $this->assertSelectorTextContains('h1', 'foo');
 
         $this->assertSelectorTextContains('.cy_updated_by .field-label', 'Mis à jour par');
         $this->assertSelectorTextContains('.cy_updated_by .field-value', 'super-admin@fixture.com');
     }
 
-    public function testCannotCreateInvalidBoulder() {
+    public function testCannotCreateInvalidBoulder()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -351,8 +353,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Bloc');
 
-        $this->assertSelectorTextContains('h1','Créer "Bloc"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Bloc"');
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -363,7 +365,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         );
     }
 
-    public function testCanCreateBoulder() {
+    public function testCanCreateBoulder()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -375,8 +378,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Bloc');
 
-        $this->assertSelectorTextContains('h1','Créer "Bloc"');
-        
+        $this->assertSelectorTextContains('h1', 'Créer "Bloc"');
+
         $this->client->submitForm('Créer', fieldValues: [
             'Boulder[name]' => 'bar',
             'Boulder[rock]' => 1,
@@ -388,10 +391,10 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(6);
         $this->assertSelectorTextContains('table tbody', 'bar');
-
     }
 
-    public function testAdminCanDeleteBoulder() {
+    public function testAdminCanDeleteBoulder()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -402,7 +405,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $boulder = $boulderRepository->find(1);
 
-        $this->assertNotNull($boulder); 
+        $this->assertNotNull($boulder);
 
         $this->assertSelectorTextContains('table tbody', $boulder->getName());
 
@@ -414,11 +417,11 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(4);
         $this->assertSelectorTextNotContains('table tbody', $boulder->getName());
-
     }
 
-    public function testCannotDrawLineIfNoPictureAssociatedToTheRock() {
-       $this->visitBackOffice(
+    public function testCannotDrawLineIfNoPictureAssociatedToTheRock()
+    {
+        $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
 
@@ -428,7 +431,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
         $boulder = $boulderRepository->find(3);
 
-        $this->assertCount(0, $boulder->getRock()->getPictures()); 
+        $this->assertCount(0, $boulder->getRock()->getPictures());
 
         $this->assertIndexEntityActionExists('drawLine', $boulder->getId());
 
@@ -445,8 +448,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
 
     #[DataProvider('viewers')]
     public function testAdminAndContributorCannotDisableBoulder(
-        string $email, 
-        ) {
+        string $email,
+    ) {
         $this->visitBackOffice(
             userEmail: $email,
         );
@@ -456,7 +459,7 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $this->assertBooleanFieldIsNotRenderedAsSwitch('isDisabled');
 
         $this->client->clickLink('Créer Bloc');
-      
+
         $this->assertFormFieldNotExists('isDisabled');
     }
 
@@ -468,10 +471,10 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-    public function testSuperAdminCanDisableBoulder() {
-
+    public function testSuperAdminCanDisableBoulder()
+    {
         $userEmail = 'super-admin@fixture.com';
-        
+
         $this->visitBackOffice(
             userEmail: $userEmail,
         );
@@ -486,9 +489,8 @@ class BoulderBackOfficeTest extends BackOfficeTestCase {
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
         $crawler = $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Modifier Bloc');
+        $this->assertSelectorTextContains('h1', 'Modifier Bloc');
 
         $this->assertFormFieldExists('isDisabled');
     }
-
 }

@@ -1,18 +1,19 @@
-<?php 
+<?php
 
 namespace App\Tests\ApiTests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
-class ApiRockTest extends ApiTestCase {
-
+class ApiRockTest extends ApiTestCase
+{
     public function setUp(): void
     {
         self::$alwaysBootKernel = false;
         self::bootKernel();
     }
 
-    public function testListRocks () {
+    public function testListRocks()
+    {
         $response = static::createClient()->request('GET', '/rocks');
 
         $this->assertResponseIsSuccessful();
@@ -26,22 +27,23 @@ class ApiRockTest extends ApiTestCase {
         $this->assertNotNull($rock['location']['longitude']);
     }
 
-    public function testGetRock() {
+    public function testGetRock()
+    {
         $response = static::createClient()->request('GET', '/rocks/1');
         $this->assertCount(2, $response->toArray()['boulders']);
     }
 
     public function testCannotDeleteRock(): void
     {
-        static::createClient()->request('DELETE', "/rocks/1");
+        static::createClient()->request('DELETE', '/rocks/1');
 
         $this->assertResponseStatusCodeSame(405);
     }
-    
+
     public function testCannotCreateRock(): void
     {
-        static::createClient()->request('POST', "/rocks", [
-            'json' => []
+        static::createClient()->request('POST', '/rocks', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
@@ -49,14 +51,14 @@ class ApiRockTest extends ApiTestCase {
 
     public function testCannotEditRock(): void
     {
-        static::createClient()->request('PUT', "/rocks/1", [
-            'json' => []
+        static::createClient()->request('PUT', '/rocks/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);
 
-        static::createClient()->request('PATCH', "/rocks/1", [
-            'json' => []
+        static::createClient()->request('PATCH', '/rocks/1', [
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(405);

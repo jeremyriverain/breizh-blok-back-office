@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\User>
  */
 class UserRepository extends ServiceEntityRepository
@@ -23,8 +23,9 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @return User[]
-    */
-    public function findSuperAdmins(): array {
+     */
+    public function findSuperAdmins(): array
+    {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_SUPER_ADMIN"%')

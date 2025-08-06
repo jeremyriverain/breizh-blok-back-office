@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Utils\Roles;
 use App\Entity\Boulder;
 use App\Entity\BoulderArea;
 use App\Entity\BoulderFeedback;
@@ -12,6 +11,7 @@ use App\Entity\HeightBoulder;
 use App\Entity\Municipality;
 use App\Entity\Rock;
 use App\Entity\User;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -26,14 +26,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[AdminDashboard(routePath: '/admin/{_locale<en|fr>}', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
-
-    public function __construct(private AdminUrlGenerator $adminUrlGenerator) {}
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    {
+    }
 
     public function index(): Response
     {
         return $this->redirectToRoute('admin_boulder_area_index');
     }
-
 
     public function configureDashboard(): Dashboard
     {
@@ -41,7 +41,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Breizh Blok')
             ->setLocales([
                 'en' => '🇬🇧 English',
-                'fr' => '🇫🇷 Français'
+                'fr' => '🇫🇷 Français',
             ]);
     }
 
@@ -74,6 +74,7 @@ class DashboardController extends AbstractDashboardController
             ->setAction(Action::EDIT)
             ->setEntityId($user->getId())
             ->generateUrl();
+
         return parent::configureUserMenu($user)
             ->addMenuItems([
                 MenuItem::linkToUrl('My_profile', 'fa fa-id-card', $url),

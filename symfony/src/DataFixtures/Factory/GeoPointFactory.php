@@ -10,7 +10,6 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class GeoPointFactory extends PersistentProxyObjectFactory
 {
-
     public static function class(): string
     {
         return GeoPoint::class;

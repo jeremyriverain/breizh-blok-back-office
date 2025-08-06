@@ -7,8 +7,10 @@ use App\Repository\RockRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
-class RockBackOfficeTest extends BackOfficeTestCase {
-    public function testListRocks () {
+class RockBackOfficeTest extends BackOfficeTestCase
+{
+    public function testListRocks()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -26,7 +28,8 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexColumnExists('updatedAt');
     }
 
-    public function testSearchRocks () {
+    public function testSearchRocks()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -38,7 +41,8 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexFullEntityCount(2);
     }
 
-     public function testShowDetails () {
+    public function testShowDetails()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
@@ -62,7 +66,8 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->assertSelectorTextContains('.cy-boulders li:nth-child(2)', 'Stone');
     }
 
-    public function testAdminCanEntirelyManageRock () {
+    public function testAdminCanEntirelyManageRock()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -72,13 +77,14 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(4);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionExists(Action::EDIT, 1); 
-        $this->assertGlobalActionExists(Action::NEW); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionExists(Action::EDIT, 1);
+        $this->assertGlobalActionExists(Action::NEW);
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
     }
 
-      public function testAdminCanDeleteRock () {
+    public function testAdminCanDeleteRock()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -87,14 +93,15 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertIndexPageEntityCount(4);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
 
         $this->indexDeleteEntity(1);
 
         $this->assertIndexPageEntityCount(3);
     }
 
-    public function testCannotCreateinvalidRock() {
+    public function testCannotCreateinvalidRock()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -105,12 +112,12 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Rocher');
 
-        $this->assertSelectorTextContains('h1','Créer "Rocher"');
+        $this->assertSelectorTextContains('h1', 'Créer "Rocher"');
 
         $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
         $petitParadis = $boulderAreaRepository->findOneBy(['name' => 'Petit paradis']);
         $this->assertNotNull($petitParadis);
-        
+
         $this->client->submitForm('Créer', []);
 
         $this->assertResponseStatusCodeSame(422);
@@ -127,10 +134,10 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertInvalidFeedback(fieldName: 'location_latitude', message: 'Cette valeur doit être comprise entre -90 et 90.');
         $this->assertInvalidFeedback(fieldName: 'location_longitude', message: 'Cette valeur doit être comprise entre -180 et 180.');
-
     }
 
-    public function testAdminCanCreateRock() {
+    public function testAdminCanCreateRock()
+    {
         $this->visitBackOffice(
             userEmail: 'admin@fixture.com',
         );
@@ -141,12 +148,12 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $this->client->clickLink('Créer Rocher');
 
-        $this->assertSelectorTextContains('h1','Créer "Rocher"');
+        $this->assertSelectorTextContains('h1', 'Créer "Rocher"');
 
         $boulderAreaRepository = static::getContainer()->get(BoulderAreaRepository::class);
         $petitParadis = $boulderAreaRepository->findOneBy(['name' => 'Petit paradis']);
         $this->assertNotNull($petitParadis);
-        
+
         $this->client->submitForm('Créer', [
             'Rock[boulderArea]' => $petitParadis->getId(),
             'Rock[location][latitude]' => '50.0',
@@ -162,20 +169,21 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->assertIndexPageEntityCount(5);
     }
 
-    public function testContributorCannotUpdateOrDeleteRockIfNotCreatedByHim() {
+    public function testContributorCannotUpdateOrDeleteRockIfNotCreatedByHim()
+    {
         $this->visitBackOffice(
             userEmail: 'contributor@fixture.com',
         );
 
         $this->assertSelectorTextContains('table tbody', 1);
 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
-        $this->assertIndexEntityActionNotExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, 1); 
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
+        $this->assertIndexEntityActionNotExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionNotExists(Action::EDIT, 1);
     }
 
-     public function testContributorCanUpdateRockCreatedByHim() {
-
+    public function testContributorCanUpdateRockCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -185,7 +193,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $rock->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -193,16 +201,16 @@ class RockBackOfficeTest extends BackOfficeTestCase {
 
         $crawler = $this->client->request('GET', '/admin/fr/rock');
 
-        $this->assertIndexEntityActionExists(Action::EDIT, 1); 
+        $this->assertIndexEntityActionExists(Action::EDIT, 1);
 
         $link = $crawler->filter($this->getIndexEntityActionSelector(Action::EDIT, 1))->link();
         $this->client->click($link);
 
-        $this->assertSelectorTextContains('h1','Modifier Rocher');
+        $this->assertSelectorTextContains('h1', 'Modifier Rocher');
     }
 
-    public function testContributorCanDeleteRockCreatedByHim() {
-
+    public function testContributorCanDeleteRockCreatedByHim()
+    {
         $userEmail = 'contributor@fixture.com';
         $user = $this->findUser(email: $userEmail);
 
@@ -212,7 +220,7 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $rock->setCreatedBy($user);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();  
+        $em->flush();
 
         $this->visitBackOffice(
             userEmail: $userEmail,
@@ -227,6 +235,5 @@ class RockBackOfficeTest extends BackOfficeTestCase {
         $this->indexDeleteEntity(id: 1);
 
         $this->assertIndexFullEntityCount(3);
-
     }
 }

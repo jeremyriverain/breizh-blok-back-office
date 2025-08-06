@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Utils\AllowContributionExpression;
-use App\Utils\Roles;
 use App\Entity\Boulder;
 use App\Entity\HeightBoulder;
 use App\Entity\Media;
 use App\Field\GeoPointField;
 use App\Filters\Admin\BoulderAreaFilter as AdminBoulderAreaFilter;
 use App\Repository\HeightBoulderRepository;
+use App\Utils\AllowContributionExpression;
+use App\Utils\Roles;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
@@ -35,8 +35,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BoulderCrudController extends AbstractCrudController
 {
-
-    public function __construct(private EntityManagerInterface $em, private TranslatorInterface $translator) {}
+    public function __construct(private EntityManagerInterface $em, private TranslatorInterface $translator)
+    {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -50,7 +51,7 @@ class BoulderCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Boulders')
             ->setDefaultSort(['createdAt' => 'DESC'])
             ->setPaginatorPageSize(10)
-            ->setPageTitle('detail', fn(Boulder $boulder) => (string) $boulder)
+            ->setPageTitle('detail', fn (Boulder $boulder) => (string) $boulder)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 
@@ -75,9 +76,9 @@ class BoulderCrudController extends AbstractCrudController
             ])->setTemplatePath('boulders/height.html.twig'),
             TextareaField::new('description')->setTemplatePath('@EasyAdmin/crud/field/text_editor.html.twig'),
             TextField::new('rock.boulderArea', 'Boulder_area')->hideOnForm()->setTemplatePath('boulders/boulder-area.html.twig'),
-            AssociationField::new('rock', 'Rock')->setCssClass(('cy-rocks'))->hideOnIndex()
+            AssociationField::new('rock', 'Rock')->setCssClass('cy-rocks')->hideOnIndex()
                 ->setQueryBuilder(
-                    fn(QueryBuilder $queryBuilder) => $queryBuilder->addCriteria(Criteria::create()
+                    fn (QueryBuilder $queryBuilder) => $queryBuilder->addCriteria(Criteria::create()
                         ->orderBy(['id' => Order::Descending]))
                 ),
             GeoPointField::new('rock.location', 'Position')->hideOnForm()->hideOnIndex()->setTemplatePath('common/geo-point.html.twig'),
@@ -87,15 +88,15 @@ class BoulderCrudController extends AbstractCrudController
             DateTimeField::new('updatedAt', 'Updated_at')->hideOnForm()->setCssClass('cy_updated_at'),
             AssociationField::new('updatedBy', 'Updated_by')->setCssClass('cy_updated_by')->setPermission(Roles::SUPER_ADMIN->value)->hideOnForm(),
 
-            $isSuperAdmin ? 
-            BooleanField::new('isDisabled')->setLabel('Is_disabled')->setPermission(Roles::SUPER_ADMIN->value)->renderAsSwitch(true)->hideWhenCreating() : 
+            $isSuperAdmin ?
+            BooleanField::new('isDisabled')->setLabel('Is_disabled')->setPermission(Roles::SUPER_ADMIN->value)->renderAsSwitch(true)->hideWhenCreating() :
             BooleanField::new('isDisabled')->setLabel('Is_disabled')->renderAsSwitch(false)->hideOnForm(),
         ];
     }
 
     private static function drawLineActionFactory(): Action
     {
-        return  Action::new('drawLine', 'Boulder_line')->linkToCrudAction('drawLine');
+        return Action::new('drawLine', 'Boulder_line')->linkToCrudAction('drawLine');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -131,7 +132,7 @@ class BoulderCrudController extends AbstractCrudController
                 EntityFilter::new('height', 'Height')
                     ->setFormTypeOption(
                         'value_type_options.query_builder',
-                        static fn(HeightBoulderRepository $repository) => self::orderHeightBoulders($repository)
+                        static fn (HeightBoulderRepository $repository) => self::orderHeightBoulders($repository)
                     )
                     ->setFormTypeOption(
                         'value_type_options.choice_label',
@@ -145,9 +146,8 @@ class BoulderCrudController extends AbstractCrudController
             )
             ->add(AdminBoulderAreaFilter::new('boulderArea'))
             ->add(BooleanFilter::new('isDisabled', 'Is_disabled'))
-            ;
+        ;
     }
-
 
     #[AdminAction(routePath: '{entityId}/draw-line', routeName: 'draw_line', methods: ['GET'])]
     public function drawLine(AdminContext $context): Response
@@ -160,12 +160,12 @@ class BoulderCrudController extends AbstractCrudController
         if (!$this->isGranted(Roles::ADMIN->value) && $entity->getCreatedBy() !== $context->getUser()) {
             throw new AccessDeniedException();
         }
-        /** @var \App\Repository\MediaRepository **/
+        /** @var \App\Repository\MediaRepository * */
         $repository = $this->em->getRepository(Media::class);
-        $rockPictures  = $entity->getRock() ? $repository->findByRockAndBoulder($entity->getRock(), $entity) : new ArrayCollection();
+        $rockPictures = $entity->getRock() ? $repository->findByRockAndBoulder($entity->getRock(), $entity) : new ArrayCollection();
 
         return $this->render('boulders/draw-line.html.twig', [
-            'rockPictures' => $rockPictures
+            'rockPictures' => $rockPictures,
         ]);
     }
 }

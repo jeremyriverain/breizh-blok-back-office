@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Utils\Roles;
 use App\Entity\Municipality;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -26,7 +26,7 @@ class MunicipalityCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Municipality')
             ->setEntityLabelInPlural('Municipalities')
             ->setDefaultSort(['name' => 'ASC'])
-            ->setPageTitle('detail', fn(Municipality $municipality) => (string) $municipality)
+            ->setPageTitle('detail', fn (Municipality $municipality) => (string) $municipality)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 
@@ -35,7 +35,7 @@ class MunicipalityCrudController extends AbstractCrudController
         return [
             TextField::new('name', 'Name'),
             AssociationField::new('department', 'Department'),
-            AssociationField::new('boulderAreas', 'Boulder_areas')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class)
+            AssociationField::new('boulderAreas', 'Boulder_areas')->setCssClass('cy-boulderAreas')->hideOnForm()->setTemplatePath('municipality/boulder-areas.html.twig')->setCustomOption('controller', BoulderAreaCrudController::class),
         ];
     }
 

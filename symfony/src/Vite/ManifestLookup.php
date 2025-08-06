@@ -7,12 +7,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class ManifestLookup
 {
     /**
-     * @var array<string, array{file: string, src: string, css: array<string>}> $manifestContent
+     * @var array<string, array{file: string, src: string, css: array<string>}>
      */
     private array $manifestContent;
+
     public function __construct(ParameterBagInterface $parameterBag)
     {
-        $filePath = $parameterBag->get('kernel.project_dir') . '/public/build/.vite/manifest.json';
+        $filePath = $parameterBag->get('kernel.project_dir').'/public/build/.vite/manifest.json';
         if (!file_exists($filePath)) {
             return;
         }

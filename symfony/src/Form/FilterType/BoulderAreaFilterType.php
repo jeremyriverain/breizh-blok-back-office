@@ -21,7 +21,6 @@ class BoulderAreaFilterType extends AbstractType
                     ->andWhere('rocks.boulders is not empty')
                     ->orderBy('u.name', 'ASC');
             },
-
         ]);
     }
 

@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BoulderRepository::class)]
-#[ORM\Index(name: "name_idx", columns: ["name"])]
+#[ORM\Index(name: 'name_idx', columns: ['name'])]
 #[ApiResource(
     normalizationContext: ['groups' => ['Boulder:read']],
     operations: [
@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     paginationClientEnabled: true,
     paginationClientItemsPerPage: true,
 )]
-#[ApiFilter(OrderFilter::class, properties: ['id', 'name', 'grade.name' => ['nulls_comparison' => OrderFilter::NULLS_LARGEST,]])]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'name', 'grade.name' => ['nulls_comparison' => OrderFilter::NULLS_LARGEST]])]
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
     'name' => 'iword_start',
@@ -50,33 +50,32 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(GroupFilter::class, arguments: ['overrideDefaultGroups' => true, 'whitelist' => ['Boulder:map', 'Boulder:read', 'read', 'Boulder:item-get']])]
 class Boulder implements IContainsMedia, IUpdatable, IBlameable
 {
-
     use UpdatableTrait;
     use BlameableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     #[Groups(['Boulder:map'])]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Groups(["Rock:read", 'Boulder:read', 'LineBoulder:read', 'BoulderFeedback:read'])]
+    #[Groups(['Rock:read', 'Boulder:read', 'LineBoulder:read', 'BoulderFeedback:read'])]
     private ?string $name;
 
-    #[ORM\ManyToOne(targetEntity: Grade::class, inversedBy: "boulders")]
-    #[Groups(['Boulder:read', "Municipality:read"])]
+    #[ORM\ManyToOne(targetEntity: Grade::class, inversedBy: 'boulders')]
+    #[Groups(['Boulder:read', 'Municipality:read'])]
     private ?Grade $grade;
 
-    #[ORM\ManyToOne(targetEntity: Rock::class, inversedBy: "boulders")]
+    #[ORM\ManyToOne(targetEntity: Rock::class, inversedBy: 'boulders')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
     #[Groups(['Boulder:read', 'Boulder:map', 'BoulderFeedback:read'])]
     private ?Rock $rock;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     #[Groups(['Boulder:item-get'])]
     private ?string $description;
@@ -84,7 +83,7 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     /**
      * @var Collection<int, LineBoulder>|LineBoulder[]
      */
-    #[ORM\OneToMany(targetEntity: LineBoulder::class, mappedBy: "boulder", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: LineBoulder::class, mappedBy: 'boulder', orphanRemoval: true)]
     #[Groups(['Boulder:read'])]
     private Collection $lineBoulders;
 
@@ -93,7 +92,7 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     private ?bool $isUrban = false;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     #[Groups(['Boulder:item-get'])]
     private ?HeightBoulder $height = null;
 
@@ -103,7 +102,7 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     #[ORM\OneToMany(mappedBy: 'boulder', targetEntity: BoulderFeedback::class, orphanRemoval: true)]
     private Collection $feedbacks;
 
-    #[ORM\Column(type: "datetime", options: ['default' => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt;
 
     #[ORM\Column(options: ['default' => false])]
@@ -124,8 +123,9 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
         $res = [];
 
         foreach ($this->lineBoulders as $key => $value) {
-            $res[] = 'lineBoulders[' . $key . '].rockImage';
+            $res[] = 'lineBoulders['.$key.'].rockImage';
         }
+
         return $res;
     }
 
@@ -279,6 +279,7 @@ class Boulder implements IContainsMedia, IUpdatable, IBlameable
     public function setCreatedAt(\DateTimeInterface $dateTime): self
     {
         $this->createdAt = $dateTime;
+
         return $this;
     }
 

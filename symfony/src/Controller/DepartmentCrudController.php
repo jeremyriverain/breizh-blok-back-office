@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Utils\Roles;
 use App\Entity\Department;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -24,7 +24,7 @@ class DepartmentCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Department')
             ->setEntityLabelInPlural('Departments')
             ->setDefaultSort(['name' => 'ASC'])
-            ->setPageTitle('detail', fn(Department $department) => (string) $department)
+            ->setPageTitle('detail', fn (Department $department) => (string) $department)
             ->setFormOptions(['attr' => ['novalidate' => true]]);
     }
 
@@ -32,7 +32,7 @@ class DepartmentCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Name'),
-            AssociationField::new('municipalities', 'Municipalities')->hideOnForm()
+            AssociationField::new('municipalities', 'Municipalities')->hideOnForm(),
         ];
     }
 

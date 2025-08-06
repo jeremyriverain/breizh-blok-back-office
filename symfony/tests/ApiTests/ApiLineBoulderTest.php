@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Tests\ApiTests;
 
@@ -7,14 +7,16 @@ use App\Repository\BoulderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ApiLineBoulderTest extends ApiTestCase {
+class ApiLineBoulderTest extends ApiTestCase
+{
     public function setUp(): void
     {
         self::$alwaysBootKernel = false;
         self::bootKernel();
     }
 
-    public function testAccessIsDeniedIfAuthenticatedWithRoleUser() {
+    public function testAccessIsDeniedIfAuthenticatedWithRoleUser()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -26,7 +28,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testLineBoulders() {
+    public function testLineBoulders()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -38,7 +41,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertEquals(2, $response->toArray()['hydra:totalItems']);
     }
 
-    public function testGetLineBoulder() {
+    public function testGetLineBoulder()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -55,7 +59,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertArrayHasKey('@id', $lineBoulder['rockImage']);
     }
 
-    public function testAdminCanDeleteLineBoulder() {
+    public function testAdminCanDeleteLineBoulder()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -67,71 +72,72 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertResponseStatusCodeSame(204);
     }
 
-    public function testALineBoulderRequiresBoulderAndSmoothLineAndPoints() {
+    public function testALineBoulderRequiresBoulderAndSmoothLineAndPoints()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         $testUser = $userRepository->findOneByEmail('admin@fixture.com');
 
-        $client->loginUser($testUser); 
+        $client->loginUser($testUser);
 
         $response = $client->request('POST', '/admin/line_boulders', [
-            'json' => []
+            'json' => [],
         ]);
 
         $this->assertResponseStatusCodeSame(422);
 
         $violations = $response->toArray(throw: false);
         $this->assertStringContainsString(
-            "boulder: Cette valeur ne doit pas être vide.",
+            'boulder: Cette valeur ne doit pas être vide.',
             $violations['hydra:description']
         );
 
         $this->assertStringContainsString(
-            "smoothLine: Cette valeur ne doit pas être vide.",
+            'smoothLine: Cette valeur ne doit pas être vide.',
             $violations['hydra:description']
         );
 
         $this->assertStringContainsString(
-            "arrArrPoints: Cette valeur ne doit pas être vide.",
+            'arrArrPoints: Cette valeur ne doit pas être vide.',
             $violations['hydra:description']
         );
     }
 
-
-    public function testALineBoulderShouldHaveAValidRockBoulderAssociation() {
+    public function testALineBoulderShouldHaveAValidRockBoulderAssociation()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         $testUser = $userRepository->findOneByEmail('admin@fixture.com');
 
-        $client->loginUser($testUser); 
+        $client->loginUser($testUser);
 
         $response = $client->request('POST', '/admin/line_boulders', [
             'json' => [
-                'boulder' => "/boulders/3",
-                'rockImage' => "/media/1",
-            ]
+                'boulder' => '/boulders/3',
+                'rockImage' => '/media/1',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(422);
 
         $violations = $response->toArray(throw: false);
         $this->assertStringContainsString(
-            "boulder: Ce bloc ne correspond pas au bloc associé au rocher.",
+            'boulder: Ce bloc ne correspond pas au bloc associé au rocher.',
             $violations['hydra:description']
         );
-
     }
 
-    public function testCreateALineBoulder() {
+    public function testCreateALineBoulder()
+    {
         $client = static::createClient();
         $client->disableReboot();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         $testUser = $userRepository->findOneByEmail('admin@fixture.com');
 
-        $client->loginUser($testUser); 
+        $client->loginUser($testUser);
 
         $client->request('DELETE', '/admin/line_boulders/1');
 
@@ -139,31 +145,32 @@ class ApiLineBoulderTest extends ApiTestCase {
 
         $client->request('POST', '/admin/line_boulders', [
             'json' => [
-                'boulder' => "/boulders/1",
-                'rockImage' => "/media/1",
+                'boulder' => '/boulders/1',
+                'rockImage' => '/media/1',
                 'arrArrPoints' => [[]],
-                'smoothLine' => "M",
-            ]
+                'smoothLine' => 'M',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(201);
     }
 
-    public function testAdminCanDeleteALineBoulder() {
+    public function testAdminCanDeleteALineBoulder()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         $testUser = $userRepository->findOneByEmail('admin@fixture.com');
 
-        $client->loginUser($testUser); 
+        $client->loginUser($testUser);
 
         $client->request('DELETE', '/admin/line_boulders/1');
 
         $this->assertResponseStatusCodeSame(204);
     }
 
-
-    public function testEditLineBoulder() {
+    public function testEditLineBoulder()
+    {
         $client = static::createClient();
         $client->disableReboot();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -184,8 +191,8 @@ class ApiLineBoulderTest extends ApiTestCase {
             ],
             'headers' => [
                 'Accept' => 'application/ld+json',
-                'Content-Type' => 'application/merge-patch+json'
-            ]
+                'Content-Type' => 'application/merge-patch+json',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -193,7 +200,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertEquals($expectedSmoothLine, $response->toArray()['smoothLine']);
     }
 
-    public function testCannotUpdateRockImageAndBoulderAfterCreation() {
+    public function testCannotUpdateRockImageAndBoulderAfterCreation()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -203,13 +211,13 @@ class ApiLineBoulderTest extends ApiTestCase {
 
         $response = $client->request('PATCH', '/admin/line_boulders/1', [
             'json' => [
-                'rockImage' => "/media/2",
-                'boulder' => "/boulders/2"
+                'rockImage' => '/media/2',
+                'boulder' => '/boulders/2',
             ],
             'headers' => [
                 'Accept' => 'application/ld+json',
-                'Content-Type' => 'application/merge-patch+json'
-            ]
+                'Content-Type' => 'application/merge-patch+json',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -220,7 +228,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertEquals('/media/1', $lineBoulder['rockImage']['@id']);
     }
 
-    public function testContributorCannotDeleteLineBoulderNotCreatedByHim() {
+    public function testContributorCannotDeleteLineBoulderNotCreatedByHim()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -232,7 +241,8 @@ class ApiLineBoulderTest extends ApiTestCase {
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testContributorCannotUpdateLineBoulderIfHeIsNotOwner() {
+    public function testContributorCannotUpdateLineBoulderIfHeIsNotOwner()
+    {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
@@ -244,15 +254,15 @@ class ApiLineBoulderTest extends ApiTestCase {
             'json' => [],
             'headers' => [
                 'Accept' => 'application/ld+json',
-                'Content-Type' => 'application/merge-patch+json'
-            ]
+                'Content-Type' => 'application/merge-patch+json',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testContributorCanManageItsOwnLineBoulders() {
-
+    public function testContributorCanManageItsOwnLineBoulders()
+    {
         $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('contributor@fixture.com');
 
@@ -261,7 +271,7 @@ class ApiLineBoulderTest extends ApiTestCase {
         $boulder->setCreatedBy($testUser);
 
         $em = static::getContainer()->get(EntityManagerInterface::class);
-        $em->flush();        
+        $em->flush();
 
         $client = static::createClient();
 
@@ -275,11 +285,11 @@ class ApiLineBoulderTest extends ApiTestCase {
 
         $response = $client->request('POST', '/admin/line_boulders', [
             'json' => [
-                'boulder' => "/boulders/1",
-                'rockImage' => "/media/1",
+                'boulder' => '/boulders/1',
+                'rockImage' => '/media/1',
                 'arrArrPoints' => [[]],
-                'smoothLine' => "M",
-            ]
+                'smoothLine' => 'M',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -292,12 +302,10 @@ class ApiLineBoulderTest extends ApiTestCase {
             ],
             'headers' => [
                 'Accept' => 'application/ld+json',
-                'Content-Type' => 'application/merge-patch+json'
-            ]
+                'Content-Type' => 'application/merge-patch+json',
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(200);
-
     }
-
 }

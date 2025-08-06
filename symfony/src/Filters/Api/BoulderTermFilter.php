@@ -3,22 +3,22 @@
 namespace App\Filters\Api;
 
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
-use Symfony\Component\PropertyInfo\Type;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\PropertyInfo\Type;
 
 final class BoulderTermFilter extends AbstractFilter
 {
     // @phpstan-ignore-next-line
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         // otherwise filter is applied to order and page as well
         if (!$this->isPropertyEnabled($property, $resourceClass) || !is_string($value)) {
             return;
         }
 
-        if ($property === 'term') {
+        if ('term' === $property) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
             $rockAlias = $queryNameGenerator->generateJoinAlias('rock');
             $boulderAreaAlias = $queryNameGenerator->generateJoinAlias('boulderArea');
@@ -31,7 +31,7 @@ final class BoulderTermFilter extends AbstractFilter
                 ->leftJoin("$boulderAreaAlias.municipality", $municipalityAlias)
                 ->andWhere(
                     sprintf(
-                        $rootAlias . '.name like :%1$s or ' . $boulderAreaAlias . '.name like :%2$s or ' . $municipalityAlias . '.name like :%2$s',
+                        $rootAlias.'.name like :%1$s or '.$boulderAreaAlias.'.name like :%2$s or '.$municipalityAlias.'.name like :%2$s',
                         "partial_$parameterName",
                         "start_$parameterName"
                     )
@@ -44,8 +44,8 @@ final class BoulderTermFilter extends AbstractFilter
     public function getDescription(string $resourceClass): array
     {
         $description = [];
-        $description["term"] = [
-            'property' => "term",
+        $description['term'] = [
+            'property' => 'term',
             'type' => Type::BUILTIN_TYPE_STRING,
             'required' => false,
             'swagger' => [

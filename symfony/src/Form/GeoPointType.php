@@ -14,10 +14,10 @@ class GeoPointType extends AbstractType
     {
         $builder
             ->add('latitude', NumberType::class, [
-                'scale' => 7
+                'scale' => 7,
             ])
             ->add('longitude', NumberType::class, [
-                'scale' => 7
+                'scale' => 7,
             ]);
     }
 

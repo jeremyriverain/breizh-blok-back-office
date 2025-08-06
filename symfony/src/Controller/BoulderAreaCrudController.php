@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Utils\AllowContributionExpression;
-use App\Utils\Roles;
 use App\Entity\BoulderArea;
 use App\Field\GeoPointField;
+use App\Utils\AllowContributionExpression;
+use App\Utils\Roles;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -33,7 +33,7 @@ class BoulderAreaCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Boulder_areas')
             ->setDefaultSort(['createdAt' => 'DESC'])
             ->setFormOptions(['attr' => ['novalidate' => true]])
-            ->setPageTitle('detail', fn(BoulderArea $boulderArea) => (string) $boulderArea)
+            ->setPageTitle('detail', fn (BoulderArea $boulderArea) => (string) $boulderArea)
             ->addFormTheme('form/theme.html.twig');
     }
 
@@ -58,7 +58,7 @@ class BoulderAreaCrudController extends AbstractCrudController
         /**
          * @var BoulderArea $entityInstance
          */
-        if ($entityInstance->getParkingLocation() && $entityInstance->getParkingLocation()->getLatitude() === null) {
+        if ($entityInstance->getParkingLocation() && null === $entityInstance->getParkingLocation()->getLatitude()) {
             $parkingLocation = $entityInstance->getParkingLocation();
             $entityInstance->setParkingLocation(null);
             $entityManager->remove($parkingLocation);

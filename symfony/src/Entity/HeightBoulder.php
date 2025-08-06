@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\HeightBoulderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -51,20 +51,21 @@ class HeightBoulder
         return $this->id;
     }
 
-    static function trans(TranslatorInterface $translator, HeightBoulder $heightBoulder): string
+    public static function trans(TranslatorInterface $translator, HeightBoulder $heightBoulder): string
     {
-        if ($heightBoulder->getMin() === 0 && $heightBoulder->getMax() !== null) {
+        if (0 === $heightBoulder->getMin() && null !== $heightBoulder->getMax()) {
             return $translator->trans('heightLessThan', [
                 '%value%' => $heightBoulder->getMax(),
             ]);
         }
 
-        if ($heightBoulder->getMax() !== null) {
+        if (null !== $heightBoulder->getMax()) {
             return $translator->trans('heightBetween', [
                 '%min%' => $heightBoulder->getMin(),
                 '%max%' => $heightBoulder->getMax(),
             ]);
         }
+
         return $translator->trans('heightMoreThan', [
             '%value%' => $heightBoulder->getMin(),
         ]);

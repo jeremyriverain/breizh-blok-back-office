@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Grade|null findOneBy(array $criteria, array $orderBy = null)
  * @method Grade[]    findAll()
  * @method Grade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Grade>
  */
 class GradeRepository extends ServiceEntityRepository

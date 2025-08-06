@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Municipality|null findOneBy(array $criteria, array $orderBy = null)
  * @method Municipality[]    findAll()
  * @method Municipality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Municipality>
  */
 class MunicipalityRepository extends ServiceEntityRepository

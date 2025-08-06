@@ -5,12 +5,13 @@ namespace App\Tests\WebTests;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase {
+class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase
+{
     #[DataProvider('viewers')]
     public function testAdminAndContributorCannotAccessBoulderFeedbackSection(
-        string $email, 
+        string $email,
         int $ownId,
-        ) {
+    ) {
         $this->visitBackOffice(
             userEmail: $email,
         );
@@ -21,12 +22,11 @@ class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase {
         $this->client->request('GET', '/admin/fr/boulder-feedback/1');
         $this->assertResponseStatusCodeSame(403);
 
-        $this->client->request('GET', "/admin/fr/boulder-feedback/new");
+        $this->client->request('GET', '/admin/fr/boulder-feedback/new');
         $this->assertResponseStatusCodeSame(403);
 
         $this->client->request('POST', '/admin/fr/boulder-feedback/1/delete');
         $this->assertResponseStatusCodeSame(403);
-
     }
 
     public static function viewers(): array
@@ -37,7 +37,8 @@ class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase {
         ];
     }
 
-    public function testSuperAdminCanViewAndDeleteBoulderFeedback () {
+    public function testSuperAdminCanViewAndDeleteBoulderFeedback()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -47,13 +48,14 @@ class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexFullEntityCount(2);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
-        $this->assertIndexEntityActionExists(Action::DETAIL, 1); 
-        $this->assertIndexEntityActionNotExists(Action::EDIT, 1); 
-        $this->assertGlobalActionNotExists(Action::NEW); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionExists(Action::DETAIL, 1);
+        $this->assertIndexEntityActionNotExists(Action::EDIT, 1);
+        $this->assertGlobalActionNotExists(Action::NEW);
     }
 
-    public function testSuperAdminCanDeleteBoulderFeedback () {
+    public function testSuperAdminCanDeleteBoulderFeedback()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );
@@ -63,14 +65,15 @@ class BoulderFeedbackBackOfficeTest extends BackOfficeTestCase {
 
         $this->assertIndexPageEntityCount(2);
 
-        $this->assertIndexEntityActionExists(Action::DELETE, 1); 
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
 
         $this->indexDeleteEntity(1);
 
         $this->assertIndexPageEntityCount(1);
     }
 
-    public function testShowDetails () {
+    public function testShowDetails()
+    {
         $this->visitBackOffice(
             userEmail: 'super-admin@fixture.com',
         );

@@ -12,7 +12,6 @@ use Symfony\Component\Security\Http\SecurityEvents;
 
 class AuthenticationSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(private Security $security, private EntityManagerInterface $em)
     {
     }
@@ -21,8 +20,8 @@ class AuthenticationSubscriber implements EventSubscriberInterface
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => [
-                'onInteractiveLogin'
-            ]
+                'onInteractiveLogin',
+            ],
         ];
     }
 
@@ -30,7 +29,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
     {
         $user = $this->security->getUser();
         if (!$user || !$user instanceof User) {
-            throw new \Exception("User should be there");
+            throw new \Exception('User should be there');
         }
         $user->setLastAuthenticatedAt(Carbon::now());
         $this->em->flush();

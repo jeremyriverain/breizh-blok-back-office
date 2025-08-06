@@ -2,13 +2,12 @@
 
 namespace App\Field;
 
-use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use App\Form\GeoPointType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
 final class GeoPointField implements FieldInterface
 {
-
     use FieldTrait;
 
     public static function new(string $propertyName, ?string $label = null): self

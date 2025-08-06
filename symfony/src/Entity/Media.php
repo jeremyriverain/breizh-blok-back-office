@@ -26,39 +26,39 @@ class Media implements IContainsMedia
 {
     #[ORM\Id]
     #[ORM\GeneratedValue()]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: "media", fileNameProperty: "filePath", dimensions: 'imageDimensions')]
-    private File|null $file = null;
+    #[Vich\UploadableField(mapping: 'media', fileNameProperty: 'filePath', dimensions: 'imageDimensions')]
+    private ?File $file = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups(["read"])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $filePath = null;
 
-    #[ORM\Column(type: "datetime")]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: Rock::class, inversedBy: "pictures")]
+    #[ORM\ManyToOne(targetEntity: Rock::class, inversedBy: 'pictures')]
     private ?Rock $rock;
 
     /**
      * @var Collection<int, LineBoulder>|LineBoulder[]
      */
-    #[ORM\OneToMany(targetEntity: LineBoulder::class, mappedBy: "rockImage", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: LineBoulder::class, mappedBy: 'rockImage', orphanRemoval: true)]
     private Collection $lineBoulders;
 
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     public ?string $filterUrl;
 
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     public ?string $contentUrl;
 
     /**
      * @var array<int, int>
      */
     #[ORM\Column(type: 'simple_array', nullable: true)]
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     private ?array $imageDimensions = [];
 
     public function __construct()
@@ -72,7 +72,7 @@ class Media implements IContainsMedia
     public function getMediaAttributes(): array
     {
         return [
-            'media'
+            'media',
         ];
     }
 

@@ -13,7 +13,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 #[AsDoctrineListener(event: Events::preUpdate)]
 class IBlameableSubscriber
 {
-    public function __construct(private Security $security) {}
+    public function __construct(private Security $security)
+    {
+    }
 
     /**
      * @param LifecycleEventArgs<\Doctrine\ORM\EntityManager> $args

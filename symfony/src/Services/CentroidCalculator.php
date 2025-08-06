@@ -9,18 +9,18 @@ use Doctrine\ORM\EntityManagerInterface;
 class CentroidCalculator
 {
     /**
-     * @param array<int, GeoPoint> $geoPoints 
+     * @param array<int, GeoPoint> $geoPoints
      */
-    public static function getCentroid(array $geoPoints = []): GeoPoint | null
+    public static function getCentroid(array $geoPoints = []): ?GeoPoint
     {
-        if (count($geoPoints) === 0) {
+        if (0 === count($geoPoints)) {
             return null;
         }
         $latitude = 0;
         $longitude = 0;
         foreach ($geoPoints as $geoPoint) {
             /**
-             * @var GeoPoint $geoPoint 
+             * @var GeoPoint $geoPoint
              */
             $latitude += $geoPoint->getLatitude();
             $longitude += $geoPoint->getLongitude();
@@ -50,6 +50,7 @@ class CentroidCalculator
 
         if (!$municipality) {
             $em->flush();
+
             return;
         }
 

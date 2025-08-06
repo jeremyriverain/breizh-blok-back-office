@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Boulder|null findOneBy(array $criteria, array $orderBy = null)
  * @method Boulder[]    findAll()
  * @method Boulder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * 
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Boulder>
  */
 class BoulderRepository extends ServiceEntityRepository

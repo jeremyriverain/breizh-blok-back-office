@@ -25,9 +25,9 @@ final class DefaultBoulderAreasStory extends Story
                 ['name' => DefaultMunicipalitiesStory::KERLOUAN]
             ),
             'parkingLocation' => GeoPointFactory::createOne([
-                'latitude' => "48.6734",
-                'longitude' => "-4.35788"
-            ])
+                'latitude' => '48.6734',
+                'longitude' => '-4.35788',
+            ]),
         ]);
 
         BoulderAreaFactory::createOne([

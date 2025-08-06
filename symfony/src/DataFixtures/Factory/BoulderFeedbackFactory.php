@@ -17,7 +17,7 @@ final class BoulderFeedbackFactory extends PersistentProxyObjectFactory
 
     /**
      * @return array<string, mixed>
-    */
+     */
     protected function defaults(): array
     {
         return [

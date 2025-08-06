@@ -25,7 +25,8 @@ class BoulderFeedbackSubscriber
         private TranslatorInterface $translator,
         private AdminUrlGenerator $adminUrlGenerator,
         private string $developerEmail,
-    ) {}
+    ) {
+    }
 
     /**
      * @param LifecycleEventArgs<\Doctrine\ORM\EntityManager> $args
@@ -39,7 +40,7 @@ class BoulderFeedbackSubscriber
         }
 
         $user = $this->security->getUser();
-        if ($user === null) {
+        if (null === $user) {
             return;
         }
 
@@ -66,14 +67,14 @@ class BoulderFeedbackSubscriber
         $content = '';
 
         if (
-            $entity->getMessage() !== null
+            null !== $entity->getMessage()
         ) {
-            $content .=  $this->translator->trans('boulderFeedback.email.content.ifMessage', [
+            $content .= $this->translator->trans('boulderFeedback.email.content.ifMessage', [
                 '%boulderName%' => $boulderName,
                 '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),
                 '%message%' => $entity->getMessage(),
             ]);
-        } elseif ($entity->getNewLocation() !== null) {
+        } elseif (null !== $entity->getNewLocation()) {
             $content .= $this->translator->trans('boulderFeedback.email.content.ifNewLocation', [
                 '%boulderName%' => $boulderName,
                 '%boulderAreaName%' => $entity->getBoulder()?->getRock()?->getBoulderArea()?->getName(),

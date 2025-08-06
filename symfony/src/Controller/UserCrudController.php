@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Utils\Roles;
 use App\Entity\User;
+use App\Utils\Roles;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,14 +20,13 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setEntityLabelInSingular('User')
             ->setEntityLabelInPlural('Users')
             ->setFormOptions(['validation_groups' => ['Default', 'registration'], 'attr' => ['novalidate' => true]], ['validation_groups' => ['Default'], 'attr' => ['novalidate' => true]])
-            ->setPageTitle('detail', fn(User $user) => (string) $user)
+            ->setPageTitle('detail', fn (User $user) => (string) $user)
             ->setDefaultSort(['email' => 'ASC']);
     }
 
@@ -61,6 +60,6 @@ class UserCrudController extends AbstractCrudController
             ->setPermission(Action::EDIT, new Expression('"ROLE_SUPER_ADMIN" in role_names or subject.getId() == user.getId()'))
             ->setPermission(Action::INDEX, Roles::SUPER_ADMIN->value)
             ->setPermission(Action::DETAIL, new Expression('"ROLE_SUPER_ADMIN" in role_names or subject.getId() == user.getId()'))
-            ;
+        ;
     }
 }
