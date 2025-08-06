@@ -1,7 +1,7 @@
 {
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
 
   // Auto fix
   "editor.codeActionsOnSave": {
@@ -46,5 +46,11 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+  ],
+  "laravel-pint.enable": true,
+  "[php]": {
+    "editor.defaultFormatter": "open-southeners.laravel-pint"
+  },
+  "laravel-pint.configPath": "symfony/pint.json",
+  "laravel-pint.executablePath": "symfony/vendor/bin/pint"
 }
