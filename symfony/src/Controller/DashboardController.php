@@ -53,9 +53,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Rocks', 'fas fa-cube', Rock::class);
         yield MenuItem::linkToCrud('Boulders', 'fas fa-level-up-alt', Boulder::class);
 
-     yield MenuItem::section('Mailbox')->setPermission(Roles::SUPER_ADMIN->value);
-
-        yield MenuItem::linkToCrud('BoulderFeedbacks', 'fas fa-envelope', BoulderFeedback::class)->setPermission(Roles::SUPER_ADMIN->value);
+        yield MenuItem::section('ExternalContributions', 'fas fa-comments')->setPermission(Roles::SUPER_ADMIN->value);
+        yield MenuItem::linkToCrud('Boulders', 'fas fa-comment', BoulderFeedback::class)->setPermission(Roles::SUPER_ADMIN->value);
 
         yield MenuItem::section('Configuration')->setPermission(Roles::SUPER_ADMIN->value);
 
