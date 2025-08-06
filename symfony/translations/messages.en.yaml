@@ -15,8 +15,8 @@ boulderFeedback.email.content: |
   Suggested location: %location%
 Boulder_line: Boulder line
 Boulders: Boulders
-BoulderFeedback: 'Message received'
-BoulderFeedbacks: 'Inbox'
+BoulderFeedback: 'Boulder Feedback'
+BoulderFeedbacks: 'Boulder Feedbacks'
 Code: Code
 Configuration: Configuration
 Created_at: Created at
@@ -27,6 +27,7 @@ Department: Department
 Departments: Departments
 Description: Description
 Email: Email
+ExternalContributions: External contributions
 Grade: Grade
 Grades: Grades
 Height: Height

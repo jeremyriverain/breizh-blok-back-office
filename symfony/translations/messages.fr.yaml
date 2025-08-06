@@ -15,8 +15,8 @@ boulderFeedback.email.content: |
   Emplacement suggéré: %location%
 Boulder_line: Ligne du bloc
 Boulders: Blocs
-BoulderFeedback: 'Message reçu'
-BoulderFeedbacks: 'Boîte de réception'
+BoulderFeedback: 'Feedback Bloc'
+BoulderFeedbacks: 'Feedback Blocs'
 Code: Code
 Configuration: Configuration
 Created_at: Créé le
@@ -27,6 +27,7 @@ Departments: Départements
 Description: Description
 Draw_line.cannot_edit: Vous ne pouvez pas dessiner la ligne de bloc car aucune photo n'est associée au rocher.
 Email: Email
+ExternalContributions: Contributions externes
 Grade: Cotation
 Grades: Cotations
 Height: Hauteur
